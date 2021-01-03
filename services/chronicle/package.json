@@ -1,0 +1,106 @@
+{
+  "name": "@st/chronicle-service",
+  "version": "1.1.1",
+  "private": true,
+  "scripts": {
+    "build": "tsc -b --clean && tsc",
+    "lint": "eslint --ext .js,.ts ./src && eslint --ext .js,.ts ./test && npm run pretty:check",
+    "lint:fix": "eslint --ext .js,.ts ./src --fix && eslint --ext .js,.ts ./test --fix && npm run pretty:fix",
+    "lint:quiet": "eslint --ext .js,.ts ./src --quiet && eslint --ext .js,.ts ./test --quiet",
+    "pretty:check": "prettier --check './{src,test,tools}/**/*.{ts,tsx}'",
+    "pretty:fix": "prettier --write './{src,test,tools}/**/*.{ts,tsx}'",
+    "test": "mocha --require esm --require ts-node/register --require ./test/hooks.ts './test/unit/**/*.ts'",
+    "test:integration": "mocha --require esm --require ts-node/register --require ./test/hooks.ts --require dotenv/config './test/integration/**/*.ts'",
+    "start": "cross-env NODE_ENV=production npm run start:core",
+    "start:core": "node -r dotenv/config -r esm ./modules/index.js"
+  },
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "@nestjs/common": "^7.4.2",
+    "@nestjs/core": "^7.4.2",
+    "@nestjs/microservices": "^7.4.2",
+    "@nestjs/platform-express": "^7.4.2",
+    "@typescript-eslint/eslint-plugin": "^4.11.0",
+    "@typescript-eslint/parser": "^4.11.0",
+    "cross-env": "^7.0.2",
+    "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.16.0",
+    "esm": "^3.2.25",
+    "fluture": "^13.0.1",
+    "fluture-sanctuary-types": "^7.0.0",
+    "fs-extra": "^9.0.1",
+    "ignore-styles": "^5.0.1",
+    "knex": "^0.21.12",
+    "pg": "^8.5.1",
+    "reflect-metadata": "^0.1.12",
+    "rxjs": "^6.2.2",
+    "sanctuary": "^3.1.0",
+    "serialize-error": "^7.0.1"
+  },
+  "devDependencies": {
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@types/chai": "^4.2.12",
+    "@types/fs-extra": "^9.0.1",
+    "@types/hapi__joi": "^17.1.4",
+    "@types/ignore-styles": "^5.0.0",
+    "@types/mocha": "^8.2.0",
+    "@types/mock-knex": "^0.4.3",
+    "@types/node": "^14.0.27",
+    "@types/sanctuary": "^3.0.3",
+    "@types/sinon": "^9.0.8",
+    "@types/stompit": "^0.26.1",
+    "@types/ws": "^7.4.0",
+    "chai": "^4.2.0",
+    "mocha": "^8.1.1",
+    "nodemon": "^2.0.3",
+    "prettier": "^2.2.1",
+    "pretty-quick": "^1.10.0",
+    "semantic-release": "^17.1.2",
+    "semantic-release-monorepo": "^7.0.3",
+    "sinon": "^9.2.0",
+    "sqlite3": "^5.0.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.2"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "src"
+    ],
+    "ext": "ts tsx",
+    "ignore": [
+      "test"
+    ],
+    "exec": "cross-env TS_NODE_PROJECT='./tsconfig.dev.json' node -r esm -r ts-node/register/transpile-only -r dotenv/config ./src/server/index.ts"
+  },
+  "release": {
+    "branch": "master",
+    "extends": "semantic-release-monorepo",
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "modules/**/*",
+            "package.json",
+            "package-lock.json",
+            "index.d.ts",
+            "CHANGELOG.md"
+          ],
+          "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ]
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged --pattern '{src,test,tools}/**/*.{ts,tsx}'",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  }
+}

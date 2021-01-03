@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "experimentalDecorators": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "rootDir": "./tools",
+    "target": "ES2019",
+    "typeRoots" : ["./node_modules/@types", "./src/types", "./node_modules/**/modules"]
+  },
+  "exclude": ["node_modules", "services"],
+  "include": ["./tools/**/*"]
+}

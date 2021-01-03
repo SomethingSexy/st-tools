@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "experimentalDecorators": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "outDir": "./modules",
+    "removeComments": true,
+    "rootDir": "./src",
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "target": "ES2019",
+    "typeRoots" : ["./node_modules/@types", "./src/types", "./node_modules/**/modules"]
+  },
+  "exclude": ["node_modules", "modules", "test"],
+  "include": ["./src/**/*"]
+}

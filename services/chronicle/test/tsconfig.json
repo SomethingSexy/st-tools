@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "rootDir": "./test",
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "target": "ES2019",
+    "typeRoots" : ["./node_modules/@types", "./src/types", "./node_modules/**/modules"],
+    "types": ["@types/mocha", "mocha"]
+  }
+}
