@@ -1,4 +1,4 @@
-import { createChronicle } from '../../../../../src/gateways/chroncile/postgres/index';
+import { createChronicle } from '../../../../../src/gateways/chronicle/postgres/index';
 import { Right } from 'sanctuary';
 import { fork } from 'fluture';
 import { getConnection } from '../../../../../src/databases/postgres';

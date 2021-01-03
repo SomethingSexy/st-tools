@@ -1,5 +1,5 @@
 import { CreateChronicleEntity, createChronicleEntity } from '../entities/chronicle';
-import { ChronicleGateway, CreateChronicle } from '../gateways/chroncile/types';
+import { ChronicleGateway, CreateChronicle } from '../gateways/chronicle/types';
 
 export const createChronicle = (gateway: ChronicleGateway) => ({
   name,
