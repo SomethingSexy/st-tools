@@ -1,5 +1,7 @@
 import Discord from 'discord.js';
 import fs from 'fs';
+import { getConnection } from '../../databases/postgres';
+import { chronicleGateway } from '../../gateways/chronicle/postgres';
 import { isString } from '../../utils/string';
 import { ICommand } from './types';
 
@@ -42,18 +44,19 @@ client.on('message', (message) => {
   }
 
   if (command.args && !args.length) {
-    let reply = `You didn't provide any arguments, ${message.author}!`;
-
     if (command.usage) {
-      reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
+      return message.channel.send(`
+        You didn't provide any arguments, ${message.author}!
+        The proper usage would be: \`${prefix}${command.name} ${command.usage}
+      `)
     }
 
-    return message.channel.send(reply);
+    return message.channel.send(`You didn't provide any arguments, ${message.author}!`);
   }
 
   try {
-    // TODO: Pass in gateways here
-    const result = command.execute(message, args);
+    // TODO: As we add more gateways we will want to figure out a better way to pass these in
+    const result = command.execute(message, args, chronicleGateway(getConnection()));
     if (isString(result)) {
       message.reply(result);
     } else {

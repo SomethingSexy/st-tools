@@ -17,7 +17,7 @@ describe('gateways', () => {
       );
 
       fork(done)((r) => {
-        expect(r).to.have.keys(['id', 'name', 'referenceId', 'game', 'version'])
+        expect(r).to.have.keys(['id', 'name', 'referenceId', 'game', 'version']);
         done();
       })(output);
     });

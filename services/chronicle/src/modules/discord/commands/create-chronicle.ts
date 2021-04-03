@@ -1,13 +1,22 @@
-import { Message } from 'discord.js';
+import { ChronicleGateway } from '../../../gateways/chronicle/types';
 import { createChronicle } from '../../../use-cases/create-chronicle';
 import { ICommand } from '../types';
 
+/**
+ * Handles creating a chronicle (game).  This game is tied to the discord server id.
+ */
 export default {
   name: 'create-chronicle',
   description: 'Creates a game.',
-  execute(message, args: [string, string, string]) {
-
-    createChronicle()
+  execute(message, args: [string, 'vtm', 'v5'], chronicleGateway: ChronicleGateway) {
+    // TODO: We need to execute this!
+    createChronicle(chronicleGateway)({
+      name: args[0],
+      referenceId: message.guild.id,
+      referenceType: 'discord',
+      game: args[1],
+      version: args[2]
+    })
     return {
       embed: {
         color: 3447003,
@@ -25,7 +34,7 @@ export default {
           },
           {
             name: 'Ambition',
-            value: 'Fuck over the local Cammies.'
+            value: 'Fight the local Cammies.'
           },
           {
             name: 'Predator',
@@ -34,7 +43,7 @@ export default {
           },
           {
             name: 'Sire',
-            value: 'Mr. Douche',
+            value: 'Bob',
             inline: true
           },
           {

@@ -7,6 +7,9 @@ import { FutureInstance } from 'fluture';
  */
 export type CreateChronicle = (c: Either<any, CreateChronicleEntity>) => FutureInstance<any, CreateChronicleEntity>;
 
+export type ChronicleExistsByReference = (t: 'discord') => (id: string) => FutureInstance<any, boolean>;
+
 export interface ChronicleGateway {
   create: CreateChronicle;
+  existsByReference: ChronicleExistsByReference
 }

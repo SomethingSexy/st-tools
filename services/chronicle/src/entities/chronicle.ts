@@ -6,18 +6,21 @@ export interface Chronicle {
   name: string;
   id: string;
   referenceId: string;
+  // We only support discord for now
+  referenceType: 'discord';
   // We only support vtm and v5 for now
   game: 'vtm';
   version: 'v5';
 }
 
-export type CreateChronicleEntity = Pick<Chronicle, 'name' | 'referenceId' | 'game' | 'version'>;
+export type CreateChronicleEntity = Pick<Chronicle, 'name' | 'referenceId' | 'game' | 'version' | 'referenceType'>;
 
 export const Validation = Joi.object({
   name: Joi.string().required(),
   referenceId: Joi.alternatives(Joi.string(), Joi.number()).required(),
-  game: Joi.string().valid('vtm'),
-  version: Joi.string().valid('v5')
+  referenceType: Joi.string().valid('discord').required(),
+  game: Joi.string().valid('vtm').required(),
+  version: Joi.string().valid('v5').required()
 });
 
 export const makeCreateChronicleEntity = (schema: ObjectSchema) => (
