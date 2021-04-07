@@ -32,6 +32,12 @@ You will also need to remove the local database on your machine, st-tools/pgdata
 
 ### Install
 
+```npm ci```
+
+To install services
+
+```npm run services:install```
+
 ### Tests
 To run all tests
 ```npm test```
@@ -40,4 +46,4 @@ To run tests for a specific service
 
 ```npm test <service>```
 
-```npm test bundler```
+```npm test chronicle```

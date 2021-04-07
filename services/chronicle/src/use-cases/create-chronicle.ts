@@ -1,5 +1,6 @@
+import { chain, reject } from 'fluture';
 import { CreateChronicleEntity, createChronicleEntity } from '../entities/chronicle';
-import { ChronicleGateway, CreateChronicle } from '../gateways/chronicle/types';
+import { ChronicleGateway } from '../gateways/chronicle/types';
 
 export const createChronicle = (gateway: ChronicleGateway) => ({
   name,
@@ -8,9 +9,13 @@ export const createChronicle = (gateway: ChronicleGateway) => ({
   game,
   version
 }: CreateChronicleEntity) => {
-  gateway.existsByReference(referenceType)(referenceId);
-  const toCreate = createChronicleEntity({ name, referenceId, referenceType, game, version });
-  const createF = gateway.create(toCreate);
-
-  return createF;
+  return gateway.existsByReference(referenceType)(referenceId)
+    .pipe(
+      chain(exists => {
+        if (exists) {
+          return reject(`Chronicle with ${referenceId} already exists.`)
+        } 
+        return gateway.create(createChronicleEntity({ name, referenceId, referenceType, game, version }));
+      })
+    );
 };
