@@ -1,5 +1,5 @@
-import { chain, reject } from 'fluture';
-import { CreateChronicleEntity, createChronicleEntity } from '../entities/chronicle';
+import { chain, FutureInstance, reject } from 'fluture';
+import { Chronicle, CreateChronicleEntity, createChronicleEntity } from '../entities/chronicle';
 import { ChronicleGateway } from '../gateways/chronicle/types';
 
 export const createChronicle = (gateway: ChronicleGateway) => ({

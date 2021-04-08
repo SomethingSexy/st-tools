@@ -4,11 +4,5 @@ export const getConnection = () =>
   knex({
     client: 'pg',
     searchPath: ['knex', 'public'],
-    connection: {
-      host: 'localhost',
-      port: 5432,
-      database: 'db_development',
-      user: process.env.POSTGRES_USER,
-      password: process.env.POSTGRES_PASSWORD
-    }
+    connection: `postgres://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@db/db_development`
   });

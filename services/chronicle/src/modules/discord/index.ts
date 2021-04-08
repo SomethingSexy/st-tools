@@ -1,11 +1,26 @@
 import Discord from 'discord.js';
+import { fork } from 'fluture';
 import fs from 'fs';
 import { getConnection } from '../../databases/postgres';
 import { chronicleGateway } from '../../gateways/chronicle/postgres';
 import { isString } from '../../utils/string';
-import { ICommand } from './types';
+import { CommandResult, ICommand, Result } from './types';
 
 const prefix = '!';
+
+const sendResult = (message:  Discord.Message) => (result: Result) => {
+  console.log(result);
+  if (isString(result)) {
+    message.reply(result);
+  } else {
+    message.channel.send(result);
+  }  
+} 
+
+const handleResult = (message:  Discord.Message) => (result: CommandResult) => {
+  const sendMessageResult = sendResult(message);
+  fork(sendMessageResult)(sendMessageResult)(result)
+}
 
 // Initialize Discord Bot
 const client = new Discord.Client();
@@ -57,11 +72,7 @@ client.on('message', (message) => {
   try {
     // TODO: As we add more gateways we will want to figure out a better way to pass these in
     const result = command.execute(message, args, chronicleGateway(getConnection()));
-    if (isString(result)) {
-      message.reply(result);
-    } else {
-      message.channel.send(result);
-    }
+    handleResult(message)(result);
   } catch (error) {
     console.error(error);
     message.reply('there was an error trying to execute that command!');
