@@ -4,12 +4,7 @@ export const chronicleMessage = (chronicle: Chronicle) => {
   return {
     embed: {
       color: 3447003,
-      // author: {
-      //   name: message.author.username
-      //   // icon_url: client.user.avatarURL
-      // },
       title: chronicle.name,
-      // description: 'This is a test embed to showcase what they look like and what they can do.',
       fields: [
         {
           name: 'Game',
@@ -17,14 +12,11 @@ export const chronicleMessage = (chronicle: Chronicle) => {
         },
         {
           name: 'Created',
+          // TODO: This should be formatted
           value: `${chronicle.created}`
         }
       ],
       timestamp: new Date(),
-      footer: {
-        // icon_url: client.user.avatarURL,
-        // text: '© Example'
-      }
     }
   };   
 }

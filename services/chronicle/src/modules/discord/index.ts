@@ -1,10 +1,10 @@
 import Discord from 'discord.js';
 import { fork } from 'fluture';
-import fs from 'fs';
 import { getConnection } from '../../databases/postgres';
 import { chronicleGateway } from '../../gateways/chronicle/postgres';
 import { isString } from '../../utils/string';
-import { CommandResult, ICommand, Result } from './types';
+import { commands } from './configurations';
+import { CommandResult, Result } from './types';
 
 const prefix = '!';
 
@@ -24,14 +24,6 @@ const handleResult = (message:  Discord.Message) => (result: CommandResult) => {
 
 // Initialize Discord Bot
 const client = new Discord.Client();
-const commands = new Discord.Collection<string, ICommand>();
-
-const commandFiles = fs.readdirSync(`${__dirname}/commands`).filter((file) => file.endsWith('.js'));
-
-commandFiles.forEach((file) => {
-  const command = require(`${__dirname}/commands/${file}`).default;
-  commands.set(command.name, command);
-});
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);

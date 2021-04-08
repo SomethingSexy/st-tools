@@ -13,5 +13,6 @@ export interface ICommand {
   execute: (message: Message, args: string[], gateway: any) => CommandResult;
   guildOnly?: boolean;
   name: string;
+  title: string;
   usage?: string;
 }

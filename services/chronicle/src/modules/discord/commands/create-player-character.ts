@@ -6,6 +6,7 @@
 export default {
   name: 'create-player',
   description: 'Creates a player character',
+  title: 'Create Player',
   execute: () => {
     return '';
   }
