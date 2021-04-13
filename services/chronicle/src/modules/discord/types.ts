@@ -3,7 +3,7 @@ import { FutureInstance } from 'fluture';
 
 export type Result = string | string[] | { embed: object };
 
-export type CommandResult = FutureInstance<Result, Result>
+export type CommandResult = FutureInstance<Result, Result>;
 
 export interface ICommand {
   aliases?: string[];

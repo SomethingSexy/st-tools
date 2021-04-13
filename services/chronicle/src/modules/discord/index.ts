@@ -8,19 +8,19 @@ import { CommandResult, Result } from './types';
 
 const prefix = '!';
 
-const sendResult = (message:  Discord.Message) => (result: Result) => {
+const sendResult = (message: Discord.Message) => (result: Result) => {
   console.log(result);
   if (isString(result)) {
     message.reply(result);
   } else {
     message.channel.send(result);
-  }  
-} 
+  }
+};
 
-const handleResult = (message:  Discord.Message) => (result: CommandResult) => {
+const handleResult = (message: Discord.Message) => (result: CommandResult) => {
   const sendMessageResult = sendResult(message);
-  fork(sendMessageResult)(sendMessageResult)(result)
-}
+  fork(sendMessageResult)(sendMessageResult)(result);
+};
 
 // Initialize Discord Bot
 const client = new Discord.Client();
@@ -55,7 +55,7 @@ client.on('message', (message) => {
       return message.channel.send(`
         You didn't provide any arguments, ${message.author}!
         The proper usage would be: \`${prefix}${command.name} ${command.usage}
-      `)
+      `);
     }
 
     return message.channel.send(`You didn't provide any arguments, ${message.author}!`);

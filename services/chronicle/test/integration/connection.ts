@@ -1,4 +1,4 @@
-import { databaseManagerFactory } from 'knex-db-manager'
+import { databaseManagerFactory } from 'knex-db-manager';
 
 export const config = {
   knex: {
@@ -18,4 +18,4 @@ export const config = {
   }
 };
 
-export const connection =  databaseManagerFactory(config).knexInstance();
+export const connection = databaseManagerFactory(config).knexInstance();

@@ -7,7 +7,7 @@ import { connection } from '../../../connection';
 describe('gateways', () => {
   describe('chronicle', () => {
     it('should create a chronicle', (done) => {
-      // @ts-expect-error
+      // @ts-expect-error - types not aligned with knex and knex-db-manager
       const output = createChronicle(connection)(
         Right({
           name: 'foo',
@@ -18,8 +18,17 @@ describe('gateways', () => {
       );
 
       fork(done)((r) => {
-        expect(r).to.have.keys(['id', 'name', 'referenceId', 'game', 'version', 'created', 'modified', 'referenceType']);
-        done()
+        expect(r).to.have.keys([
+          'id',
+          'name',
+          'referenceId',
+          'game',
+          'version',
+          'created',
+          'modified',
+          'referenceType'
+        ]);
+        done();
       })(output);
     });
   });

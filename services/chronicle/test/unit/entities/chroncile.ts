@@ -7,14 +7,15 @@ describe('entity:chronicle', () => {
     context('when valid', () => {
       it('should create a valid task', () => {
         expect(
-         S.fromRight({})(
-          createChronicleEntity({
-            name: 'Foo',
-            game: 'vtm',
-            referenceId: 'foo',
-            referenceType: 'discord',
-            version: 'v5'
-          }))
+          S.fromRight({})(
+            createChronicleEntity({
+              name: 'Foo',
+              game: 'vtm',
+              referenceId: 'foo',
+              referenceType: 'discord',
+              version: 'v5'
+            })
+          )
         ).to.deep.equal({
           name: 'Foo',
           game: 'vtm',

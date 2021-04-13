@@ -20,8 +20,6 @@ export default {
       referenceType: 'discord',
       game: args[1],
       version: args[2]
-    }).pipe(
-      map(chronicleMessage)
-    )
+    }).pipe(map(chronicleMessage));
   }
 } as ICommand;

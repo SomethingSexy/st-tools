@@ -1,4 +1,4 @@
-import { Chronicle } from "../../../entities/chronicle";
+import { Chronicle } from '../../../entities/chronicle';
 
 export const chronicleMessage = (chronicle: Chronicle) => {
   return {
@@ -16,7 +16,7 @@ export const chronicleMessage = (chronicle: Chronicle) => {
           value: `${chronicle.created}`
         }
       ],
-      timestamp: new Date(),
+      timestamp: new Date()
     }
-  };   
-}
+  };
+};

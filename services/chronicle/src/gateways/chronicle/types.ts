@@ -14,5 +14,5 @@ export type GetChronicle = (id: string) => FutureInstance<string, Chronicle>;
 export interface ChronicleGateway {
   create: CreateChronicle;
   existsByReference: ChronicleExistsByReference;
-  getChronicle: GetChronicle
+  getChronicle: GetChronicle;
 }
