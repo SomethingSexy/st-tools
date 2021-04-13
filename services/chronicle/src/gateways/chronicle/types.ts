@@ -9,7 +9,10 @@ export type CreateChronicle = (c: Either<string, CreateChronicleEntity>) => Futu
 
 export type ChronicleExistsByReference = (t: 'discord') => (id: string) => FutureInstance<string, boolean>;
 
+export type GetChronicle = (id: string) => FutureInstance<string, Chronicle>;
+
 export interface ChronicleGateway {
   create: CreateChronicle;
-  existsByReference: ChronicleExistsByReference
+  existsByReference: ChronicleExistsByReference;
+  getChronicle: GetChronicle
 }

@@ -1,8 +1,23 @@
 import { attemptP, chain, map } from 'fluture';
 import Knex from 'knex';
 import { Chronicle } from '../../../entities/chronicle';
+import { atLeastOne } from '../../../utils/array';
 import { eitherToFuture } from '../../../utils/sanctuary';
-import { ChronicleExistsByReference, ChronicleGateway, CreateChronicle } from '../types';
+import { ChronicleExistsByReference, ChronicleGateway, CreateChronicle, GetChronicle } from '../types';
+
+/**
+ * This represents the raw format of the chronicle when selected from the table directly
+ */
+interface RetrievedChronicle {
+  name: string;
+  id: string;
+  referenceId: string;
+  referenceType: 'discord'
+  game: 'vtm'
+  version: 'v5'
+  created_at: string;
+  updated_at: string;
+}
 
 const CHRONICLE_TABLE = 'chronicle';
 export const CHRONICLE_TABLE_NAME = 'name';
@@ -70,7 +85,7 @@ export const createChronicle = (db: Knex): CreateChronicle => (c) => {
           MODIFIED_AT
         ])
         .then((value) => {
-          // TODO: add head function
+          // TODO: merge with get below
           return {
             id: ((value[0] as unknown) as Chronicle).id,
             referenceId: ((value[0] as unknown) as Chronicle).referenceId,
@@ -101,7 +116,28 @@ export const hasChronicleByReference = (db: Knex): ChronicleExistsByReference =>
       [CHRONICLE_TABLE_REFERENCE_ID]: id,
       [CHRONICLE_TABLE_REFERENCE_TYPE]: type
     }))
-  }).pipe(map((x: Array<{ id: string }>) => x.length > 0));
+  }).pipe(map(atLeastOne));
+
+
+export const getChronicle = (db: Knex): GetChronicle => id => 
+  attemptP<string, RetrievedChronicle[]>(() => {
+    return createTable(db).then(() =>
+    db.select([
+      CHRONICLE_TABLE_ID
+    ])
+    .from(CHRONICLE_TABLE)
+    .where({
+      [CHRONICLE_TABLE_REFERENCE_ID]: id
+    }))
+  }).pipe(
+    map<RetrievedChronicle[], Chronicle>(value => {
+        return {
+          ...value[0],
+          created: value[0].created_at,
+          modified: value[0].updated_at,
+        };
+    })
+  )
  
 /**
  * Complete gateway for accessing chronicle data from a postgres database
@@ -110,6 +146,7 @@ export const hasChronicleByReference = (db: Knex): ChronicleExistsByReference =>
 export const chronicleGateway =  (db: Knex): ChronicleGateway => {
   return {
     create: createChronicle(db),
-    existsByReference: hasChronicleByReference(db)
+    existsByReference: hasChronicleByReference(db),
+    getChronicle: getChronicle(db)
   }
 }

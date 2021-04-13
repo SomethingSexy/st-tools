@@ -27,7 +27,8 @@ describe('use-case:create-chronicle', () => {
         done()
       })(createChronicle({
         existsByReference: existsFake,
-        create: createFake
+        create: createFake,
+        getChronicle: fake()
       })({
         name: 'Foo',
         game: 'vtm',
@@ -54,7 +55,8 @@ describe('use-case:create-chronicle', () => {
         done();
       })(done)(createChronicle({
         existsByReference: existsFake,
-        create: createFake
+        create: createFake,
+        getChronicle: fake()
       })({
         name: 'Foo',
         game: 'vtm',

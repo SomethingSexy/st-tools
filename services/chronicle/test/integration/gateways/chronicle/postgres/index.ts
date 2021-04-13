@@ -1,13 +1,14 @@
 import { createChronicle } from '../../../../../src/gateways/chronicle/postgres/index';
 import { Right } from 'sanctuary';
 import { fork } from 'fluture';
-import { getConnection } from '../../../../../src/databases/postgres';
 import { expect } from 'chai';
+import { connection } from '../../../connection';
 
 describe('gateways', () => {
-  describe('chroncile', () => {
+  describe('chronicle', () => {
     it('should create a chronicle', (done) => {
-      const output = createChronicle(getConnection())(
+      // @ts-expect-error
+      const output = createChronicle(connection)(
         Right({
           name: 'foo',
           game: 'vtm',
@@ -17,8 +18,8 @@ describe('gateways', () => {
       );
 
       fork(done)((r) => {
-        expect(r).to.have.keys(['id', 'name', 'referenceId', 'game', 'version']);
-        done();
+        expect(r).to.have.keys(['id', 'name', 'referenceId', 'game', 'version', 'created', 'modified', 'referenceType']);
+        done()
       })(output);
     });
   });

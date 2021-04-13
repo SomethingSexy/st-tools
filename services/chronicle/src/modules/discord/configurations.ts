@@ -27,6 +27,7 @@ export const commands = discordCommands;
 // TODO: This probably belongs in messages
 export const commandsForHelp = rawCommands.map(c => ({
   name: c.title,
-  value: c.description
+  value: `!${c.name}
+  ${c.description}`
 }));
 

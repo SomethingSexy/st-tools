@@ -1,1 +1,1 @@
-// Will need to error check that a chonicle exists
+// Will need to error check that a chronicle exists
