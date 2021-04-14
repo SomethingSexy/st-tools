@@ -1,4 +1,4 @@
-import Joi, { ObjectSchema, ValidationError } from '@hapi/joi';
+import { ObjectSchema, alternatives, object, string, number } from '@hapi/joi';
 import { Either, S } from '../utils/sanctuary';
 
 // TODO: Location?
@@ -17,12 +17,12 @@ export interface Chronicle {
 
 export type CreateChronicleEntity = Pick<Chronicle, 'name' | 'referenceId' | 'game' | 'version' | 'referenceType'>;
 
-export const Validation = Joi.object({
-  name: Joi.string().required(),
-  referenceId: Joi.alternatives(Joi.string(), Joi.number()).required(),
-  referenceType: Joi.string().valid('discord').required(),
-  game: Joi.string().valid('vtm').required(),
-  version: Joi.string().valid('v5').required()
+export const Validation = object({
+  name: string().required(),
+  referenceId: alternatives(string(), number()).required(),
+  referenceType: string().valid('discord').required(),
+  game: string().valid('vtm').required(),
+  version: string().valid('v5').required()
 });
 
 export const makeCreateChronicleEntity = (schema: ObjectSchema) => (

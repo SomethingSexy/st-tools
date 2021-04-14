@@ -9,7 +9,6 @@ import { CommandResult, Result } from './types';
 const prefix = '!';
 
 const sendResult = (message: Discord.Message) => (result: Result) => {
-  console.log(result);
   if (isString(result)) {
     message.reply(result);
   } else {
@@ -66,7 +65,6 @@ client.on('message', (message) => {
     const result = command.execute(message, args, chronicleGateway(getConnection()));
     handleResult(message)(result);
   } catch (error) {
-    console.error(error);
     message.reply('there was an error trying to execute that command!');
   }
 });

@@ -11,6 +11,6 @@
     "sourceMap": true,
     "target": "ES2019",
     "typeRoots" : ["./node_modules/@types", "./src/types", "./node_modules/**/modules"],
-    "types": ["@types/mocha", "mocha"]
+    "types": ["@types/jest", "jest"]
   }
 }

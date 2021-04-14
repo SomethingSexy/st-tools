@@ -29,6 +29,8 @@ export const CHRONICLE_TABLE_REFERENCE_TYPE = 'referenceType';
 export const CREATED_AT = 'created_at';
 export const MODIFIED_AT = 'updated_at';
 
+const searchFields = [CHRONICLE_TABLE_REFERENCE_ID, CHRONICLE_TABLE_ID] as const;
+
 // TODO: Long term this is probably not a good idea, having to do this for every single request.
 const createTable = (db: Knex) => {
   return db.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"').then(() => {
@@ -78,21 +80,22 @@ export const createChronicle = (db: Knex): CreateChronicle => (c) => {
             .returning([
               CHRONICLE_TABLE_ID,
               CHRONICLE_TABLE_REFERENCE_ID,
+              CHRONICLE_TABLE_REFERENCE_TYPE,
               CHRONICLE_TABLE_NAME,
               CHRONICLE_TABLE_GAME,
               CHRONICLE_TABLE_VERSION,
               CREATED_AT,
               MODIFIED_AT
             ])
-            .then((value) => {
+            .then((value: RetrievedChronicle[]) => {
               // TODO: merge with get below
               return {
-                id: ((value[0] as unknown) as Chronicle).id,
-                referenceId: ((value[0] as unknown) as Chronicle).referenceId,
-                referenceType: ((value[0] as unknown) as Chronicle).referenceType,
-                name: ((value[0] as unknown) as Chronicle).name,
-                game: ((value[0] as unknown) as Chronicle).game,
-                version: ((value[0] as unknown) as Chronicle).version,
+                id: value[0].id,
+                referenceId: value[0].referenceId,
+                referenceType: value[0].referenceType,
+                name: value[0].name,
+                game: value[0].game,
+                version: value[0].version,
                 created: value[0].created_at,
                 modified: value[0].updated_at
               };
@@ -120,25 +123,42 @@ export const hasChronicleByReference = (db: Knex): ChronicleExistsByReference =>
     );
   }).pipe(map(atLeastOne));
 
-export const getChronicle = (db: Knex): GetChronicle => (id) =>
+const getChronicleBy = (by: typeof searchFields[number]) => (db: Knex): GetChronicle => (id) =>
   attemptP<string, RetrievedChronicle[]>(() => {
     return createTable(db).then(() =>
       db
-        .select([CHRONICLE_TABLE_ID])
+        .select([
+          CHRONICLE_TABLE_ID,
+          CHRONICLE_TABLE_REFERENCE_ID,
+          CHRONICLE_TABLE_REFERENCE_TYPE,
+          CHRONICLE_TABLE_NAME,
+          CHRONICLE_TABLE_GAME,
+          CHRONICLE_TABLE_VERSION,
+          CREATED_AT,
+          MODIFIED_AT
+        ])
         .from(CHRONICLE_TABLE)
         .where({
-          [CHRONICLE_TABLE_REFERENCE_ID]: id
+          [by]: id
         })
     );
   }).pipe(
     map<RetrievedChronicle[], Chronicle>((value) => {
       return {
-        ...value[0],
+        id: value[0].id,
+        referenceId: value[0].referenceId,
+        referenceType: value[0].referenceType,
+        name: value[0].name,
+        game: value[0].game,
+        version: value[0].version,
         created: value[0].created_at,
         modified: value[0].updated_at
       };
     })
   );
+
+export const getChronicle = getChronicleBy(CHRONICLE_TABLE_REFERENCE_ID);
+export const getChronicleById = getChronicleBy(CHRONICLE_TABLE_ID);
 
 /**
  * Complete gateway for accessing chronicle data from a postgres database

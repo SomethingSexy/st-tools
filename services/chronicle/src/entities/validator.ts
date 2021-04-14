@@ -1,4 +1,4 @@
-import Joi, { Schema } from '@hapi/joi';
+import { Schema } from '@hapi/joi';
 
 const validator = (schema: Schema) => (payload: any) => {
   const { error } = schema.validate(payload);

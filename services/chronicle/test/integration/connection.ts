@@ -1,3 +1,4 @@
+import Knex from 'knex';
 import { databaseManagerFactory } from 'knex-db-manager';
 
 export const config = {
@@ -18,4 +19,5 @@ export const config = {
   }
 };
 
-export const connection = databaseManagerFactory(config).knexInstance();
+// TODO: types from db-manager are not aligned
+export const connection = (databaseManagerFactory(config).knexInstance() as unknown) as Knex;

@@ -1,35 +1,34 @@
-import { createChronicle } from '../../../../../src/gateways/chronicle/postgres/index';
+import { createChronicle, getChronicleById } from '../../../../../src/gateways/chronicle/postgres/index';
 import { Right } from 'sanctuary';
 import { fork } from 'fluture';
 import { expect } from 'chai';
-import { connection } from '../../../connection';
+import { config, connection } from '../../../connection';
+import { Chronicle } from '../../../../../src/entities/chronicle';
+import { databaseManagerFactory } from 'knex-db-manager';
 
-describe('gateways', () => {
-  describe('chronicle', () => {
-    it('should create a chronicle', (done) => {
-      // @ts-expect-error - types not aligned with knex and knex-db-manager
-      const output = createChronicle(connection)(
-        Right({
-          name: 'foo',
-          game: 'vtm',
-          version: 'v5',
-          referenceId: 'foo'
-        })
-      );
+beforeAll(() => {
+  return databaseManagerFactory(config)
+    .dropDb()
+    .then(() => databaseManagerFactory(config).createDb())
+    .then(() => console.log('beforeAll complete'));
+});
 
-      fork(done)((r) => {
-        expect(r).to.have.keys([
-          'id',
-          'name',
-          'referenceId',
-          'game',
-          'version',
-          'created',
-          'modified',
-          'referenceType'
-        ]);
-        done();
-      })(output);
-    });
-  });
+test('should create a chronicle', (done) => {
+  const output = createChronicle(connection)(
+    Right({
+      name: 'foo',
+      game: 'vtm',
+      version: 'v5',
+      referenceId: 'foo'
+    })
+  );
+
+  fork(done)((r: Chronicle) => {
+    expect(r).to.have.keys(['id', 'name', 'referenceId', 'game', 'version', 'created', 'modified', 'referenceType']);
+    fork(done)((c) => {
+      expect(c).to.have.keys(['id', 'name', 'referenceId', 'game', 'version', 'created', 'modified', 'referenceType']);
+      connection.destroy(done);
+      // done();
+    })(getChronicleById(connection)(r.id));
+  })(output);
 });
