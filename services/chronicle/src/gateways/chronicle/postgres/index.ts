@@ -1,6 +1,5 @@
 import { attemptP, chain, map } from 'fluture';
 import Knex from 'knex';
-import { Chronicle } from '../../../entities/chronicle';
 import { atLeastOne } from '../../../utils/array';
 import { eitherToFuture } from '../../../utils/sanctuary';
 import { ChronicleExistsByReference, ChronicleGateway, CreateChronicle, GetChronicle } from '../types';
@@ -31,6 +30,17 @@ export const MODIFIED_AT = 'updated_at';
 
 const searchFields = [CHRONICLE_TABLE_REFERENCE_ID, CHRONICLE_TABLE_ID] as const;
 
+const retrievedToEntity = (chronicle: RetrievedChronicle[]) => ({
+  id: chronicle[0].id,
+  referenceId: chronicle[0].referenceId,
+  referenceType: chronicle[0].referenceType,
+  name: chronicle[0].name,
+  game: chronicle[0].game,
+  version: chronicle[0].version,
+  created: chronicle[0].created_at,
+  modified: chronicle[0].updated_at
+});
+
 // TODO: Long term this is probably not a good idea, having to do this for every single request.
 const createTable = (db: Knex) => {
   return db.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"').then(() => {
@@ -58,53 +68,38 @@ const createTable = (db: Knex) => {
  * Creates a new chronicle
  * @param db
  */
-export const createChronicle = (db: Knex): CreateChronicle => (c) => {
-  const f = eitherToFuture(c);
-
-  // TODO: Break this down into multiple chains
-  return f.pipe(
-    chain((c) =>
-      attemptP<string, Chronicle>(() =>
-        createTable(db).then(() => {
-          const now = db.fn.now();
-          return db(CHRONICLE_TABLE)
-            .insert({
-              [CHRONICLE_TABLE_NAME]: c.name,
-              [CHRONICLE_TABLE_REFERENCE_ID]: c.referenceId,
-              [CHRONICLE_TABLE_VERSION]: c.version,
-              [CHRONICLE_TABLE_GAME]: c.game,
-              [CHRONICLE_TABLE_REFERENCE_TYPE]: c.referenceType,
-              [CREATED_AT]: now,
-              [MODIFIED_AT]: now
-            })
-            .returning([
-              CHRONICLE_TABLE_ID,
-              CHRONICLE_TABLE_REFERENCE_ID,
-              CHRONICLE_TABLE_REFERENCE_TYPE,
-              CHRONICLE_TABLE_NAME,
-              CHRONICLE_TABLE_GAME,
-              CHRONICLE_TABLE_VERSION,
-              CREATED_AT,
-              MODIFIED_AT
-            ])
-            .then((value: RetrievedChronicle[]) => {
-              // TODO: merge with get below
-              return {
-                id: value[0].id,
-                referenceId: value[0].referenceId,
-                referenceType: value[0].referenceType,
-                name: value[0].name,
-                game: value[0].game,
-                version: value[0].version,
-                created: value[0].created_at,
-                modified: value[0].updated_at
-              };
-            });
-        })
+export const createChronicle = (db: Knex): CreateChronicle => (c) =>
+  eitherToFuture(c)
+    .pipe(
+      chain((c) =>
+        attemptP<string, RetrievedChronicle[]>(() =>
+          createTable(db).then(() => {
+            const now = db.fn.now();
+            return db(CHRONICLE_TABLE)
+              .insert({
+                [CHRONICLE_TABLE_NAME]: c.name,
+                [CHRONICLE_TABLE_REFERENCE_ID]: c.referenceId,
+                [CHRONICLE_TABLE_VERSION]: c.version,
+                [CHRONICLE_TABLE_GAME]: c.game,
+                [CHRONICLE_TABLE_REFERENCE_TYPE]: c.referenceType,
+                [CREATED_AT]: now,
+                [MODIFIED_AT]: now
+              })
+              .returning([
+                CHRONICLE_TABLE_ID,
+                CHRONICLE_TABLE_REFERENCE_ID,
+                CHRONICLE_TABLE_REFERENCE_TYPE,
+                CHRONICLE_TABLE_NAME,
+                CHRONICLE_TABLE_GAME,
+                CHRONICLE_TABLE_VERSION,
+                CREATED_AT,
+                MODIFIED_AT
+              ]);
+          })
+        )
       )
     )
-  );
-};
+    .pipe(map(retrievedToEntity));
 
 /**
  * Determines if a chronicle already exists given the type and reference id.
@@ -142,20 +137,7 @@ const getChronicleBy = (by: typeof searchFields[number]) => (db: Knex): GetChron
           [by]: id
         })
     );
-  }).pipe(
-    map<RetrievedChronicle[], Chronicle>((value) => {
-      return {
-        id: value[0].id,
-        referenceId: value[0].referenceId,
-        referenceType: value[0].referenceType,
-        name: value[0].name,
-        game: value[0].game,
-        version: value[0].version,
-        created: value[0].created_at,
-        modified: value[0].updated_at
-      };
-    })
-  );
+  }).pipe(map(retrievedToEntity));
 
 export const getChronicle = getChronicleBy(CHRONICLE_TABLE_REFERENCE_ID);
 export const getChronicleById = getChronicleBy(CHRONICLE_TABLE_ID);
