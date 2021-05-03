@@ -8,6 +8,8 @@ import { CommandResult, Result } from './types';
 
 const prefix = '!';
 
+const connection = getConnection();
+
 const sendResult = (message: Discord.Message) => (result: Result) => {
   if (isString(result)) {
     message.reply(result);
@@ -62,7 +64,7 @@ client.on('message', (message) => {
 
   try {
     // TODO: As we add more gateways we will want to figure out a better way to pass these in
-    const result = command.execute(message, args, chronicleGateway(getConnection()));
+    const result = command.execute(message, args, chronicleGateway(connection));
     handleResult(message)(result);
   } catch (error) {
     message.reply('there was an error trying to execute that command!');

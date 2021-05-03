@@ -1,6 +1,6 @@
-import { object, ObjectSchema, string } from "@hapi/joi";
-import S from "sanctuary";
-import { Either } from "../utils/sanctuary";
+import { object, ObjectSchema, string } from '@hapi/joi';
+import S from 'sanctuary';
+import { Either } from '../utils/sanctuary';
 
 export interface IAttribute {
   name: string;
@@ -36,6 +36,8 @@ export interface IVampireCharacteristics extends ICharacteristics {
 export type Splat = 'vampire' | 'human';
 
 export interface ICharacter<Characteristics extends ICharacteristics, Stats extends IStats> {
+  id: string;
+  chronicleId: string;
   name: string;
   concept: string;
   ambition: string;
@@ -51,14 +53,18 @@ export interface ICharacter<Characteristics extends ICharacteristics, Stats exte
     [name: string]: ISkill;
   };
   stats: Stats;
+  created: string;
+  modified: string;
 }
 
 export type Vampire = ICharacter<IVampireCharacteristics, IVampireStats>;
 
 export type Human = ICharacter<{}, IHumanStats>;
 
+export type Character = Vampire | Human;
+
 // This is only what is required to create, we will probably want another validation
-// for locking a character in? 
+// for locking a character in?
 export const Validation = object({
   name: string().required(),
   concept: string(),
