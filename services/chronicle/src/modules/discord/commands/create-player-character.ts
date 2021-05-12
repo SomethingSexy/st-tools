@@ -1,5 +1,5 @@
-import { resolve } from "fluture";
-import type { ICommand } from "../types";
+import { resolve } from 'fluture';
+import type { ICommand } from '../types';
 
 /**
  * This will make a player if it doesn't exist and create a character for that player, make sure on subsequent calls that if they already

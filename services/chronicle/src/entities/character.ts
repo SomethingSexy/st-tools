@@ -2,7 +2,7 @@ import hapi, { ObjectSchema } from 'joi';
 import S from 'sanctuary';
 import type { Either } from '../utils/sanctuary';
 
-const { object, string } = hapi
+const { object, string } = hapi;
 export interface IAttribute {
   name: string;
   value: 0 | 1 | 2 | 3 | 4 | 5;
@@ -25,7 +25,7 @@ export interface IVampireStats extends IStats {
   humanity: number;
 }
 
-export type IHumanStats = IStats
+export type IHumanStats = IStats;
 
 export interface IVampireCharacteristics extends ICharacteristics {
   sire: string;

@@ -1,5 +1,5 @@
-import { resolve } from "fluture";
-import type { ICommand } from "../types";
+import { resolve } from 'fluture';
+import type { ICommand } from '../types';
 
 export default {
   name: 'create-character',

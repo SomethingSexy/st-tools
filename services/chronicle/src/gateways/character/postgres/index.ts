@@ -50,22 +50,21 @@ export const createTable = (db: Knex) => <T>(data: T) =>
     return db.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"').then(async () => {
       const exists = await db.schema.hasTable(CHARACTER_TABLE);
       if (!exists) {
-        await db.schema
-          .createTable(CHARACTER_TABLE, (table) => {
-            table.uuid(CHARACTER_TABLE_ID).defaultTo(db.raw('uuid_generate_v4()'));
-            table.foreign('chronicle_id').references('Chronicle.chronicle_id');
-            table.string('name');
-            table.text('concept');
-            table.text('ambition');
-            table.text('desire');
-            table.string('splat');
-            // This will hold all splat specific data
-            table.jsonb('characteristics');
-            table.jsonb('attributes');
-            table.jsonb('skills');
-            table.jsonb('stats');
-            table.timestamps();
-          })
+        await db.schema.createTable(CHARACTER_TABLE, (table) => {
+          table.uuid(CHARACTER_TABLE_ID).defaultTo(db.raw('uuid_generate_v4()'));
+          table.foreign('chronicle_id').references('Chronicle.chronicle_id');
+          table.string('name');
+          table.text('concept');
+          table.text('ambition');
+          table.text('desire');
+          table.string('splat');
+          // This will hold all splat specific data
+          table.jsonb('characteristics');
+          table.jsonb('attributes');
+          table.jsonb('skills');
+          table.jsonb('stats');
+          table.timestamps();
+        });
       }
       return data;
     });

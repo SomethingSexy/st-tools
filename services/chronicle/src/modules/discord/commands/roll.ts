@@ -1,5 +1,5 @@
-import { resolve } from "fluture";
-import type { ICommand } from "../types";
+import { resolve } from 'fluture';
+import type { ICommand } from '../types';
 
 /**
  *  This command tests the ability of using other bots to handle things like rolling dice.

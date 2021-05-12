@@ -10,13 +10,13 @@ export default {
   description: 'Lists all possible commands',
   title: 'Help',
   execute: () => {
-// This does not need to change realtime
-// TODO: This probably belongs in messages
- const commandsForHelp = commandConfigurations.map((c) => ({
-  name: c.title,
-  value: `!${c.name}
+    // This does not need to change realtime
+    // TODO: This probably belongs in messages
+    const commandsForHelp = commandConfigurations.map((c) => ({
+      name: c.title,
+      value: `!${c.name}
   ${c.description}`
-}));
+    }));
 
     return resolve({
       embed: {

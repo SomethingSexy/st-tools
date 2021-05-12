@@ -7,11 +7,4 @@ import createPlayerCharacter from './create-player-character.js';
 import help from './help.js';
 import roll from './roll.js';
 
-
-export const all: ICommand[] = [
-  createCharacter,
-  createChronicle,
-  createPlayerCharacter,
-  help,
-  roll
-]
+export const all: ICommand[] = [createCharacter, createChronicle, createPlayerCharacter, help, roll];
