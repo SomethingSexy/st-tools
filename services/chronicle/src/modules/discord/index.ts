@@ -1,10 +1,10 @@
 import Discord from 'discord.js';
 import { fork } from 'fluture';
-import { getConnection } from '../../databases/postgres';
-import { chronicleGateway } from '../../gateways/chronicle/postgres';
-import { isString } from '../../utils/string';
-import { commands } from './configurations';
-import { CommandResult, Result } from './types';
+import { getConnection } from '../../databases/postgres.js';
+import { chronicleGateway } from '../../gateways/chronicle/postgres/index.js';
+import { isString } from '../../utils/string.js';
+import { commands } from './configurations.js';
+import type { CommandResult, Result } from './types';
 
 const prefix = '!';
 

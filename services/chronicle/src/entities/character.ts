@@ -1,7 +1,8 @@
-import { object, ObjectSchema, string } from '@hapi/joi';
+import hapi, { ObjectSchema } from 'joi';
 import S from 'sanctuary';
-import { Either } from '../utils/sanctuary';
+import type { Either } from '../utils/sanctuary';
 
+const { object, string } = hapi
 export interface IAttribute {
   name: string;
   value: 0 | 1 | 2 | 3 | 4 | 5;
@@ -24,7 +25,7 @@ export interface IVampireStats extends IStats {
   humanity: number;
 }
 
-export interface IHumanStats extends IStats {}
+export type IHumanStats = IStats
 
 export interface IVampireCharacteristics extends ICharacteristics {
   sire: string;

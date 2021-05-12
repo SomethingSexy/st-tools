@@ -1,5 +1,5 @@
-import { Message } from 'discord.js';
-import { FutureInstance } from 'fluture';
+import type { Message } from 'discord.js';
+import type { FutureInstance } from 'fluture';
 
 export type Result = string | string[] | { embed: object };
 

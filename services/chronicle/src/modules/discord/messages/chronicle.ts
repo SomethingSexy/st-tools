@@ -1,4 +1,4 @@
-import { Chronicle } from '../../../entities/chronicle';
+import type { Chronicle } from '../../../entities/chronicle';
 
 export const chronicleMessage = (chronicle: Chronicle) => {
   return {

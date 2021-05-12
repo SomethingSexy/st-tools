@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { fork, resolve } from 'fluture';
 import { fake } from 'sinon';
-import { createChronicle } from '../../../src/use-cases/create-chronicle';
+import { createChronicle } from '../../../src/use-cases/create-chronicle.js';
 
 test('should create a new one', (done) => {
   const existsFake = fake.returns(fake.returns(resolve(false)));

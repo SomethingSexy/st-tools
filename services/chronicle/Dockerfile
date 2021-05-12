@@ -1,4 +1,4 @@
-FROM node:14 as base
+FROM node:16 as base
 
 # This application specific
 RUN apt-get update && apt-get install -y openssh-client
@@ -18,13 +18,14 @@ USER app
 
 COPY --chown=app package.json package-lock.json tsconfig.json /opt/st/
 COPY --chown=app ./src /opt/st/src
-COPY --chown=app ./node_modules /opt/st/node_modules
+COPY --chown=app ./.swcrc /opt/st/.swcrc
+# add back when we are building for a true prod docker image
+# COPY --chown=app ./node_modules /opt/st/node_modules
 
 # This could get moved behind a dev env flag, instead we would copy the 
 # the modules folder instead
+# We need to install to this environment because swc installs based on os
+RUN npm ci
 RUN npm run build
-
-# Figure out how to do this, the issue is connecting to private git
-#RUN npm install --quiet --production
 
 CMD ["npm", "start"]

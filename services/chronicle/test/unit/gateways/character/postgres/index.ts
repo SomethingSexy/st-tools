@@ -1,5 +1,5 @@
-import { createTable } from '../../../../../src/gateways/character/postgres/index';
-import { getConnection } from '../../../../../src/databases/postgres';
+import { createTable } from '../../../../../src/gateways/character/postgres/index.js';
+import { getConnection } from '../../../../../src/databases/postgres.js';
 import { mock, getTracker } from 'mock-knex';
 import { expect } from 'chai';
 import { fork } from 'fluture';
@@ -21,8 +21,10 @@ test('should successfully create the character table', (done) => {
   fork(done)((result) => {
     expect(result).to.not.be.an('undefined');
     done();
-  })(createTable(connection)({
-    name: 'Foo',
-    splat: 'vampire'
-  }))
+  })(
+    createTable(connection)({
+      name: 'Foo',
+      splat: 'vampire'
+    })
+  );
 });

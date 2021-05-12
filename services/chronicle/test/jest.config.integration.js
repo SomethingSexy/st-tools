@@ -9,6 +9,6 @@ module.exports = {
     "**/test/integration/**/*.+(ts)"
   ],
   "transform": {
-    "^.+\\.(ts|tsx)$": "ts-jest"
+    '^.+\\.(t|j)sx?$': ['@swc-node/jest'],
   }
 }

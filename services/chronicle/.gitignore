@@ -43,5 +43,6 @@ __test
 .vscode
 
 /test/dist
+/modules
 
 pgdata

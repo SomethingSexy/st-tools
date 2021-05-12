@@ -1,7 +1,9 @@
 import { FutureInstance, reject, resolve } from 'fluture';
 import { env as flutureEnv } from 'fluture-sanctuary-types';
-import { create, env } from 'sanctuary';
+import sanctuary from 'sanctuary';
 
+// sanctuary does not support mjs format yet
+const { create, env }  = sanctuary;
 export interface Either<A, B> {
   '@@type': 'sanctuary/Either';
 }

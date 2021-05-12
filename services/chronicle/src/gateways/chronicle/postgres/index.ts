@@ -1,10 +1,10 @@
 import { attemptP, chain, map } from 'fluture';
 import Knex from 'knex';
-import { CreateChronicleEntity } from '../../../entities/chronicle';
-import { atLeastOne } from '../../../utils/array';
-import { eitherToFuture } from '../../../utils/sanctuary';
-import { CREATED_AT, MODIFIED_AT, TABLE_ID } from '../../constants';
-import { ChronicleExistsByReference, ChronicleGateway, CreateChronicle, GetChronicle } from '../types';
+import type { CreateChronicleEntity } from '../../../entities/chronicle';
+import { atLeastOne } from '../../../utils/array.js';
+import { eitherToFuture } from '../../../utils/sanctuary.js';
+import { CREATED_AT, MODIFIED_AT, TABLE_ID } from '../../constants.js';
+import type { ChronicleExistsByReference, ChronicleGateway, CreateChronicle, GetChronicle } from '../types';
 
 /**
  * This represents the raw format of the chronicle when selected from the table directly

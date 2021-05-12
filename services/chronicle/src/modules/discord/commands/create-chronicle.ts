@@ -1,8 +1,8 @@
 import { map } from 'fluture';
-import { ChronicleGateway } from '../../../gateways/chronicle/types';
-import { createChronicle } from '../../../use-cases/create-chronicle';
-import { chronicleMessage } from '../messages/chronicle';
-import { ICommand } from '../types';
+import type { ChronicleGateway } from '../../../gateways/chronicle/types';
+import { createChronicle } from '../../../use-cases/create-chronicle.js';
+import { chronicleMessage } from '../messages/chronicle.js';
+import type { ICommand } from '../types';
 
 /**
  * Handles creating a chronicle (game).  This game is tied to the discord server id.

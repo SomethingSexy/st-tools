@@ -1,4 +1,5 @@
-module.exports = {
+export default {
+  "resolver": "jest-ts-webcompat-resolver",
   "setupFiles": [
     "dotenv/config"
   ],
@@ -6,6 +7,6 @@ module.exports = {
     "**/test/unit/**/*.+(ts)"
   ],
   "transform": {
-    "^.+\\.(ts|tsx)$": "ts-jest"
+    '^.+\\.(t|j)sx?$': ['@swc-node/jest'],
   }
 }

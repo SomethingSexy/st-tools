@@ -1,5 +1,7 @@
-import { ObjectSchema, alternatives, object, string, number } from '@hapi/joi';
-import { Either, S } from '../utils/sanctuary';
+import Hapi, { ObjectSchema } from 'joi';
+import { Either, S } from '../utils/sanctuary.js';
+
+// const { alternatives, object, string, number } = hapi;
 
 // TODO: Location?
 export interface Chronicle {
@@ -17,12 +19,12 @@ export interface Chronicle {
 
 export type CreateChronicleEntity = Pick<Chronicle, 'name' | 'referenceId' | 'game' | 'version' | 'referenceType'>;
 
-export const Validation = object({
-  name: string().required(),
-  referenceId: alternatives(string(), number()).required(),
-  referenceType: string().valid('discord').required(),
-  game: string().valid('vtm').required(),
-  version: string().valid('v5').required()
+export const Validation = Hapi.object({
+  name: Hapi.string().required(),
+  referenceId: Hapi.alternatives(Hapi.string(), Hapi.number()).required(),
+  referenceType: Hapi.string().valid('discord').required(),
+  game: Hapi.string().valid('vtm').required(),
+  version: Hapi.string().valid('v5').required()
 });
 
 export const makeCreateChronicleEntity = (schema: ObjectSchema) => (
