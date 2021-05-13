@@ -4,7 +4,7 @@ services:
   chroncile:
     image: st-microservices/chronicle:${TAG:-latest}
     build:
-      context: ./services/chronicle
+      context: ./packages/chronicle
       dockerfile: Dockerfile
     environment:
       - LOG_LEVEL=${LOG_LEVEL}

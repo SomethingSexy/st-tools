@@ -9,10 +9,14 @@
     "typescript": "^4.1.2"
   },
   "devDependencies": {
-    "@types/glob": "^7.1.3"
+    "@types/glob": "^7.1.3",
+    "lerna": "^4.0.0"
   },
   "scripts": {
-    "services:install": "node -r esm -r ts-node/register -r dotenv/config tools/run install",
-    "test": "node -r esm -r ts-node/register -r dotenv/config tools/run test"
+    "bootstrap": "lerna bootstrap",
+    "docker:build": "docker-compose build", 
+    "docker:up": "docker-compose up", 
+    "services:install": "lerna bootstrap",
+    "test": "lerna run test"
   }
 }
