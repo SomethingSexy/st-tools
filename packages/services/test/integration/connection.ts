@@ -20,4 +20,4 @@ export const config = {
 };
 
 // TODO: types from db-manager are not aligned
-export const connection = (databaseManagerFactory(config).knexInstance() as unknown) as Knex;
+export const connection = databaseManagerFactory(config).knexInstance() as unknown as Knex;

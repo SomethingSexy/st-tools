@@ -1,4 +1,4 @@
-import { attemptP, chain, map } from 'fluture';
+import { attemptP, chain, FutureInstance, map } from 'fluture';
 import { Knex } from 'knex';
 import type { CreateChronicleEntity } from '../../../entities/chronicle';
 import { atLeastOne } from '../../../utils/array.js';
@@ -92,7 +92,7 @@ const insertAndReturnChronicle = (db: Knex) => (c: CreateChronicleEntity) =>
       ]);
   });
 
-const findChronicle =
+const findChronicleByReference =
   (db: Knex) =>
   ({ id, type }: { id: string; type: string }) =>
     attemptP<string, Array<{ id: string }>>(() => {
@@ -102,6 +102,18 @@ const findChronicle =
         .where({
           [CHRONICLE_TABLE_REFERENCE_ID]: id,
           [CHRONICLE_TABLE_REFERENCE_TYPE]: type
+        });
+    });
+
+const findChronicleById =
+  (db: Knex) =>
+  ({ id }: { id: string }) =>
+    attemptP<string, Array<{ id: string }>>(() => {
+      return db
+        .select(CHRONICLE_TABLE_ID)
+        .from(CHRONICLE_TABLE)
+        .where({
+          [CHRONICLE_TABLE_ID]: id
         });
     });
 
@@ -117,17 +129,21 @@ export const createChronicle =
       .pipe(chain(insertAndReturnChronicle(db)))
       .pipe(map(retrievedToEntity));
 
+const hasChronicleBy =
+  <T>(f: (db: Knex) => (data: T) => FutureInstance<string, Array<{ id: string }>>) =>
+  (db: Knex) =>
+  (data: T) =>
+    createTable(db)(data)
+      .pipe(chain((x) => f(db)(x)))
+      .pipe(map((x) => atLeastOne(x)));
+
 /**
  * Determines if a chronicle already exists given the type and reference id.
  * @param db
  */
-export const hasChronicleByReference =
-  (db: Knex): ChronicleExistsByReference =>
-  (type) =>
-  (id) =>
-    createTable(db)({ type, id })
-      .pipe(chain(findChronicle(db)))
-      .pipe(map(atLeastOne));
+export const hasChronicleByReference = hasChronicleBy(findChronicleByReference);
+
+export const hasChronicleById = hasChronicleBy(findChronicleById);
 
 const getChronicleBy =
   (by: typeof searchFields[number]) =>
@@ -168,6 +184,7 @@ export const chronicleGateway = (db: Knex): ChronicleGateway => {
   return {
     create: createChronicle(db),
     existsByReference: hasChronicleByReference(db),
+    existsById: hasChronicleById(db),
     getChronicle: getChronicle(db),
     getChronicleById: getChronicleById(db)
   };
