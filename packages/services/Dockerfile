@@ -13,7 +13,7 @@ WORKDIR /opt/st
 # Switch to the user
 USER app
 
-COPY --chown=app package.json package-lock.json tsconfig.json /opt/st/
+COPY --chown=app package.json package-lock.json /opt/st/
 COPY --chown=app ./src /opt/st/src
 COPY --chown=app ./.swcrc /opt/st/.swcrc
 # add back when we are building for a true prod docker image

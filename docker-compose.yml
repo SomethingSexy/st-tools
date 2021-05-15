@@ -10,11 +10,25 @@ services:
       - LOG_LEVEL=${LOG_LEVEL}
       - LOG_CONSOLE=${LOG_CONSOLE}
       - DISCORD_TOKEN=${DISCORD_TOKEN}
+    ports:
+      - 5100:5100
+    depends_on:
+      - services
+
+  services:
+    image: st-microservices/services:${TAG:-latest}
+    build:
+      context: ./packages/services
+      dockerfile: Dockerfile
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL}
+      - LOG_CONSOLE=${LOG_CONSOLE}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
+      - PORT=5101
     ports:
-      - '5100:5100'
+      - 5101:5101
     depends_on:
       - db
 

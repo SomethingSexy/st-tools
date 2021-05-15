@@ -9,14 +9,5 @@ export const createChronicle = (gateway: ChronicleGateway) => ({
   game,
   version
 }: CreateChronicleEntity) => {
-  return gateway
-    .existsByReference(referenceType)(referenceId)
-    .pipe(
-      chain((exists) => {
-        if (exists) {
-          return reject(`Chronicle with ${referenceId} already exists.`);
-        }
-        return gateway.create(createChronicleEntity({ name, referenceId, referenceType, game, version }));
-      })
-    );
+  return gateway.create(createChronicleEntity({ name, referenceId, referenceType, game, version }));
 };

@@ -1,14 +1,13 @@
 import Discord from 'discord.js';
 import { fork } from 'fluture';
-import { getConnection } from '../../databases/postgres.js';
-import { chronicleGateway } from '../../gateways/chronicle/postgres/index.js';
+import { chronicleGateway } from '../../gateways/chronicle/rest/index.js';
+import { rest } from '../../services/rest/node.js';
 import { isString } from '../../utils/string.js';
 import { commands } from './configurations.js';
 import type { CommandResult, Result } from './types';
 
 const prefix = '!';
 
-const connection = getConnection();
 
 const sendResult = (message: Discord.Message) => (result: Result) => {
   if (isString(result)) {
@@ -64,7 +63,7 @@ client.on('message', (message) => {
 
   try {
     // TODO: As we add more gateways we will want to figure out a better way to pass these in
-    const result = command.execute(message, args, chronicleGateway(connection));
+    const result = command.execute(message, args, chronicleGateway(rest));
     handleResult(message)(result);
   } catch (error) {
     message.reply('there was an error trying to execute that command!');

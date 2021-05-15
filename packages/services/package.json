@@ -1,0 +1,52 @@
+{
+  "name": "services",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Services for st-tools",
+  "type": "module",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "build": "npx swc ./src -d modules",
+    "lint": "eslint --ext .js,.ts ./src && eslint --ext .js,.ts ./test && npm run pretty:check",
+    "lint:fix": "eslint --ext .js,.ts ./src --fix && eslint --ext .js,.ts ./test --fix && npm run pretty:fix",
+    "lint:quiet": "eslint --ext .js,.ts ./src --quiet && eslint --ext .js,.ts ./test --quiet",
+    "pretty:check": "prettier --check './{src,test,tools}/**/*.{ts,tsx}'",
+    "pretty:fix": "prettier --write './{src,test,tools}/**/*.{ts,tsx}'",
+    "start": "node ./modules/index.js",
+    "test": "jest --config ./test/jest.config.js"
+  },
+  "author": "Tyler J Cvetan",
+  "license": "MIT",
+  "devDependencies": {
+    "@swc-node/jest": "^1.2.1",
+    "@swc/cli": "^0.1.40",
+    "@swc/core": "^1.2.57",
+    "@types/chai": "^4.2.18",
+    "@types/jest": "^26.0.23",
+    "@types/knex-db-manager": "^0.6.1",
+    "@types/mock-knex": "^0.4.3",
+    "@typescript-eslint/eslint-plugin": "^4.23.0",
+    "chai": "^4.3.4",
+    "eslint": "^7.26.0",
+    "jest": "^26.6.3",
+    "jest-ts-webcompat-resolver": "^1.0.0",
+    "knex-db-manager": "^0.7.0",
+    "mock-knex": "https://github.com/mattleff/mock-knex/tree/support-0.95",
+    "pg-escape": "^0.2.0",
+    "prettier": "^2.3.0",
+    "pretty-quick": "^3.1.0",
+    "sinon": "^10.0.0"
+  },
+  "dependencies": {
+    "fastify": "^3.15.1",
+    "fluture": "^14.0.0",
+    "fluture-sanctuary-types": "^7.1.0",
+    "joi": "^17.4.0",
+    "knex": "^0.95.5",
+    "pg": "^8.6.0",
+    "sanctuary": "^3.1.0"
+  }
+}

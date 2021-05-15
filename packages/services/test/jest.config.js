@@ -4,7 +4,7 @@ export default {
     "dotenv/config"
   ],
   "testMatch": [
-    "**/test/**/*.+(ts)"
+    "**/test/unit/**/*.+(ts)"
   ],
   "transform": {
     '^.+\\.(t|j)sx?$': ['@swc-node/jest'],

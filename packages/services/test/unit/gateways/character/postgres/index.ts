@@ -1,5 +1,5 @@
 import { createTable } from '../../../../../src/gateways/character/postgres/index.js';
-import { getConnection } from '../../../../../src/databases/postgres.js';
+import { getConnection } from '../../../../../src/services/databases/postgres.js';
 import { mock, getTracker } from 'mock-knex';
 import { expect } from 'chai';
 import { fork } from 'fluture';
