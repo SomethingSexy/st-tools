@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "fastify": "^3.15.1",
+    "fastify-cors": "^6.0.1",
     "fluture": "^14.0.0",
     "fluture-sanctuary-types": "^7.1.0",
     "joi": "^17.4.0",
