@@ -69,10 +69,16 @@ const insertAndReturnChronicle = (db)=>(c)=>attemptP(()=>{
             ]);
         })
 ;
-const findChronicle = (db)=>({ id , type  })=>attemptP(()=>{
+const findChronicleByReference = (db)=>({ id , type  })=>attemptP(()=>{
             return db.select(CHRONICLE_TABLE_ID).from(CHRONICLE_TABLE).where({
                 [CHRONICLE_TABLE_REFERENCE_ID]: id,
                 [CHRONICLE_TABLE_REFERENCE_TYPE]: type
+            });
+        })
+;
+const findChronicleById = (db)=>({ id  })=>attemptP(()=>{
+            return db.select(CHRONICLE_TABLE_ID).from(CHRONICLE_TABLE).where({
+                [CHRONICLE_TABLE_ID]: id
             });
         })
 ;
@@ -81,14 +87,15 @@ const findChronicle = (db)=>({ id , type  })=>attemptP(()=>{
  * @param db
  */ export const createChronicle = (db)=>(c)=>eitherToFuture(c).pipe(chain(createTable(db))).pipe(chain(insertAndReturnChronicle(db))).pipe(map(retrievedToEntity))
 ;
+const hasChronicleBy = (f)=>(db)=>(data)=>createTable(db)(data).pipe(chain((x)=>f(db)(x)
+            )).pipe(map((x)=>atLeastOne(x)
+            ))
+;
 /**
  * Determines if a chronicle already exists given the type and reference id.
  * @param db
- */ export const hasChronicleByReference = (db)=>(type)=>(id)=>createTable(db)({
-                type,
-                id
-            }).pipe(chain(findChronicle(db))).pipe(map(atLeastOne))
-;
+ */ export const hasChronicleByReference = hasChronicleBy(findChronicleByReference);
+export const hasChronicleById = hasChronicleBy(findChronicleById);
 const getChronicleBy = (by)=>(db)=>(id)=>createTable(db)(id).pipe(chain((id1)=>attemptP(()=>db.select([
                         CHRONICLE_TABLE_ID,
                         CHRONICLE_TABLE_REFERENCE_ID,
@@ -113,6 +120,8 @@ export const getChronicleById = getChronicleBy(CHRONICLE_TABLE_ID);
     return {
         create: createChronicle(db),
         existsByReference: hasChronicleByReference(db),
-        getChronicle: getChronicle(db)
+        existsById: hasChronicleById(db),
+        getChronicle: getChronicle(db),
+        getChronicleById: getChronicleById(db)
     };
 };

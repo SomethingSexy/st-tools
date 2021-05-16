@@ -1,10 +1,10 @@
 version: "3.8"
 
 services:
-  chroncile:
-    image: st-microservices/chronicle:${TAG:-latest}
+  bot:
+    image: st-microservices/bot:${TAG:-latest}
     build:
-      context: ./packages/chronicle
+      context: ./packages/bot
       dockerfile: Dockerfile
     environment:
       - LOG_LEVEL=${LOG_LEVEL}

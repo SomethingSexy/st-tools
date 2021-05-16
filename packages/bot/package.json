@@ -1,5 +1,5 @@
 {
-  "name": "@st/chronicle-service",
+  "name": "@st/bot-service",
   "version": "1.1.1",
   "private": true,
   "type": "module",

@@ -18,11 +18,11 @@ export const post = (url: string) => <R, T extends object>(b: T) => {
         body: JSON.stringify(b),
         headers: { 'Content-Type': 'application/json' },
       })
-      .then(r => {
+      .then(async r => {
         if (r.ok) {
           return r.json()
         } else {
-          return Promise.reject(r.statusText);
+          return Promise.reject(await r.text());
         }
       })
     })
