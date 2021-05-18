@@ -2,7 +2,6 @@
 import { chain, reject } from 'fluture';
 import type { ChronicleGateway } from '../gateways/chronicle/types';
 
-// TODO: This needs to check if the chronicle exists first
 export const getChronicle = (gateway: ChronicleGateway) => (id: string) =>
   gateway.existsById({ id }).pipe(
     chain((exists) => {

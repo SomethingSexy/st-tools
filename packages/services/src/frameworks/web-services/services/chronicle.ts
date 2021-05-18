@@ -4,6 +4,7 @@ import { createChronicle } from '../../../use-cases/create-chronicle.js';
 import type { ChronicleGateway } from '../../../gateways/chronicle/types';
 import type { CreateChronicleEntity } from '../../../entities/chronicle';
 import { getChronicle } from '../../../use-cases/get-chronicle.js';
+import { getChronicles } from '../../../use-cases/get-chronicles.js';
 
 const handleResult =
   (reply: FastifyReply) =>
@@ -29,4 +30,12 @@ const get = (gateway: ChronicleGateway): RouteOptions => ({
   }
 });
 
-export const services = [post, get];
+const getAll = (gateway: ChronicleGateway): RouteOptions => ({
+  method: 'GET',
+  url: '/chronicles',
+  handler: (request, reply) => {
+    handleResult(reply)(getChronicles(gateway)());
+  }
+});
+
+export const services = [post, get, getAll];

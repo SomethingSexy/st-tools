@@ -34,7 +34,7 @@
     "jest": "^26.6.3",
     "jest-ts-webcompat-resolver": "^1.0.0",
     "knex-db-manager": "^0.7.0",
-    "mock-knex": "https://github.com/mattleff/mock-knex/tree/support-0.95",
+    "mock-knex": "^0.4.10",
     "pg-escape": "^0.2.0",
     "prettier": "^2.3.0",
     "pretty-quick": "^3.1.0",
@@ -47,6 +47,7 @@
     "fluture-sanctuary-types": "^7.1.0",
     "joi": "^17.4.0",
     "knex": "^0.95.5",
+    "lodash-es": "^4.17.21",
     "pg": "^8.6.0",
     "sanctuary": "^3.1.0"
   }

@@ -13,10 +13,13 @@ export type ChronicleExistsById = (d: { id: string }) => FutureInstance<string, 
 
 export type GetChronicle = (id: string) => FutureInstance<string, Chronicle>;
 
+export type ListAllChronicles = () => FutureInstance<string, Chronicle[]>;
+
 export interface ChronicleGateway {
   create: CreateChronicle;
   existsByReference: ChronicleExistsByReference;
   existsById: ChronicleExistsById;
   getChronicle: GetChronicle;
   getChronicleById: GetChronicle;
+  list: ListAllChronicles;
 }

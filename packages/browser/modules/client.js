@@ -1,3 +1,4 @@
 import ReactDom from 'react-dom';
 import React from 'react';
-ReactDom.render(/*#__PURE__*/ React.createElement("div", null, "foo"), document.getElementById('app'));
+import { Application } from './Application';
+ReactDom.render(/*#__PURE__*/ React.createElement(Application, null), document.getElementById('app'));

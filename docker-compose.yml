@@ -32,6 +32,19 @@ services:
     depends_on:
       - db
 
+  browser:
+    image: cvetant/browser:${TAG:-latest}
+    build:
+      context: ./packages/browser
+      dockerfile: Dockerfile
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL}
+      - LOG_CONSOLE=${LOG_CONSOLE}
+    ports:
+      - 80:80
+    depends_on:
+      - services
+
   db:
     container_name: postgres
     image: postgres

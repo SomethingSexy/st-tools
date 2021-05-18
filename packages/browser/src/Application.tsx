@@ -33,7 +33,7 @@ export const Application = () => {
   return (
     <>
       <div>{state.state}</div>
-      <div>{state.data}</div>
+      <div>{JSON.stringify(state.data)}</div>
     </>
   )
 }
