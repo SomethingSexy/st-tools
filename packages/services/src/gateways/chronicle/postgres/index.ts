@@ -117,33 +117,13 @@ const findChronicleById =
         });
     });
 
-/**
- * Creates a new chronicle
- * @param db
- */
-export const createChronicle =
-  (db: Knex): CreateChronicle =>
-  (c) =>
-    eitherToFuture(c)
-      .pipe(chain(createTable(db)))
-      .pipe(chain(insertAndReturnChronicle(db)))
-      .pipe(map(retrievedToEntity));
-
 const hasChronicleBy =
   <T>(f: (db: Knex) => (data: T) => FutureInstance<string, Array<{ id: string }>>) =>
   (db: Knex) =>
   (data: T) =>
     createTable(db)(data)
-      .pipe(chain((x) => f(db)(x)))
-      .pipe(map((x) => atLeastOne(x)));
-
-/**
- * Determines if a chronicle already exists given the type and reference id.
- * @param db
- */
-export const hasChronicleByReference = hasChronicleBy(findChronicleByReference);
-
-export const hasChronicleById = hasChronicleBy(findChronicleById);
+      .pipe(chain(f(db)))
+      .pipe(map(atLeastOne));
 
 const getChronicleBy =
   (by: typeof searchFields[number]) =>
@@ -172,6 +152,26 @@ const getChronicleBy =
         )
       )
       .pipe(map(retrievedToEntity));
+
+/**
+ * Creates a new chronicle
+ * @param db
+ */
+export const createChronicle =
+  (db: Knex): CreateChronicle =>
+  (c) =>
+    eitherToFuture(c)
+      .pipe(chain(createTable(db)))
+      .pipe(chain(insertAndReturnChronicle(db)))
+      .pipe(map(retrievedToEntity));
+
+/**
+ * Determines if a chronicle already exists given the type and reference id.
+ * @param db
+ */
+export const hasChronicleByReference = hasChronicleBy(findChronicleByReference);
+
+export const hasChronicleById = hasChronicleBy(findChronicleById);
 
 export const getChronicle = getChronicleBy(CHRONICLE_TABLE_REFERENCE_ID);
 export const getChronicleById = getChronicleBy(CHRONICLE_TABLE_ID);

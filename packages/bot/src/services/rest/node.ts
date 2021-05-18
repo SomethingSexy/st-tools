@@ -1,4 +1,4 @@
-import { attemptP, chain, FutureInstance } from 'fluture';
+import { attemptP } from 'fluture';
 import fetch from 'node-fetch';
 import type { Rest } from './types';
 

@@ -6,7 +6,7 @@ import type { ChronicleGateway } from '../gateways/chronicle/types';
 export const getChronicle = (gateway: ChronicleGateway) => (id: string) =>
   gateway.existsById({ id }).pipe(
     chain((exists) => {
-      if (exists) {
+      if (!exists) {
         return reject(`Chronicle with id ${id} does not exists.`);
       }
       return gateway.getChronicleById(id);
