@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { fork, resolve } from 'fluture';
+import { fork, reject, resolve } from 'fluture';
 import { fake } from 'sinon';
 import { createChronicle } from '../../src/use-cases/create-chronicle.js';
 
@@ -42,16 +42,8 @@ test('should create a new one', (done) => {
 
 test('should return a failed state', (done) => {
   const existsFake = fake.returns(fake.returns(resolve(true)));
-  const createFake = fake.returns(
-    resolve({
-      id: 'foo',
-      name: 'Foo',
-      game: 'vtm',
-      referenceId: 'foo',
-      referenceType: 'discord',
-      version: 'v5'
-    })
-  );
+  const createFake = fake.returns(reject(('Chronicle with foo already exists.')));
+
   fork((x) => {
     expect(x).to.equal('Chronicle with foo already exists.');
     done();

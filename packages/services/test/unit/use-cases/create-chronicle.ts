@@ -4,7 +4,7 @@ import { fake } from 'sinon';
 import { createChronicle } from '../../../src/use-cases/create-chronicle.js';
 
 test('should create a new one', (done) => {
-  const existsFake = fake.returns(fake.returns(resolve(false)));
+  const existsFake = fake.returns(resolve(false));
   const createFake = fake.returns(
     resolve({
       id: 'foo',
@@ -28,8 +28,11 @@ test('should create a new one', (done) => {
   })(
     createChronicle({
       existsByReference: existsFake,
+      existsById: fake(),
       create: createFake,
-      getChronicle: fake()
+      getChronicle: fake(),
+      getChronicleById: fake(),
+      list: fake()
     })({
       name: 'Foo',
       game: 'vtm',
@@ -41,7 +44,7 @@ test('should create a new one', (done) => {
 });
 
 test('should return a failed state', (done) => {
-  const existsFake = fake.returns(fake.returns(resolve(true)));
+  const existsFake = fake.returns(resolve(true));
   const createFake = fake.returns(
     resolve({
       id: 'foo',
@@ -58,8 +61,11 @@ test('should return a failed state', (done) => {
   })(done)(
     createChronicle({
       existsByReference: existsFake,
+      existsById: fake(),
       create: createFake,
-      getChronicle: fake()
+      getChronicle: fake(),
+      getChronicleById: fake(),
+      list: fake()
     })({
       name: 'Foo',
       game: 'vtm',
