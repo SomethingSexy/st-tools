@@ -1,6 +1,6 @@
 {
   "name": "@st/browser-ui-service",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "description": "Browser based UI for st-tools.",
   "main": "index.js",
@@ -62,7 +62,9 @@
       "**/test/**/*.+(tsx)"
     ],
     "transform": {
-      "^.+\\.(t|j)sx?$": ["@swc-node/jest"]
+      "^.+\\.(t|j)sx?$": [
+        "@swc-node/jest"
+      ]
     }
   }
 }
