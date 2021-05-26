@@ -19,7 +19,7 @@
     "build": "lerna run build",
     "docker:build": "docker-compose build",
     "docker:up": "docker-compose up",
-    "release": "lerna exec --concurrency 1 -- npx --no-install -p @semantic-release/changelog -p @semantic-release/git -p semantic-release semantic-release -e semantic-release-monorepo",
+    "release": "lerna exec --concurrency 1 -- npx -p @semantic-release/changelog -p @semantic-release/git -p semantic-release semantic-release -e semantic-release-monorepo",
     "services:install": "lerna bootstrap",
     "test": "lerna run test"
   }
