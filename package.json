@@ -23,7 +23,7 @@
     "test": "lerna run test"
   },
   "release": {
-    "branch": "master",
+    "branches": "master",
     "extends": "semantic-release-monorepo",
     "plugins": [
       "@semantic-release/commit-analyzer",
