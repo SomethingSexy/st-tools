@@ -22,10 +22,8 @@ interface RetrievedChronicle {
  * Creates a new chronicle
  * @param db
  */
- export const createChronicle = (db: Rest): CreateChronicle => (c) =>
-  eitherToFuture(c)
-    .pipe(chain<string, CreateChronicleEntity, Chronicle>(db.post('http://services:5101/chronicles')))
-
+export const createChronicle = (db: Rest): CreateChronicle => (c) =>
+  eitherToFuture(c).pipe(chain<string, CreateChronicleEntity, Chronicle>(db.post('http://services:5101/chronicles')));
 
 /**
  * Complete gateway for accessing chronicle data from a postgres database

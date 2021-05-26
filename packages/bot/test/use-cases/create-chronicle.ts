@@ -42,7 +42,7 @@ test('should create a new one', (done) => {
 
 test('should return a failed state', (done) => {
   const existsFake = fake.returns(fake.returns(resolve(true)));
-  const createFake = fake.returns(reject(('Chronicle with foo already exists.')));
+  const createFake = fake.returns(reject('Chronicle with foo already exists.'));
 
   fork((x) => {
     expect(x).to.equal('Chronicle with foo already exists.');

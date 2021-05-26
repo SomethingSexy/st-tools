@@ -8,7 +8,6 @@ import type { CommandResult, Result } from './types';
 
 const prefix = '!';
 
-
 const sendResult = (message: Discord.Message) => (result: Result) => {
   if (isString(result)) {
     message.reply(result);
