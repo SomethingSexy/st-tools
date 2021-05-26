@@ -81,11 +81,13 @@
           "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
         }
       ],
-      ["@semantic-release/exec", {
-        "prepareCmd": "docker build -t cvetant/bot ."
-      }],
-      ["semantic-release-docker", {
-        "name": "cvetant/bot"
+      ["@codedependant/semantic-release-docker", {
+        "dockerImage": "bot",
+        "dockerProject": "cvetant",
+        "dockerArgs": {
+          "RELEASE_DATE": "{now}",
+          "RELEASE_VERSION": "{next.version}"
+        }
       }]
     ]
   },
