@@ -51,6 +51,29 @@
     "pg": "^8.6.0",
     "sanctuary": "^3.1.0"
   },
+  "release": {
+    "branches": "master",
+    "extends": "semantic-release-monorepo",
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "modules/**/*",
+            "package.json",
+            "package-lock.json",
+            "index.d.ts",
+            "CHANGELOG.md"
+          ],
+          "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ]
+    ]
+  },
   "jest": {
     "resolver": "jest-ts-webcompat-resolver",
     "testMatch": [

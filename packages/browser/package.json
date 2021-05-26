@@ -34,6 +34,29 @@
     "webpack": "^5.37.0",
     "webpack-cli": "^4.7.0"
   },
+  "release": {
+    "branches": "master",
+    "extends": "semantic-release-monorepo",
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "modules/**/*",
+            "package.json",
+            "package-lock.json",
+            "index.d.ts",
+            "CHANGELOG.md"
+          ],
+          "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ]
+    ]
+  },
   "jest": {
     "testMatch": [
       "**/test/**/*.+(tsx)"

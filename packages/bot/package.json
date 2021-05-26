@@ -65,7 +65,7 @@
     "exec": "cross-env TS_NODE_PROJECT='./tsconfig.dev.json' node -r esm -r ts-node/register/transpile-only -r dotenv/config ./src/server/index.ts"
   },
   "release": {
-    "branch": "master",
+    "branches": "master",
     "extends": "semantic-release-monorepo",
     "plugins": [
       "@semantic-release/commit-analyzer",
