@@ -16,7 +16,7 @@
     "pretty:check": "prettier --check './{src,test,tools}/**/*.{ts,tsx}'",
     "pretty:fix": "prettier --write './{src,test,tools}/**/*.{ts,tsx}'",
     "start": "node ./modules/index.js",
-    "test": "jest --config ./test/jest.config.js"
+    "test": "jest"
   },
   "author": "Tyler J Cvetan",
   "license": "MIT",
@@ -50,5 +50,17 @@
     "lodash-es": "^4.17.21",
     "pg": "^8.6.0",
     "sanctuary": "^3.1.0"
+  },
+  "jest": {
+    "resolver": "jest-ts-webcompat-resolver",
+    "setupFiles": [
+      "dotenv/config"
+    ],
+    "testMatch": [
+      "**/test/unit/**/*.+(ts)"
+    ],
+    "transform": {
+      "^.+\\.(t|j)sx?$": ["@swc-node/jest"]
+    }
   }
 }

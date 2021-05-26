@@ -10,7 +10,7 @@
     "lint:quiet": "eslint --ext .js,.ts ./src --quiet && eslint --ext .js,.ts ./test --quiet",
     "pretty:check": "prettier --check './{src,test,tools}/**/*.{ts,tsx}'",
     "pretty:fix": "prettier --write './{src,test,tools}/**/*.{ts,tsx}'",
-    "test": "jest --config ./test/jest.config.js",
+    "test": "jest",
     "start": "cross-env NODE_ENV=production npm run start:core",
     "start:core": "node -r dotenv/config ./modules/index.js"
   },
@@ -91,6 +91,18 @@
     "hooks": {
       "pre-commit": "pretty-quick --staged --pattern '{src,test,tools}/**/*.{ts,tsx}'",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "jest": {
+    "resolver": "jest-ts-webcompat-resolver",
+    "setupFiles": [
+      "dotenv/config"
+    ],
+    "testMatch": [
+      "**/test/**/*.+(ts)"
+    ],
+    "transform": {
+      "^.+\\.(t|j)sx?$": ["@swc-node/jest"]
     }
   }
 }
