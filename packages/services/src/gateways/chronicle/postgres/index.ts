@@ -1,4 +1,4 @@
-import { attemptP, chain, FutureInstance, map } from 'fluture';
+import { FutureInstance, attemptP, chain, map } from 'fluture';
 import { Knex } from 'knex';
 import type { Chronicle, CreateChronicleEntity } from '../../../entities/chronicle';
 import { atLeastOne, head } from '../../../utils/array.js';

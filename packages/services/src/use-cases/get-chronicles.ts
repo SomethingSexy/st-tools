@@ -1,6 +1,4 @@
-// This will need to be able to retrieve a chronicle by an external id or internal id
-import { chain, reject } from 'fluture';
-import type { ChronicleGateway } from '../gateways/chronicle/types';
+import type { Gateways } from '../gateways';
 
 // TODO: This should handle filtering, sorting, paging, etc
-export const getChronicles = (gateway: ChronicleGateway) => () => gateway.list();
+export const getChronicles = ({ chronicleGateway }: Gateways) => () => chronicleGateway.list();

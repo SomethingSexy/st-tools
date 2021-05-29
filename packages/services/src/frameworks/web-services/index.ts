@@ -1,6 +1,8 @@
 import fastify from 'fastify';
 import fastifyCors from 'fastify-cors';
+import { characterGateway } from '../../gateways/character/postgres/index.js';
 import { chronicleGateway } from '../../gateways/chronicle/postgres/index.js';
+import { gateways } from '../../gateways/index.js';
 import { getConnection } from '../../services/databases/postgres.js';
 import { services } from './services/index.js';
 
@@ -12,8 +14,8 @@ export const bootstrap = () => {
   app.register(fastifyCors);
 
   const connection = getConnection();
-  // TODO: Once we expand the gateways we will want to have a way to group them
-  const gateway = chronicleGateway(connection);
+
+  const gateway = gateways(connection);
 
   services.forEach((s) => app.route(s(gateway)));
 

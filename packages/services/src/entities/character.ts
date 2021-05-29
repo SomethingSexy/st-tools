@@ -74,7 +74,7 @@ export const Validation = object({
   splat: string().valid('vampire', 'human').required()
 });
 
-export type CreateCharacterEntity = Pick<Vampire | Human, 'name' | 'splat'>;
+export type CreateCharacterEntity = Pick<Vampire | Human, 'name' | 'splat' | 'chronicleId'>;
 
 export const makeCreateCharacterEntity =
   (schema: ObjectSchema) =>

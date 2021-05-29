@@ -94,4 +94,6 @@ export const createCharacter =
       .pipe(chain(insertAndReturnCharacter(db)))
       .pipe(map(retrievedToEntity));
 
-export const characterGateway = (db: Knex) => ({});
+export const characterGateway = (db: Knex) => ({
+  create: createCharacter(db)
+});

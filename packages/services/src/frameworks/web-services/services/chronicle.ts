@@ -1,18 +1,13 @@
-import { FastifyReply, RouteOptions } from 'fastify';
-import { FutureInstance, fork } from 'fluture';
+import { RouteOptions } from 'fastify';
 import { createChronicle } from '../../../use-cases/create-chronicle.js';
 import type { ChronicleGateway } from '../../../gateways/chronicle/types';
 import type { CreateChronicleEntity } from '../../../entities/chronicle';
 import { getChronicle } from '../../../use-cases/get-chronicle.js';
 import { getChronicles } from '../../../use-cases/get-chronicles.js';
+import { handleResult } from '../utils/response.js';
+import { Gateways } from '../../../gateways/index.js';
 
-const handleResult =
-  (reply: FastifyReply) =>
-  <L, R>(result: FutureInstance<L, R>) => {
-    fork((e) => reply.status(400).send(e))((r) => reply.status(200).send(r))(result);
-  };
-
-const post = (gateway: ChronicleGateway): RouteOptions => ({
+const post = (gateway: Gateways): RouteOptions => ({
   method: 'POST',
   url: '/chronicles',
   handler: (request, reply) => {
@@ -21,7 +16,7 @@ const post = (gateway: ChronicleGateway): RouteOptions => ({
   }
 });
 
-const get = (gateway: ChronicleGateway): RouteOptions => ({
+const get = (gateway: Gateways): RouteOptions => ({
   method: 'GET',
   url: '/chronicles/:id',
   handler: (request, reply) => {
@@ -30,7 +25,7 @@ const get = (gateway: ChronicleGateway): RouteOptions => ({
   }
 });
 
-const getAll = (gateway: ChronicleGateway): RouteOptions => ({
+const getAll = (gateway: Gateways): RouteOptions => ({
   method: 'GET',
   url: '/chronicles',
   handler: (request, reply) => {

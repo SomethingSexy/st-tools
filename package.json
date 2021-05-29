@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "dotenv": "^8.2.0",
-    "esm": "^3.2.25",
     "glob": "^7.1.6",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.2"
@@ -19,6 +18,8 @@
     "build": "lerna run build",
     "docker:build": "docker-compose build",
     "docker:up": "docker-compose up",
+    "lint:fix": "lerna run lint:fix",
+    "pretty:fix": "lerna run pretty:fix",
     "release": "lerna exec --concurrency 1 -- npx -p @semantic-release/changelog -p @semantic-release/git -p semantic-release-monorepo -p @codedependant/semantic-release-docker -p semantic-release semantic-release -e semantic-release-monorepo",
     "services:install": "lerna bootstrap",
     "test": "lerna run test"
