@@ -1,3 +1,10 @@
+# [@st/bot-service-v1.0.1](https://github.com/SomethingSexy/st-tools/compare/@st/bot-service-v1.0.0...@st/bot-service-v1.0.1) (2021-05-26)
+
+
+### Bug Fixes
+
+* styling for docker test ([105bc5a](https://github.com/SomethingSexy/st-tools/commit/105bc5a3d18aded7a0342a6d5bd0fffd351eaa4e))
+
 # @st/bot-service-v1.0.0 (2021-05-26)
 
 

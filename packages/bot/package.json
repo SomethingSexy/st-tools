@@ -1,6 +1,6 @@
 {
   "name": "@st/bot-service",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "type": "module",
   "scripts": {
@@ -81,14 +81,17 @@
           "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
         }
       ],
-      ["@codedependant/semantic-release-docker", {
-        "dockerImage": "bot",
-        "dockerProject": "cvetant",
-        "dockerArgs": {
-          "RELEASE_DATE": "{now}",
-          "RELEASE_VERSION": "{next.version}"
+      [
+        "@codedependant/semantic-release-docker",
+        {
+          "dockerImage": "bot",
+          "dockerProject": "cvetant",
+          "dockerArgs": {
+            "RELEASE_DATE": "{now}",
+            "RELEASE_VERSION": "{next.version}"
+          }
         }
-      }]
+      ]
     ]
   },
   "husky": {
