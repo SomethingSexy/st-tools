@@ -1,3 +1,10 @@
+# [@st/services-service-v1.1.1](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.1.0...@st/services-service-v1.1.1) (2021-05-29)
+
+
+### Bug Fixes
+
+* character validation failing because of bad import ([2e86b9f](https://github.com/SomethingSexy/st-tools/commit/2e86b9faf7cb21a93acb3164434da64770ce74c8))
+
 # [@st/services-service-v1.1.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.0.0...@st/services-service-v1.1.0) (2021-05-29)
 
 
