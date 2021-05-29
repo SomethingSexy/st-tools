@@ -27,12 +27,14 @@ test('should create a new one', (done) => {
     done();
   })(
     createChronicle({
-      existsByReference: existsFake,
-      existsById: fake(),
-      create: createFake,
-      getChronicle: fake(),
-      getChronicleById: fake(),
-      list: fake()
+      chronicleGateway: {
+        existsByReference: existsFake,
+        existsById: fake(),
+        create: createFake,
+        getChronicle: fake(),
+        getChronicleById: fake(),
+        list: fake()
+      }
     })({
       name: 'Foo',
       game: 'vtm',
@@ -60,12 +62,14 @@ test('should return a failed state', (done) => {
     done();
   })(done)(
     createChronicle({
-      existsByReference: existsFake,
-      existsById: fake(),
-      create: createFake,
-      getChronicle: fake(),
-      getChronicleById: fake(),
-      list: fake()
+      chronicleGateway: {
+        existsByReference: existsFake,
+        existsById: fake(),
+        create: createFake,
+        getChronicle: fake(),
+        getChronicleById: fake(),
+        list: fake()
+      }
     })({
       name: 'Foo',
       game: 'vtm',
