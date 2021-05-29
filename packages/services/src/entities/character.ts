@@ -1,8 +1,7 @@
-import hapi, { ObjectSchema } from 'joi';
+import Hapi, { ObjectSchema } from 'joi';
 import S from 'sanctuary';
 import type { Either } from '../utils/sanctuary';
 
-const { object, string } = hapi;
 export interface IAttribute {
   name: string;
   value: 0 | 1 | 2 | 3 | 4 | 5;
@@ -66,12 +65,12 @@ export type Character = Vampire | Human;
 
 // This is only what is required to create, we will probably want another validation
 // for locking a character in?
-export const Validation = object({
-  name: string().required(),
-  concept: string(),
-  ambition: string(),
-  desire: string(),
-  splat: string().valid('vampire', 'human').required()
+export const Validation = Hapi.object({
+  name: Hapi.string().required(),
+  concept: Hapi.string(),
+  ambition: Hapi.string(),
+  desire: Hapi.string(),
+  splat: Hapi.string().valid('vampire', 'human').required()
 });
 
 export type CreateCharacterEntity = Pick<Vampire | Human, 'name' | 'splat' | 'chronicleId'>;

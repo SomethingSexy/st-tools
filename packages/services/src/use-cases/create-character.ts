@@ -1,6 +1,5 @@
 import { chain, reject } from 'fluture';
 import { CreateCharacterEntity, createCharacterEntity } from '../entities/character.js';
-import type { ChronicleGateway } from '../gateways/chronicle/types';
 import { Gateways } from '../gateways/index.js';
 
 export const createCharacter =
