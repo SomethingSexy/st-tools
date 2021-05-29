@@ -1,3 +1,10 @@
+# [@st/services-service-v1.1.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.0.0...@st/services-service-v1.1.0) (2021-05-29)
+
+
+### Features
+
+* adding character service ([bea233d](https://github.com/SomethingSexy/st-tools/commit/bea233dfd1962cdd4036a4478ee9bf722ad240f9))
+
 # @st/services-service-v1.0.0 (2021-05-26)
 
 
