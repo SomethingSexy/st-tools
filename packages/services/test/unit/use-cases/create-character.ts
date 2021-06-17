@@ -30,11 +30,11 @@ test('should create a new one', (done) => {
         getChronicle: fake(),
         getChronicleById: fake(),
         list: fake()
-      }, characterGateway: {
+      },
+      characterGateway: {
         create: createFake
       }
-    }
-      )({
+    })({
       name: 'Foo',
       splat: 'human',
       chronicleId: 'bar'

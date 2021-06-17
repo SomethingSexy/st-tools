@@ -86,3 +86,25 @@ export const makeCreateCharacterEntity =
  * Creates a Character entity.  A character is any player or non-player character in the game.
  */
 export const createCharacterEntity = makeCreateCharacterEntity(Validation);
+
+export const UpdateValidation = Hapi.object({
+  id: Hapi.string().required(),
+  // If name is being changed it needs to have some value
+  name: Hapi.string().min(1),
+  concept: Hapi.string(),
+  ambition: Hapi.string(),
+  desire: Hapi.string(),
+  splat: Hapi.string().valid('vampire', 'human').min(1)
+});
+
+export type UpdateCharacterEntity = Partial<Character> & { id: string };
+
+// TODO: We could probably combine this function and makeCreateCharacterEntity
+export const makeUpdateCharacterEntity =
+  (schema: ObjectSchema) =>
+  (c: UpdateCharacterEntity): Either<string, UpdateCharacterEntity> => {
+    const { error, value } = schema.validate(c);
+    return error ? S.Left(error.message) : S.Right(value);
+  };
+
+export const updateCharacterEntity = makeUpdateCharacterEntity(UpdateValidation);
