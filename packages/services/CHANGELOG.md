@@ -1,3 +1,10 @@
+# [@st/services-service-v1.2.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.1.1...@st/services-service-v1.2.0) (2021-06-17)
+
+
+### Features
+
+* starting service for updating characters ([f972d73](https://github.com/SomethingSexy/st-tools/commit/f972d738f7f6787c49a903acdb2e5fd212e5e23c))
+
 # [@st/services-service-v1.1.1](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.1.0...@st/services-service-v1.1.1) (2021-05-29)
 
 
