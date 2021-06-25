@@ -1,5 +1,6 @@
 import Hapi, { ObjectSchema } from 'joi';
 import { Either, S } from '../utils/sanctuary.js';
+import type { ReferenceTypes } from './constants.js';
 
 // const { alternatives, object, string, number } = hapi;
 
@@ -9,7 +10,7 @@ export interface Chronicle {
   id: string;
   referenceId: string;
   // We only support discord for now
-  referenceType: 'discord';
+  referenceType: ReferenceTypes;
   // We only support vtm and v5 for now
   game: 'vtm';
   version: 'v5';

@@ -4,12 +4,12 @@ import { Gateways } from '../gateways/index.js';
 
 export const createCharacter =
   ({ characterGateway, chronicleGateway }: Gateways) =>
-  ({ name, chronicleId, splat }: CreateCharacterEntity) =>
+  ({ name, chronicleId, splat, referenceType }: CreateCharacterEntity) =>
     chronicleGateway.existsById({ id: chronicleId }).pipe(
       chain((exists) => {
-        if (exists) {
+        if (!exists) {
           return reject(`Chronicle with ${chronicleId} does not exist.`);
         }
-        return characterGateway.create(createCharacterEntity({ name, chronicleId, splat }));
+        return characterGateway.create(createCharacterEntity({ name, chronicleId, splat, referenceType }));
       })
     );

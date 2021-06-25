@@ -1,17 +1,21 @@
 import { RouteOptions } from 'fastify';
-import { CreateCharacterEntity } from '../../../entities/character';
-import { Gateways } from '../../../gateways';
-import { createCharacter } from '../../../use-cases/create-character';
-import { handleResult } from '../utils/response';
+import { CreateCharacterEntity, UpdateCharacterEntity } from '../../../entities/character.js';
+import type { Gateways } from '../../../gateways';
+import { createCharacter } from '../../../use-cases/create-character.js';
+import { updateCharacter } from '../../../use-cases/update-character.js';
+import { handleResult } from '../utils/response.js';
 
 /**
- * Creates a new character
+ * Creates a new character, this should be a character that is
+ * not tied to a chronicle.  Could be someone creating a generic NPC
+ * or characters that could be used in multiple chronicles.
+ * 
  * @param gateway
  * @returns
  */
 export const post = (gateway: Gateways): RouteOptions => ({
   method: 'POST',
-  url: 'characters',
+  url: '/characters',
   handler: (request, reply) => {
     const body = request.body as CreateCharacterEntity;
     handleResult(reply)(createCharacter(gateway)(body));
@@ -27,11 +31,17 @@ export const post = (gateway: Gateways): RouteOptions => ({
  */
 export const patch = (gateway: Gateways): RouteOptions => ({
   method: 'PATCH',
-  url: 'characters/:id',
+  url: '/characters/:id',
   handler: (request, reply) => {
     const { id } = request.params as { id: string };
-    const body = request.body;
+    const body = request.body as UpdateCharacterEntity;
+    handleResult(reply)(
+      updateCharacter(gateway)({
+        ...body,
+        id
+      })
+    );
   }
 });
 
-export const services = [post];
+export const services = [post, patch];

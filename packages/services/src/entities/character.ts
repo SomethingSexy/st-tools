@@ -1,6 +1,7 @@
 import Hapi, { ObjectSchema } from 'joi';
 import S from 'sanctuary';
 import type { Either } from '../utils/sanctuary';
+import type { ReferenceTypes } from './constants';
 
 export interface IAttribute {
   name: string;
@@ -37,6 +38,9 @@ export type Splat = 'vampire' | 'human';
 
 export interface ICharacter<Characteristics extends ICharacteristics, Stats extends IStats> {
   id: string;
+  referenceId?: string;
+  // We only support discord for now
+  referenceType: ReferenceTypes;
   chronicleId: string;
   name: string;
   concept: string;
@@ -66,14 +70,19 @@ export type Character = Vampire | Human;
 // This is only what is required to create, we will probably want another validation
 // for locking a character in?
 export const Validation = Hapi.object({
+  referenceId: Hapi.string(),
+  // TODO: I am not actually sure this should be required...
+  referenceType: Hapi.string().required(),
   name: Hapi.string().required(),
   concept: Hapi.string(),
   ambition: Hapi.string(),
   desire: Hapi.string(),
-  splat: Hapi.string().valid('vampire', 'human').required()
+  splat: Hapi.string().valid('vampire', 'human').required(),
+  // For now this is required but this might not be later
+  chronicleId: Hapi.string().required()
 });
 
-export type CreateCharacterEntity = Pick<Vampire | Human, 'name' | 'splat' | 'chronicleId'>;
+export type CreateCharacterEntity = Pick<Vampire | Human, 'name' | 'splat' | 'chronicleId' | 'referenceType'>;
 
 export const makeCreateCharacterEntity =
   (schema: ObjectSchema) =>
@@ -94,6 +103,8 @@ export const UpdateValidation = Hapi.object({
   concept: Hapi.string(),
   ambition: Hapi.string(),
   desire: Hapi.string(),
+  // if splat is being changed, it needs to have some value
+  // TODO: maybe it doesn't make sense to allow this to be changed
   splat: Hapi.string().valid('vampire', 'human').min(1)
 });
 

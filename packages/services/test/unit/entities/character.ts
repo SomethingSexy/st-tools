@@ -27,6 +27,7 @@ test('should create a valid task', () => {
 });
 
 test('should create an invalid task', () => {
+  // if you include name and it is invalid fail
   expect(
     S.fromLeft('fail')(
       updateCharacterEntity({
