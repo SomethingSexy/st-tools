@@ -44,7 +44,7 @@ const mapRetrievedToEntity = (chronicle: RetrievedCharacter): Character =>
         referenceId: chronicle.referenceId,
         referenceType: chronicle.referenceType,
         name: chronicle.name,
-        chronicleId: chronicle.chronicleId,
+        chronicleId: chronicle[CHARACTER_CHRONICLE_ID],
         concept: chronicle.concept,
         ambition: chronicle.ambition,
         desire: chronicle.desire,
@@ -136,7 +136,7 @@ const findAllCharacters = (db: Knex) => ({ chronicleId }: { chronicleId: string 
   return attemptP<string, RetrievedCharacter[]>(() => {
     return db(CHARACTER_TABLE)
       .where({ [CHARACTER_CHRONICLE_ID]: chronicleId })
-      .returning([CHARACTER_TABLE_ID, CHARACTER_TABLE_NAME, CHARACTER_TABLE_SPLAT, CREATED_AT, MODIFIED_AT]);
+      .returning([CHARACTER_TABLE_ID, CHARACTER_TABLE_NAME, CHARACTER_TABLE_SPLAT, CREATED_AT, MODIFIED_AT, CHARACTER_CHRONICLE_ID]);
   });
 }
 
