@@ -61,23 +61,41 @@ export interface GameRace {
 
 export type Races = GameRace[];
 
-/**
- * A character could filter attributes, skills, and powers and the race
- * of a character could further filter those down
- */
+// This would be class in d&d or a clan in vtm, probably include thin-blood as a class
+export interface GameClass {
+  allowedSkills: [{
+    // allow a category of skills
+    category?: string
+    // or it could be by skill itself
+    skill?: string
+  }]
+  allowedAttributes: [{
+    category?: string;
+    attribute?: string;
+  }],
+  allowedPowers: [{
+    // Can they add this upon character creation
+    allowedOnCreation: boolean;
+    // Can this specific race get this power later?
+    earned: boolean
+    category?: string;
+    power?: string;
+  }]
+}
+
+export type Classes = GameClass[];
+
 export interface GameCharacter {
-  // Attributes available for this character type
   attributes: [{
 
   }],
-  // Skills available for this character type
   skills: [{
 
   }]
 }
 
 export interface GameConfig {
-  character: GameCharacter[];
+  classes: Classes;
   skills: GameSkill[];
   attributes: GameAttribute[]
   races: Races;
