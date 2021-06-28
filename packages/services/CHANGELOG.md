@@ -1,3 +1,10 @@
+# [@st/services-service-v1.4.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.3.0...@st/services-service-v1.4.0) (2021-06-28)
+
+
+### Features
+
+* separating character races from classes...duh ([856013b](https://github.com/SomethingSexy/st-tools/commit/856013bcfb08208bb5dce3442b8f65a225baea4b))
+
 # [@st/services-service-v1.3.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.2.0...@st/services-service-v1.3.0) (2021-06-28)
 
 
