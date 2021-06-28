@@ -1,3 +1,11 @@
+# [@st/services-service-v1.3.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.2.0...@st/services-service-v1.3.0) (2021-06-28)
+
+
+### Features
+
+* adding ability to create characters ([15cce41](https://github.com/SomethingSexy/st-tools/commit/15cce41c3bab4709b56f4099a931b143942424c9))
+* character work and start of game config ([ccf45da](https://github.com/SomethingSexy/st-tools/commit/ccf45da0b26e00066f307ba420019910f9f44e86))
+
 # [@st/services-service-v1.2.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.1.1...@st/services-service-v1.2.0) (2021-06-17)
 
 
