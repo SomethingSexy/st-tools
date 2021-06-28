@@ -1,3 +1,10 @@
+# [@st/bot-service-v1.1.0](https://github.com/SomethingSexy/st-tools/compare/@st/bot-service-v1.0.1...@st/bot-service-v1.1.0) (2021-06-28)
+
+
+### Features
+
+* character work and start of game config ([ccf45da](https://github.com/SomethingSexy/st-tools/commit/ccf45da0b26e00066f307ba420019910f9f44e86))
+
 # [@st/bot-service-v1.0.1](https://github.com/SomethingSexy/st-tools/compare/@st/bot-service-v1.0.0...@st/bot-service-v1.0.1) (2021-05-26)
 
 
