@@ -1,2 +1,2 @@
-import { bootstrap as bootstrapServices } from './modules/web-services/index.js';
+import { bootstrap as bootstrapServices } from './frameworks/web-services/index.js';
 bootstrapServices();

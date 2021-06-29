@@ -8,11 +8,11 @@ import { ReferenceTypes } from '../../entities/constants';
  */
 export type CreateChronicle = (c: Either<string, CreateChronicleEntity>) => FutureInstance<string, Chronicle>;
 
-export type ChronicleExistsByReference = (d: { id: string; type: ReferenceTypes}) => FutureInstance<string, boolean>;
+export type ChronicleExistsByReference = (d: { id: string; type: ReferenceTypes }) => FutureInstance<string, boolean>;
 
 export type ChronicleExistsById = (d: { id: string }) => FutureInstance<string, boolean>;
 
-export type ChronicleExists = (d: { id?: string; type?: ReferenceTypes}) => FutureInstance<string, boolean>;
+export type ChronicleExists = (d: { id?: string; type?: ReferenceTypes }) => FutureInstance<string, boolean>;
 
 export type GetChronicle = (d: { [key: string]: string }) => FutureInstance<string, Chronicle>;
 

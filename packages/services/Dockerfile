@@ -15,6 +15,8 @@ USER app
 
 COPY --chown=app package.json package-lock.json /opt/st/
 COPY --chown=app ./src /opt/st/src
+COPY --chown=app ./migrations /opt/st/migrations
+COPY --chown=app ./knexfile.js /opt/st/knexfile.js
 COPY --chown=app ./.swcrc /opt/st/.swcrc
 # add back when we are building for a true prod docker image
 # COPY --chown=app ./node_modules /opt/st/node_modules

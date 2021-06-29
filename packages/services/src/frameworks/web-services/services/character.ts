@@ -9,7 +9,7 @@ import { handleResult } from '../utils/response.js';
  * Creates a new character, this should be a character that is
  * not tied to a chronicle.  Could be someone creating a generic NPC
  * or characters that could be used in multiple chronicles.
- * 
+ *
  * @param gateway
  * @returns
  */

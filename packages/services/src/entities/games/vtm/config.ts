@@ -8,35 +8,42 @@ export const config = {
       min: 0,
       max: 5,
       categories: [{}],
-      available: [{
-        name: '',
-        description: ''
-      }]
+      available: [
+        {
+          name: '',
+          description: ''
+        }
+      ]
     },
     skills: {
       min: 0,
       max: 5,
       // These would be how you would organize all skills
       categories: [{}],
-      available: [{
-        name: '',
-        description: '',
-        specialty: ''
-      }]
+      available: [
+        {
+          name: '',
+          description: '',
+          specialty: ''
+        }
+      ]
     },
-    // disciplines 
+    // disciplines
     // these will get broken down into categories
     powers: {},
     characteristics: {},
     // These would be consider clans
-    races: [{
-      name: 'Ventrue',
-      description: '',
-      allowedSkills: [{
-        category: '',
-        // or it could be by skill itself
-      }]
-    }]
+    races: [
+      {
+        name: 'Ventrue',
+        description: '',
+        allowedSkills: [
+          {
+            category: ''
+            // or it could be by skill itself
+          }
+        ]
+      }
+    ]
   }
-
-}
+};

@@ -1,3 +1,2 @@
-export const compose = (fn1, ...fns)=>fns.reduceRight((prevFn, nextFn)=>(value)=>prevFn(nextFn(value))
-    , fn1)
-;
+import { flowRight } from 'lodash-es';
+export const compose = flowRight;

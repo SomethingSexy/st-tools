@@ -49,7 +49,7 @@ const getAllCharacters = (gateway: Gateways): RouteOptions => ({
   method: 'GET',
   url: '/chronicles/:id/characters',
   handler: (request, reply) => {
-    const { id } = request.params as { id: string; };
+    const { id } = request.params as { id: string };
     handleResult(reply)(getCharacters(gateway)({ chronicleId: id }));
   }
 });
@@ -60,12 +60,14 @@ const createChronicleCharacter = (gateway: Gateways): RouteOptions => ({
   url: '/chronicles/:id/characters',
   handler: (request, reply) => {
     const body = request.body as CreateCharacterEntity;
-    const { id } = request.params as { id: string; };
-    handleResult(reply)(createCharacter(gateway)({
-      ...body,
-      chronicleId: id
-    }));
+    const { id } = request.params as { id: string };
+    handleResult(reply)(
+      createCharacter(gateway)({
+        ...body,
+        chronicleId: id
+      })
+    );
   }
-})
+});
 
 export const services = [post, get, getAll, getByReference, getAllCharacters, createChronicleCharacter];

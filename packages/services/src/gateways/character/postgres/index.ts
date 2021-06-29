@@ -9,10 +9,10 @@ import { eitherToFuture } from '../../../utils/sanctuary.js';
 import { CREATED_AT, MODIFIED_AT, TABLE_ID } from '../../constants.js';
 import type { CharacterGateway, CreateCharacter, GetCharacter, UpdateCharacter } from '../types';
 
-const CHARACTER_TABLE_NAME = 'name';
-const CHARACTER_TABLE_SPLAT = 'splat';
-const CHARACTER_TABLE = 'character';
-const CHARACTER_CHRONICLE_ID = 'chronicle_id';
+export const CHARACTER_TABLE_NAME = 'name';
+export const CHARACTER_TABLE_SPLAT = 'splat';
+export const CHARACTER_TABLE = 'character';
+export const CHARACTER_CHRONICLE_ID = 'chronicle_id';
 export const CHARACTER_TABLE_REFERENCE_ID = 'referenceId';
 export const CHARACTER_TABLE_REFERENCE_TYPE = 'referenceType';
 export const CHARACTER_TABLE_ID = TABLE_ID;
@@ -65,45 +65,6 @@ const mapAllRetrieved = mapAll(mapRetrievedToEntity);
 
 const retrievedToEntity: (chronicle: RetrievedCharacter[]) => Character = compose(mapRetrievedToEntity, head);
 
-// TODO: Long term this is probably not a good idea, having to do this for every single request.
-export const createTable =
-  (db: Knex) =>
-  <T>(data: T) =>
-    attemptP<string, T>(() => {
-      return db.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"').then(async () => {
-        const exists = await db.schema.hasTable(CHARACTER_TABLE);
-        if (!exists) {
-          await db.schema.createTable(CHARACTER_TABLE, (table) => {
-            table.uuid(CHARACTER_TABLE_ID).unique().defaultTo(db.raw('uuid_generate_v4()'));
-            // Reference ID can be null, the only time we will have an id is for player
-            // characters created via apps like discord
-            table.string(CHARACTER_TABLE_REFERENCE_ID);
-            // Reference Type should never be null
-            table.string(CHARACTER_TABLE_REFERENCE_TYPE).notNullable();
-            // table.foreign(CHARACTER_CHRONICLE_ID).references('chronicle.id');
-            table
-              .uuid(CHARACTER_CHRONICLE_ID)
-              .notNullable()
-              .references('id')
-              .inTable("chronicle")
-              .onDelete('CASCADE');
-            table.string('name');
-            table.text('concept');
-            table.text('ambition');
-            table.text('desire');
-            table.string('splat');
-            // This will hold all splat specific data
-            table.jsonb('characteristics');
-            table.jsonb('attributes');
-            table.jsonb('skills');
-            table.jsonb('stats');
-            table.timestamps();
-          });
-        }
-        return data;
-      });
-    });
-
 const insertAndReturnCharacter = (db: Knex) => (c: CreateCharacterEntity) => {
   return attemptP<string, RetrievedCharacter[]>(() => {
     const now = db.fn.now();
@@ -132,13 +93,22 @@ const updateAndReturnCharacter = (db: Knex) => (c: UpdateCharacterEntity) => {
   });
 };
 
-const findAllCharacters = (db: Knex) => ({ chronicleId }: { chronicleId: string }) => {
-  return attemptP<string, RetrievedCharacter[]>(() => {
-    return db(CHARACTER_TABLE)
-      .where({ [CHARACTER_CHRONICLE_ID]: chronicleId })
-      .returning([CHARACTER_TABLE_ID, CHARACTER_TABLE_NAME, CHARACTER_TABLE_SPLAT, CREATED_AT, MODIFIED_AT, CHARACTER_CHRONICLE_ID]);
-  });
-}
+const findAllCharacters =
+  (db: Knex) =>
+  ({ chronicleId }: { chronicleId: string }) => {
+    return attemptP<string, RetrievedCharacter[]>(() => {
+      return db(CHARACTER_TABLE)
+        .where({ [CHARACTER_CHRONICLE_ID]: chronicleId })
+        .returning([
+          CHARACTER_TABLE_ID,
+          CHARACTER_TABLE_NAME,
+          CHARACTER_TABLE_SPLAT,
+          CREATED_AT,
+          MODIFIED_AT,
+          CHARACTER_CHRONICLE_ID
+        ]);
+    });
+  };
 
 const findCharacterById =
   (db: Knex) =>
@@ -156,35 +126,28 @@ const hasCharacterBy =
   <T>(f: (db: Knex) => (data: T) => FutureInstance<string, Array<{ id: string }>>) =>
   (db: Knex) =>
   (data: T) =>
-    createTable(db)(data)
-      .pipe(chain(f(db)))
-      .pipe(map(atLeastOne));
+    f(db)(data).pipe(map(atLeastOne));
 
 const getCharacterBy =
   (by: typeof searchFields[number]) =>
   (db: Knex): GetCharacter =>
   (id) =>
-    createTable(db)(id)
-      .pipe(
-        chain((id) =>
-          attemptP<string, RetrievedCharacter[]>(() =>
-            db
-              .select([
-                CHARACTER_TABLE_ID,
-                CHARACTER_TABLE_REFERENCE_ID,
-                CHARACTER_TABLE_REFERENCE_TYPE,
-                CHARACTER_TABLE_NAME,
-                CHARACTER_TABLE_SPLAT,
-                CREATED_AT,
-                MODIFIED_AT
-              ])
-              .from(CHARACTER_TABLE)
-              .where({
-                [by]: id
-              })
-          )
-        )
-      )
+    attemptP<string, RetrievedCharacter[]>(() =>
+      db
+        .select([
+          CHARACTER_TABLE_ID,
+          CHARACTER_TABLE_REFERENCE_ID,
+          CHARACTER_TABLE_REFERENCE_TYPE,
+          CHARACTER_TABLE_NAME,
+          CHARACTER_TABLE_SPLAT,
+          CREATED_AT,
+          MODIFIED_AT
+        ])
+        .from(CHARACTER_TABLE)
+        .where({
+          [by]: id
+        })
+    )
       .pipe(map(retrievedToEntity))
       .pipe(chain((x) => (x === null ? reject('Character not found.') : resolve(x))));
 
@@ -197,7 +160,6 @@ export const createCharacter =
   (db: Knex): CreateCharacter =>
   (c) =>
     eitherToFuture(c)
-      .pipe(chain(createTable(db)))
       .pipe(chain(insertAndReturnCharacter(db)))
       .pipe(map(retrievedToEntity));
 
@@ -205,21 +167,18 @@ export const updateCharacter =
   (db: Knex): UpdateCharacter =>
   (c) =>
     eitherToFuture(c)
-      .pipe(chain(createTable(db)))
       .pipe(chain(updateAndReturnCharacter(db)))
       .pipe(map(retrievedToEntity));
 
 /**
- * Retrieves all characters for a given chronicle.  This can be updated in the future to 
+ * Retrieves all characters for a given chronicle.  This can be updated in the future to
  * support filtering, paging, and sorting.
- * @param db 
- * @returns 
+ * @param db
+ * @returns
  */
-export const getCharacters = (db: Knex) => (data: { chronicleId: string}) => {
-  return createTable(db)(data)
-    .pipe(chain(findAllCharacters(db)))
-    .pipe(map(mapAllRetrieved))
-}
+export const getCharacters = (db: Knex) => (data: { chronicleId: string }) => {
+  return findAllCharacters(db)(data).pipe(map(mapAllRetrieved));
+};
 
 export const characterGateway = (db: Knex): CharacterGateway => ({
   create: createCharacter(db),
