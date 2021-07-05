@@ -20,7 +20,7 @@ services:
     build:
       context: ./packages/services
       dockerfile: Dockerfile
-    command: sh -c 'npm run db'
+    command: sh -c 'npm run db && npm start'
     environment:
       - LOG_LEVEL=${LOG_LEVEL}
       - LOG_CONSOLE=${LOG_CONSOLE}

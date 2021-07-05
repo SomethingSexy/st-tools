@@ -1,62 +1,65 @@
-import { createCharacter, createTable, updateCharacter } from '../../../../../src/gateways/character/postgres/index.js';
-import { getConnection } from '../../../../../src/services/databases/postgres.js';
+import { createCharacter, updateCharacter } from '../../../../../src/gateways/character/postgres/index.js';
 import { expect } from 'chai';
 import { fork } from 'fluture';
-import { mock } from 'mock-knex';
-// import { S } from '../../../../../src/utils/sanctuary.js';
-// import knex from 'knex';
-// import { getTracker, MockClient, Tracker } from 'knex-mock-client';
+import { DataType, IMemoryDb, newDb } from 'pg-mem';
+import { S } from '../../../../../src/utils/sanctuary';
+import { up as upCharacter } from '../../../../../migrations/20210628160543_create_characters_table';
+import { up as upChronicle } from '../../../../../migrations/20210628160534_create_chronicles_table';
+import { beforeEach } from '@jest/globals';
+import { Knex } from 'knex';
+import { createChronicle } from '../../../../../src/gateways/chronicle/postgres/index.js';
+import { v4 } from 'uuid';
 
-const connection = getConnection();
-mock(connection);
+let knex: Knex;
 
-// const connection = knex({
-//   client: MockClient
-// })
+beforeEach(async () => {
+  const database = newDb();
 
-// TODO: Need to figure out tracker, for some reason it stops all queries from running
-// let tracker: Tracker;
+  database.registerExtension('uuid-ossp', (schema) => {
+    schema.registerFunction({
+      name: 'uuid_generate_v4',
+      returns: DataType.uuid,
+      implementation: v4,
+      impure: true,
+    });
+  });
 
-// beforeEach(() => {
-//   tracker = getTracker();
-//   tracker.on
-//   .any((rawQuery) => rawQuery.method === 'create' && rawQuery.sql.includes('"uuid-ossp"'))
-//   .response(1);
-// });
+  knex = await database.adapters.createKnex() as import('knex');
 
-// afterEach(() => {
-//   tracker.reset();
-// });
+  await upChronicle(knex);
+  await upCharacter(knex);
+})
 
-test('should successfully create the character table', (done) => {
-  fork(done)((result) => {
-    expect(result).to.not.be.an('undefined');
-    done();
+
+test('should successfully insert and update the character', async (done) => {
+
+  fork(done)(chronicleResult => {
+    fork(done)((result) => {
+      fork(done)((result) => {
+        expect(result).to.not.be.an('undefined');
+        done();
+      })(
+        updateCharacter(knex)(S.Right({
+          id:  result.id,
+          name: 'Foo Updated',
+          splat: 'vampire'
+        }))
+      );
+    })(
+      createCharacter(knex)(S.Right({
+        name: 'Foo',
+        splat: 'vampire',
+        referenceType: 'discord',
+        chronicleId: chronicleResult.id
+      }))
+    )
   })(
-    createTable(connection)({
-      name: 'Foo',
-      splat: 'vampire'
-    })
-  );
-});
-
-// TODO: Trouble getting both mock-knex and knex-mock-client to work
-// test('should successfully update an existing character', (done) => {
-//   fork(done)((result) => {
-//     fork(done)((result) => {
-//       expect(result).to.not.be.an('undefined');
-//       done();
-//     })(
-//       updateCharacter(connection)(S.Right({
-//         id:  result.id,
-//         name: 'Foo Updated',
-//         splat: 'vampire'
-//       }))
-//     );
-//   })(
-//     createCharacter(connection)(S.Right({
-//       name: 'Foo',
-//       splat: 'vampire'
-//     }))
-//   )
-// })
+    createChronicle(knex)(S.Right({
+      name: 'My Chronicle',
+      referenceType: 'discord',
+      referenceId: '123',
+      game: 'vtm',
+      version: 'v5'
+    }))
+  )
+})
