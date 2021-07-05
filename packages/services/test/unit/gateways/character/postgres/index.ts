@@ -20,46 +20,50 @@ beforeEach(async () => {
       name: 'uuid_generate_v4',
       returns: DataType.uuid,
       implementation: v4,
-      impure: true,
+      impure: true
     });
   });
 
-  knex = await database.adapters.createKnex() as import('knex');
+  knex = (await database.adapters.createKnex()) as import('knex');
 
   await upChronicle(knex);
   await upCharacter(knex);
-})
-
+});
 
 test('should successfully insert and update the character', async (done) => {
-
-  fork(done)(chronicleResult => {
+  fork(done)((chronicleResult) => {
     fork(done)((result) => {
       fork(done)((result) => {
         expect(result).to.not.be.an('undefined');
         done();
       })(
-        updateCharacter(knex)(S.Right({
-          id:  result.id,
-          name: 'Foo Updated',
-          splat: 'vampire'
-        }))
+        updateCharacter(knex)(
+          S.Right({
+            id: result.id,
+            name: 'Foo Updated',
+            splat: 'vampire'
+          })
+        )
       );
     })(
-      createCharacter(knex)(S.Right({
-        name: 'Foo',
-        splat: 'vampire',
-        referenceType: 'discord',
-        chronicleId: chronicleResult.id
-      }))
-    )
+      createCharacter(knex)(
+        S.Right({
+          name: 'Foo',
+          splat: 'vampire',
+          referenceType: 'discord',
+          chronicleId: chronicleResult.id
+        })
+      )
+    );
   })(
-    createChronicle(knex)(S.Right({
-      name: 'My Chronicle',
-      referenceType: 'discord',
-      referenceId: '123',
-      game: 'vtm',
-      version: 'v5'
-    }))
-  )
-})
+    createChronicle(knex)(
+      S.Right({
+        name: 'My Chronicle',
+        referenceType: 'discord',
+        referenceId: '123',
+        game: 'vtm',
+        version: 'v5'
+      })
+    )
+  );
+});
