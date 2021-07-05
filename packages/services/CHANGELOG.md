@@ -1,3 +1,10 @@
+# [@st/services-service-v1.5.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.4.0...@st/services-service-v1.5.0) (2021-07-05)
+
+
+### Features
+
+* adding support for database migrations ([0b57311](https://github.com/SomethingSexy/st-tools/commit/0b57311156b336b59abc3475fb08e7aaf3602b45))
+
 # [@st/services-service-v1.4.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.3.0...@st/services-service-v1.4.0) (2021-06-28)
 
 
