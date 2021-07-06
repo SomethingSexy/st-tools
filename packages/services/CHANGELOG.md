@@ -1,3 +1,10 @@
+# [@st/services-service-v1.5.1](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.5.0...@st/services-service-v1.5.1) (2021-07-06)
+
+
+### Bug Fixes
+
+* services not pushing image to docker ([05f5348](https://github.com/SomethingSexy/st-tools/commit/05f53483066ca7dcc8cbea851e3cf80ca225c325))
+
 # [@st/services-service-v1.5.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.4.0...@st/services-service-v1.5.0) (2021-07-05)
 
 
