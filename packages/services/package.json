@@ -77,6 +77,17 @@
           ],
           "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
         }
+      ],
+      [
+        "@codedependant/semantic-release-docker",
+        {
+          "dockerImage": "services",
+          "dockerProject": "cvetant",
+          "dockerArgs": {
+            "RELEASE_DATE": "{now}",
+            "RELEASE_VERSION": "{next.version}"
+          }
+        }
       ]
     ]
   },
