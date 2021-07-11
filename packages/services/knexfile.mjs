@@ -23,8 +23,7 @@ export default {
       max: 10
     },
     migrations: {
-      tableName: "knex_migrations",
-      ext: 'ts'
+      tableName: "knex_migrations"
     }
   },
   production: {
@@ -39,8 +38,7 @@ export default {
       max: 10
     },
     migrations: {
-      tableName: "knex_migrations",
-      ext: 'ts'
+      tableName: "knex_migrations"
     }
   }
 };

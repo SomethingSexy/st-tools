@@ -36,9 +36,12 @@ export interface GamePower {
   category: string;
 }
 
+// TODO: Need to determine the rules for how to filter down skills, attributes, and powers
+// while taking into account classes.
 export interface GameRace {
   name: string;
   description: string;
+  allowedClasses: [];
   allowedSkills: [
     {
       // allow a category of skills
@@ -100,21 +103,4 @@ export type Classes = GameClass[];
 export interface GameCharacter {
   attributes: [{}];
   skills: [{}];
-}
-
-export interface GameConfig {
-  classes: Classes;
-  skills: GameSkill[];
-  attributes: GameAttribute[];
-  races: Races;
-  attributeCategories: Array<{
-    name: string;
-    description: string;
-    id: string;
-  }>;
-  skillCategories: Array<{
-    name: string;
-    description: string;
-    id: string;
-  }>;
 }

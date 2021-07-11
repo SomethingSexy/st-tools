@@ -2,11 +2,12 @@ import { FutureInstance, attemptP, chain, map } from 'fluture';
 import { Knex } from 'knex';
 import type { Chronicle, CreateChronicleEntity } from '../../../entities/chronicle';
 import { atLeastOne, head, mapAll } from '../../../utils/array.js';
-import { eitherToFuture, S } from '../../../utils/sanctuary.js';
+import { S } from '../../../utils/sanctuary.js';
 import { compose } from '../../../utils/function.js';
 import { CREATED_AT, MODIFIED_AT, TABLE_ID } from '../../constants.js';
-import type { ChronicleExists, ChronicleGateway, CreateChronicle, GetChronicle } from '../types';
+import type { ChronicleExists, ChronicleGateway, GetChronicle } from '../types';
 import type { ReferenceTypes } from '../../../entities/constants';
+import { create } from '../../crud.js';
 
 /**
  * This represents the raw format of the chronicle when selected from the table directly
@@ -156,11 +157,7 @@ export const listAllChronicles = (db: Knex) => () =>
  * @param db
  */
 export const createChronicle =
-  (db: Knex): CreateChronicle =>
-  (c) =>
-    eitherToFuture(c)
-      .pipe(chain(insertAndReturnChronicle(db)))
-      .pipe(map(retrievedToEntity));
+  create<CreateChronicleEntity, RetrievedChronicle, Chronicle>(insertAndReturnChronicle)(retrievedToEntity);
 
 /**
  * Determines if a chronicle already exists given the type and reference id.

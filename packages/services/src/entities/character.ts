@@ -1,7 +1,6 @@
-import Hapi, { ObjectSchema } from 'joi';
-import S from 'sanctuary';
-import type { Either } from '../utils/sanctuary';
+import Hapi from 'joi';
 import type { ReferenceTypes } from './constants';
+import { makeEntity, makeUpdateEntity } from './validator.js';
 
 export interface IAttribute {
   name: string;
@@ -67,6 +66,9 @@ export type Human = ICharacter<{}, IHumanStats>;
 
 export type Character = Vampire | Human;
 
+export type CreateCharacterEntity = Pick<Vampire | Human, 'name' | 'splat' | 'chronicleId' | 'referenceType'>;
+export type UpdateCharacterEntity = Partial<Character> & { id: string };
+
 // This is only what is required to create, we will probably want another validation
 // for locking a character in?
 export const Validation = Hapi.object({
@@ -82,20 +84,6 @@ export const Validation = Hapi.object({
   chronicleId: Hapi.string().required()
 });
 
-export type CreateCharacterEntity = Pick<Vampire | Human, 'name' | 'splat' | 'chronicleId' | 'referenceType'>;
-
-export const makeCreateCharacterEntity =
-  (schema: ObjectSchema) =>
-  (c: CreateCharacterEntity): Either<string, CreateCharacterEntity> => {
-    const { error, value } = schema.validate(c);
-    return error ? S.Left(error.message) : S.Right(value);
-  };
-
-/**
- * Creates a Character entity.  A character is any player or non-player character in the game.
- */
-export const createCharacterEntity = makeCreateCharacterEntity(Validation);
-
 export const UpdateValidation = Hapi.object({
   id: Hapi.string().required(),
   // If name is being changed it needs to have some value
@@ -108,14 +96,9 @@ export const UpdateValidation = Hapi.object({
   splat: Hapi.string().valid('vampire', 'human').min(1)
 });
 
-export type UpdateCharacterEntity = Partial<Character> & { id: string };
+/**
+ * Creates a Character entity.  A character is any player or non-player character in the game.
+ */
+export const createCharacterEntity = makeEntity(Validation);
 
-// TODO: We could probably combine this function and makeCreateCharacterEntity
-export const makeUpdateCharacterEntity =
-  (schema: ObjectSchema) =>
-  (c: UpdateCharacterEntity): Either<string, UpdateCharacterEntity> => {
-    const { error, value } = schema.validate(c);
-    return error ? S.Left(error.message) : S.Right(value);
-  };
-
-export const updateCharacterEntity = makeUpdateCharacterEntity(UpdateValidation);
+export const updateCharacterEntity = makeUpdateEntity(UpdateValidation);

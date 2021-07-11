@@ -1,6 +1,6 @@
-import Hapi, { ObjectSchema } from 'joi';
-import { Either, S } from '../utils/sanctuary.js';
+import Hapi from 'joi';
 import type { ReferenceTypes } from './constants.js';
+import { makeEntity } from './validator.js';
 
 // const { alternatives, object, string, number } = hapi;
 
@@ -29,11 +29,4 @@ export const Validation = Hapi.object({
   version: Hapi.string().valid('v5').required()
 });
 
-export const makeCreateChronicleEntity =
-  (schema: ObjectSchema) =>
-  (c: CreateChronicleEntity): Either<string, CreateChronicleEntity> => {
-    const { error, value } = schema.validate(c);
-    return error ? S.Left(error.message) : S.Right(value);
-  };
-
-export const createChronicleEntity = makeCreateChronicleEntity(Validation);
+export const createChronicleEntity = makeEntity(Validation);

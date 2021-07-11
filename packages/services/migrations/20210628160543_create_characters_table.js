@@ -2,13 +2,14 @@ export const up = (knex) =>
   knex.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"').then(() =>
     knex.schema.createTable('character', (table) => {
       table.uuid('id').unique().defaultTo(knex.raw('uuid_generate_v4()'));
+      
+      table.uuid('chronicle_id').notNullable().references('id').inTable('chronicle').onDelete('CASCADE');
+      
       // Reference ID can be null, the only time we will have an id is for player
       // characters created via apps like discord
       table.string('referenceId');
       // Reference Type should never be null
       table.string('referenceType').notNullable();
-      // table.foreign(CHARACTER_CHRONICLE_ID).references('chronicle.id');
-      table.uuid('chronicle_id').notNullable().references('id').inTable('chronicle').onDelete('CASCADE');
       table.string('name');
       table.text('concept');
       table.text('ambition');
@@ -20,6 +21,8 @@ export const up = (knex) =>
       table.jsonb('skills');
       table.jsonb('stats');
       table.timestamps();
+      
+      table.index(['referenceId', 'referenceType', 'id']);
     })
   );
 

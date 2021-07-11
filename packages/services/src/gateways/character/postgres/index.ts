@@ -7,7 +7,8 @@ import { compose } from '../../../utils/function.js';
 import { pick } from '../../../utils/object.js';
 import { eitherToFuture } from '../../../utils/sanctuary.js';
 import { CREATED_AT, MODIFIED_AT, TABLE_ID } from '../../constants.js';
-import type { CharacterGateway, CreateCharacter, GetCharacter, UpdateCharacter } from '../types';
+import { create } from '../../crud.js';
+import type { CharacterGateway, GetCharacter, UpdateCharacter } from '../types';
 
 export const CHARACTER_TABLE_NAME = 'name';
 export const CHARACTER_TABLE_SPLAT = 'splat';
@@ -157,11 +158,7 @@ export const getCharacter = getCharacterBy(CHARACTER_TABLE_REFERENCE_ID);
 export const getCharacterById = getCharacterBy(CHARACTER_TABLE_ID);
 
 export const createCharacter =
-  (db: Knex): CreateCharacter =>
-  (c) =>
-    eitherToFuture(c)
-      .pipe(chain(insertAndReturnCharacter(db)))
-      .pipe(map(retrievedToEntity));
+  create<CreateCharacterEntity, RetrievedCharacter, Character>(insertAndReturnCharacter)(retrievedToEntity);
 
 export const updateCharacter =
   (db: Knex): UpdateCharacter =>

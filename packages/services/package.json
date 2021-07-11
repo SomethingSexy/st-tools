@@ -10,14 +10,14 @@
   },
   "scripts": {
     "build": "npx swc ./src -d modules",
-    "db": "knex migrate:latest",
+    "db": "knex migrate:latest --knexfile knexfile.mjs ",
     "lint": "eslint --ext .js,.ts ./src && eslint --ext .js,.ts ./migrations && eslint --ext .js,.ts ./test && npm run pretty:check",
     "lint:fix": "eslint --ext .js,.ts ./src --fix && eslint --ext .js,.ts ./migrations --fix && eslint --ext .js,.ts ./test --fix && npm run pretty:fix",
     "lint:quiet": "eslint --ext .js,.ts ./src --quiet && eslint --ext .js,.ts ./migrations --quiet && eslint --ext .js,.ts ./test --quiet",
     "pretty:check": "prettier --check './{src,test,tools,migrations}/**/*.{js,ts,tsx}'",
     "pretty:fix": "prettier --write './{src,test,tools,migrations}/**/*.{js,ts,tsx}'",
     "start": "node ./modules/index.js",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "author": "Tyler J Cvetan",
   "license": "MIT",
@@ -44,6 +44,7 @@
     "@typescript-eslint/eslint-plugin": "^4.23.0",
     "@typescript-eslint/parser": "^4.25.0",
     "chai": "^4.3.4",
+    "chai-match": "^1.1.1",
     "eslint": "^7.26.0",
     "jest": "^26.6.3",
     "jest-ts-webcompat-resolver": "^1.0.0",
