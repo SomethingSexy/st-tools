@@ -1,3 +1,10 @@
+# [@st/services-service-v1.6.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.5.1...@st/services-service-v1.6.0) (2021-07-11)
+
+
+### Features
+
+* starting work on game base models ([4fd8280](https://github.com/SomethingSexy/st-tools/commit/4fd8280a731f0add0dae2c8ab182d3a00b91834a))
+
 # [@st/services-service-v1.5.1](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.5.0...@st/services-service-v1.5.1) (2021-07-06)
 
 
