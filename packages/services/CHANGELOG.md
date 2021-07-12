@@ -1,3 +1,10 @@
+# [@st/services-service-v1.7.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.6.0...@st/services-service-v1.7.0) (2021-07-12)
+
+
+### Features
+
+* adding ability to link race and class ([1232b2d](https://github.com/SomethingSexy/st-tools/commit/1232b2ddcacbf940df99fdddb6aa6aa5ea8c479b))
+
 # [@st/services-service-v1.6.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.5.1...@st/services-service-v1.6.0) (2021-07-11)
 
 
