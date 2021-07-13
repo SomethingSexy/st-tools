@@ -1,3 +1,10 @@
+# [@st/services-service-v1.8.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.7.0...@st/services-service-v1.8.0) (2021-07-13)
+
+
+### Features
+
+* adding gateway function to get race ([39ee16a](https://github.com/SomethingSexy/st-tools/commit/39ee16a10fe1cf2fc717fbdfa3eea23b28a9e8f6))
+
 # [@st/services-service-v1.7.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.6.0...@st/services-service-v1.7.0) (2021-07-12)
 
 
