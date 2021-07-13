@@ -5,7 +5,7 @@ export const up = (knex) =>
 
       table.uuid('game_id').notNullable().references('id').inTable('game').onDelete('CASCADE');
 
-      table.string('name').notNullable()
+      table.string('name').notNullable();
       table.string('description');
       table.timestamps();
     })

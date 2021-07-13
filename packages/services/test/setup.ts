@@ -30,6 +30,6 @@ export const setupDatabase = async () => {
   await upClass(knex);
   await upRace(knex);
   await upRaceClass(knex);
-  
+
   return knex;
 };

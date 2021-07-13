@@ -6,13 +6,14 @@ import { mapAll } from '../../../utils/array.js';
 import { compose } from '../../../utils/function.js';
 import { pick } from '../../../utils/object.js';
 import { CREATED_AT, MODIFIED_AT, TABLE_ID } from '../../constants.js';
-import { create, update } from '../../crud.js';
+import { create, get, update } from '../../crud.js';
 import { GAME_CLASS_TABLE_ID } from './class.js';
 
 interface RetrievedRace {
   name: string;
   id: string;
   description: string;
+  game_id: string;
   created_at: string;
   updated_at: string;
 }
@@ -29,6 +30,7 @@ const retrievedColumns = [
   GAME_RACE_TABLE_ID,
   GAME_RACE_TABLE_NAME,
   GAME_RACE_TABLE_DESCRIPTION,
+  GAME_RACE_TABLE_GAME_ID,
   CREATED_AT,
   MODIFIED_AT
 ];
@@ -38,6 +40,7 @@ const mapRetrievedToEntity = (race: RetrievedRace) => ({
   id: race.id,
   name: race.name,
   description: race.description,
+  gameId: race.game_id,
   created: race.created_at,
   modified: race.updated_at
 });
@@ -46,12 +49,16 @@ const mapRetrievedLinkToEntity = (link: { id: string; class_id: string; race_id:
   id: link.id,
   classId: link.class_id,
   raceId: link.race_id
-})
+});
 
 const mapAllRetrieved = mapAll(mapRetrievedToEntity);
 const retrievedToEntity: (chronicle: RetrievedRace[]) => GameRace = compose(mapRetrievedToEntity, head);
 
-const retrievedLinkToEntity: (link: Array<{ id: string; class_id: string; race_id: string }>) => { id: string; classId: string; raceId: string } = compose(mapRetrievedLinkToEntity ,head);
+const retrievedLinkToEntity: (link: Array<{ id: string; class_id: string; race_id: string }>) => {
+  id: string;
+  classId: string;
+  raceId: string;
+} = compose(mapRetrievedLinkToEntity, head);
 
 const insertAndReturnRace = (db: Knex) => (c: CreateRaceEntity) =>
   attemptP<string, RetrievedRace[]>(() => {
@@ -88,6 +95,13 @@ export const updateRace = update(updateAndReturnRace)(retrievedToEntity);
  */
 export const createRace = create<CreateRaceEntity, RetrievedRace, GameRace>(insertAndReturnRace)(retrievedToEntity);
 
+const getRaceBy = (db: Knex) => (by: { [index: string]: string }) =>
+  attemptP<string, RetrievedRace[]>(() => db.select(retrievedColumns).from(GAME_RACE_TABLE).where(by));
+
+export const getRace = get<{ id: string }, RetrievedRace, GameRace>(getRaceBy)(retrievedToEntity)([
+  ['id', GAME_RACE_TABLE_ID]
+]);
+
 /**
  * Links a class to a race
  * @param db
@@ -110,8 +124,8 @@ export const linkClassToRace =
 
 /**
  * Deletes a link from a class
- * @param db 
- * @returns 
+ * @param db
+ * @returns
  */
 export const unlinkClassFromRace =
   (db: Knex) =>
@@ -123,6 +137,4 @@ export const unlinkClassFromRace =
           race_id: raceId
         })
         .del()
-    ).pipe(
-      map(() => ({ classId, raceId }))
-    );
+    ).pipe(map(() => ({ classId, raceId })));
