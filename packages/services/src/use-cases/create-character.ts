@@ -1,5 +1,5 @@
-import { chain, reject } from 'fluture';
 import { CreateCharacterEntity, createCharacterEntity } from '../entities/character.js';
+import { chain, reject } from 'fluture';
 import { Gateways } from '../gateways/index.js';
 
 export const createCharacter =

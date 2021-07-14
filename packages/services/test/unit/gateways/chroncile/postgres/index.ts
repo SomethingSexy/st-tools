@@ -1,9 +1,9 @@
-import { expect } from 'chai';
-import { fork } from 'fluture';
+import { Knex } from 'knex';
 import { S } from '../../../../../src/utils/sanctuary';
 import { beforeEach } from '@jest/globals';
-import { Knex } from 'knex';
 import { createChronicle } from '../../../../../src/gateways/chronicle/postgres/index.js';
+import { expect } from 'chai';
+import { fork } from 'fluture';
 import { setupDatabase } from '../../../../setup.js';
 
 let knex: Knex;

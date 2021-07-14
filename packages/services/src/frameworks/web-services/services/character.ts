@@ -1,9 +1,9 @@
-import { RouteOptions } from 'fastify';
 import { CreateCharacterEntity, UpdateCharacterEntity } from '../../../entities/character.js';
 import type { Gateways } from '../../../gateways';
+import { RouteOptions } from 'fastify';
 import { createCharacter } from '../../../use-cases/create-character.js';
-import { updateCharacter } from '../../../use-cases/update-character.js';
 import { handleResult } from '../utils/response.js';
+import { updateCharacter } from '../../../use-cases/update-character.js';
 
 /**
  * Creates a new character, this should be a character that is

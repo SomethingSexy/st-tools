@@ -1,6 +1,6 @@
-import { createCharacterEntity, updateCharacterEntity } from '../../../src/entities/character.js';
-import { expect } from 'chai';
 import { S } from '../../../src/utils/sanctuary.js';
+import { expect } from 'chai';
+import { updateCharacterEntity } from '../../../src/entities/character.js';
 
 test('should create a valid task', () => {
   expect(

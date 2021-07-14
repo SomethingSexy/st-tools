@@ -1,8 +1,8 @@
+import type { CharacterGateway } from './character/types.js';
+import type { ChronicleGateway } from './chronicle/types.js';
 import { Knex } from 'knex';
 import { characterGateway } from './character/postgres/index.js';
-import type { CharacterGateway } from './character/types.js';
 import { chronicleGateway } from './chronicle/postgres/index.js';
-import type { ChronicleGateway } from './chronicle/types.js';
 
 export interface Gateways {
   chronicleGateway: ChronicleGateway;

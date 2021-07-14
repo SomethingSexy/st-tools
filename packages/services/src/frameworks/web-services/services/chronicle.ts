@@ -1,14 +1,14 @@
-import { RouteOptions } from 'fastify';
-import { createChronicle } from '../../../use-cases/create-chronicle.js';
+import { CreateCharacterEntity } from '../../../entities/character.js';
 import type { CreateChronicleEntity } from '../../../entities/chronicle';
+import type { Gateways } from '../../../gateways/index.js';
+import type { ReferenceTypes } from '../../../entities/constants.js';
+import { RouteOptions } from 'fastify';
+import { createCharacter } from '../../../use-cases/create-character.js';
+import { createChronicle } from '../../../use-cases/create-chronicle.js';
+import { getCharacters } from '../../../use-cases/get-characters.js';
 import { getChronicle } from '../../../use-cases/get-chronicle.js';
 import { getChronicles } from '../../../use-cases/get-chronicles.js';
 import { handleResult } from '../utils/response.js';
-import type { Gateways } from '../../../gateways/index.js';
-import type { ReferenceTypes } from '../../../entities/constants.js';
-import { getCharacters } from '../../../use-cases/get-characters.js';
-import { CreateCharacterEntity } from '../../../entities/character.js';
-import { createCharacter } from '../../../use-cases/create-character.js';
 
 const post = (gateway: Gateways): RouteOptions => ({
   method: 'POST',

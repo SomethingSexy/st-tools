@@ -1,6 +1,6 @@
+import { makeEntity, makeUpdateEntity } from './validator.js';
 import Hapi from 'joi';
 import type { ReferenceTypes } from './constants';
-import { makeEntity, makeUpdateEntity } from './validator.js';
 
 export interface IAttribute {
   name: string;
@@ -16,6 +16,7 @@ export interface IStats {
   health: number;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ICharacteristics {}
 
 export interface IVampireStats extends IStats {
@@ -62,7 +63,7 @@ export interface ICharacter<Characteristics extends ICharacteristics, Stats exte
 
 export type Vampire = ICharacter<IVampireCharacteristics, IVampireStats>;
 
-export type Human = ICharacter<{}, IHumanStats>;
+export type Human = ICharacter<Record<string, string>, IHumanStats>;
 
 export type Character = Vampire | Human;
 

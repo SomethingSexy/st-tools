@@ -17,7 +17,7 @@
     "pretty:check": "prettier --check './{src,test,tools,migrations}/**/*.{js,ts,tsx}'",
     "pretty:fix": "prettier --write './{src,test,tools,migrations}/**/*.{js,ts,tsx}'",
     "start": "node ./modules/index.js",
-    "test": "jest --coverage"
+    "test": "jest --coverage && npm run lint"
   },
   "author": "Tyler J Cvetan",
   "license": "MIT",
@@ -40,6 +40,7 @@
     "@types/jest": "^26.0.23",
     "@types/knex-db-manager": "^0.6.1",
     "@types/mock-knex": "^0.4.3",
+    "@types/sinon": "^10.0.2",
     "@types/uuid": "^8.3.1",
     "@typescript-eslint/eslint-plugin": "^4.23.0",
     "@typescript-eslint/parser": "^4.25.0",

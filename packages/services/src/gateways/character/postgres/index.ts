@@ -1,14 +1,14 @@
-import { FutureInstance, attemptP, chain, map, reject, resolve } from 'fluture';
-import { Knex } from 'knex';
-import type { Character, CreateCharacterEntity, Splat, UpdateCharacterEntity } from '../../../entities/character';
-import type { ReferenceTypes } from '../../../entities/constants';
-import { atLeastOne, head, mapAll } from '../../../utils/array.js';
-import { compose } from '../../../utils/function.js';
-import { pick } from '../../../utils/object.js';
-import { eitherToFuture } from '../../../utils/sanctuary.js';
 import { CREATED_AT, MODIFIED_AT, TABLE_ID } from '../../constants.js';
-import { create } from '../../crud.js';
+import type { Character, CreateCharacterEntity, Splat, UpdateCharacterEntity } from '../../../entities/character';
 import type { CharacterGateway, GetCharacter, UpdateCharacter } from '../types';
+import { FutureInstance, attemptP, chain, map, reject, resolve } from 'fluture';
+import { atLeastOne, head, mapAll } from '../../../utils/array.js';
+import { Knex } from 'knex';
+import type { ReferenceTypes } from '../../../entities/constants';
+import { compose } from '../../../utils/function.js';
+import { create } from '../../crud.js';
+import { eitherToFuture } from '../../../utils/sanctuary.js';
+import { pick } from '../../../utils/object.js';
 
 export const CHARACTER_TABLE_NAME = 'name';
 export const CHARACTER_TABLE_SPLAT = 'splat';

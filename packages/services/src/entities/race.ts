@@ -1,14 +1,17 @@
-import Hapi from 'joi';
 import { makeEntity, makeUpdateEntity } from './validator.js';
+import Hapi from 'joi';
 
 export interface GameRace {
   id: string;
   name: string;
   description: string;
   gameId: string;
+  /**
+   * Array of class ids associated with this race
+   */
+  classes: string[];
   created: string;
   modified: string;
-  // allowedClasses: [];
   // allowedSkills: [
   //   {
   //     // allow a category of skills

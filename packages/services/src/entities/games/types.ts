@@ -101,6 +101,6 @@ export interface GameClass {
 export type Classes = GameClass[];
 
 export interface GameCharacter {
-  attributes: [{}];
-  skills: [{}];
+  attributes: [Record<string, string>];
+  skills: [Record<string, string>];
 }

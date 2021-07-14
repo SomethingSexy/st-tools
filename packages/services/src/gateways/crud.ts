@@ -1,6 +1,6 @@
+import { Either, eitherToFuture } from '../utils/sanctuary.js';
 import { FutureInstance, chain, map, reject, resolve } from 'fluture';
 import type { Knex } from 'knex';
-import { Either, eitherToFuture } from '../utils/sanctuary.js';
 
 export type Create = <Insert, InsertReturn, R>(
   insertAndReturn: (db: Knex) => (c: Insert) => FutureInstance<string, InsertReturn[]>
@@ -45,6 +45,8 @@ export const get: Get = (getAndReturn) => (mapGetToFinal) => (by) => (db) => (d)
     {}
   );
   return getAndReturn(db)(where)
-    .pipe(map(mapGetToFinal))
-    .pipe(chain((x) => (x === null ? reject('Entity not found.') : resolve(x))));
+    .pipe(
+      chain((x) => (x === null || typeof x === 'undefined' || !x.length ? reject('Entity not found.') : resolve(x)))
+    )
+    .pipe(map(mapGetToFinal));
 };

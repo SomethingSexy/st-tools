@@ -1,7 +1,7 @@
-import { expect } from 'chai';
 import { fork, resolve } from 'fluture';
-import { fake } from 'sinon';
 import { createCharacter } from '../../../src/use-cases/create-character.js';
+import { expect } from 'chai';
+import { fake } from 'sinon';
 
 test('should create a new one', (done) => {
   const existsFake = fake.returns(resolve(true));

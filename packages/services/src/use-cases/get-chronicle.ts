@@ -1,7 +1,7 @@
 // This will need to be able to retrieve a chronicle by an external id or internal id
 import { chain, reject } from 'fluture';
-import { ReferenceTypes } from '../entities/constants';
 import type { Gateways } from '../gateways';
+import type { ReferenceTypes } from '../entities/constants';
 
 export const getChronicle =
   ({ chronicleGateway }: Gateways) =>

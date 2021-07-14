@@ -1,19 +1,23 @@
-import { attemptP, map } from 'fluture';
-import { Knex } from 'knex';
-import { head } from 'lodash-es';
-import { CreateRaceEntity, GameRace, UpdateRaceEntity } from '../../../entities/race.js';
-import { mapAll } from '../../../utils/array.js';
-import { compose } from '../../../utils/function.js';
-import { pick } from '../../../utils/object.js';
 import { CREATED_AT, MODIFIED_AT, TABLE_ID } from '../../constants.js';
+import { CreateRaceEntity, GameRace, UpdateRaceEntity } from '../../../entities/race.js';
+import { attemptP, map } from 'fluture';
 import { create, get, update } from '../../crud.js';
-import { GAME_CLASS_TABLE_ID } from './class.js';
+import { Knex } from 'knex';
+import { compose } from '../../../utils/function.js';
+import { head } from 'lodash-es';
+import { mapAll } from '../../../utils/array.js';
+import { pick } from '../../../utils/object.js';
 
 interface RetrievedRace {
   name: string;
   id: string;
   description: string;
   game_id: string;
+  /**
+   * This gets added when doing a leftJoin to get all available
+   * classes
+   */
+  class_id: string;
   created_at: string;
   updated_at: string;
 }
@@ -27,12 +31,12 @@ export const GAME_RACE_TABLE_GAME_ID = 'game_id';
 export const GAME_RACE_CLASS_TABLE_ID = TABLE_ID;
 
 const retrievedColumns = [
-  GAME_RACE_TABLE_ID,
-  GAME_RACE_TABLE_NAME,
-  GAME_RACE_TABLE_DESCRIPTION,
-  GAME_RACE_TABLE_GAME_ID,
-  CREATED_AT,
-  MODIFIED_AT
+  `race.${GAME_RACE_TABLE_ID}`,
+  `race.${GAME_RACE_TABLE_NAME}`,
+  `race.${GAME_RACE_TABLE_DESCRIPTION}`,
+  `race.${GAME_RACE_TABLE_GAME_ID}`,
+  `race.${CREATED_AT}`,
+  `race.${MODIFIED_AT}`
 ];
 const updateKeys = pick(['name', 'description']);
 
@@ -52,7 +56,19 @@ const mapRetrievedLinkToEntity = (link: { id: string; class_id: string; race_id:
 });
 
 const mapAllRetrieved = mapAll(mapRetrievedToEntity);
-const retrievedToEntity: (chronicle: RetrievedRace[]) => GameRace = compose(mapRetrievedToEntity, head);
+const retrievedToEntity: (race: RetrievedRace[]) => GameRace = compose(mapRetrievedToEntity, head);
+// This will be the new one going forward, in this case if we joined data we will have an array
+// of returned data that we need to merge,
+const retrievedChildDataToEntity = (race: RetrievedRace[]) => {
+  // At this point we should always be guaranteed 1
+  const root = retrievedToEntity(race);
+  const classes = race.map((c) => c.class_id);
+
+  return {
+    ...root,
+    classes
+  };
+};
 
 const retrievedLinkToEntity: (link: Array<{ id: string; class_id: string; race_id: string }>) => {
   id: string;
@@ -96,10 +112,16 @@ export const updateRace = update(updateAndReturnRace)(retrievedToEntity);
 export const createRace = create<CreateRaceEntity, RetrievedRace, GameRace>(insertAndReturnRace)(retrievedToEntity);
 
 const getRaceBy = (db: Knex) => (by: { [index: string]: string }) =>
-  attemptP<string, RetrievedRace[]>(() => db.select(retrievedColumns).from(GAME_RACE_TABLE).where(by));
+  attemptP<string, RetrievedRace[]>(() =>
+    db
+      .select([...retrievedColumns, 'game_race_class.class_id AS class_id'])
+      .from(GAME_RACE_TABLE)
+      .where(by)
+      .leftJoin('game_race_class', 'race.id', 'game_race_class.race_id')
+  );
 
-export const getRace = get<{ id: string }, RetrievedRace, GameRace>(getRaceBy)(retrievedToEntity)([
-  ['id', GAME_RACE_TABLE_ID]
+export const getRace = get<{ id: string }, RetrievedRace, GameRace>(getRaceBy)(retrievedChildDataToEntity)([
+  ['id', `race.${GAME_RACE_TABLE_ID}`]
 ]);
 
 /**

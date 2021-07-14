@@ -1,12 +1,12 @@
-import { FutureInstance, attemptP, chain, map } from 'fluture';
-import { Knex } from 'knex';
+import { CREATED_AT, MODIFIED_AT, TABLE_ID } from '../../constants.js';
 import type { Chronicle, CreateChronicleEntity } from '../../../entities/chronicle';
+import type { ChronicleExists, ChronicleGateway, GetChronicle } from '../types';
+import { FutureInstance, attemptP, map } from 'fluture';
 import { atLeastOne, head, mapAll } from '../../../utils/array.js';
+import { Knex } from 'knex';
+import type { ReferenceTypes } from '../../../entities/constants';
 import { S } from '../../../utils/sanctuary.js';
 import { compose } from '../../../utils/function.js';
-import { CREATED_AT, MODIFIED_AT, TABLE_ID } from '../../constants.js';
-import type { ChronicleExists, ChronicleGateway, GetChronicle } from '../types';
-import type { ReferenceTypes } from '../../../entities/constants';
 import { create } from '../../crud.js';
 
 /**

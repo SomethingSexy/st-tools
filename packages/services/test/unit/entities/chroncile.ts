@@ -1,6 +1,6 @@
+import { S } from '../../../src/utils/sanctuary.js';
 import { createChronicleEntity } from '../../../src/entities/chronicle.js';
 import { expect } from 'chai';
-import { S } from '../../../src/utils/sanctuary.js';
 
 test('should create a valid task', () => {
   expect(

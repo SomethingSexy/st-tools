@@ -1,13 +1,13 @@
-import { expect } from 'chai';
-import { fork, race } from 'fluture';
+import { Game } from '../../../../../src/entities/game';
+import { GameClass } from '../../../../../src/entities/class';
+import { Knex } from 'knex';
 import { S } from '../../../../../src/utils/sanctuary';
 import { beforeEach } from '@jest/globals';
-import { Knex } from 'knex';
 import { createClass } from '../../../../../src/gateways/game/postgres/class';
-import { setupDatabase } from '../../../../setup';
-import { GameClass } from '../../../../../src/entities/class';
-import { Game } from '../../../../../src/entities/game';
 import { createGame } from '../../../../../src/gateways/game/postgres';
+import { expect } from 'chai';
+import { fork } from 'fluture';
+import { setupDatabase } from '../../../../setup';
 
 let knex: Knex;
 

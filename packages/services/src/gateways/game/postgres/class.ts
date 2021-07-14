@@ -1,12 +1,12 @@
-import { attemptP } from 'fluture';
-import { Knex } from 'knex';
-import { head } from 'lodash-es';
-import { CreateClassEntity, GameClass, UpdateClassEntity } from '../../../entities/class.js';
-import { mapAll } from '../../../utils/array.js';
-import { compose } from '../../../utils/function.js';
-import { pick } from '../../../utils/object.js';
 import { CREATED_AT, MODIFIED_AT, TABLE_ID } from '../../constants.js';
+import { CreateClassEntity, GameClass, UpdateClassEntity } from '../../../entities/class.js';
 import { create, update } from '../../crud.js';
+import { Knex } from 'knex';
+import { attemptP } from 'fluture';
+import { compose } from '../../../utils/function.js';
+import { head } from 'lodash-es';
+import { mapAll } from '../../../utils/array.js';
+import { pick } from '../../../utils/object.js';
 
 interface RetrievedClass {
   name: string;

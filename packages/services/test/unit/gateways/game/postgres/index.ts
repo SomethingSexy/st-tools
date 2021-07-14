@@ -1,11 +1,11 @@
-import { expect } from 'chai';
-import { fork } from 'fluture';
+import { Game } from '../../../../../src/entities/game.js';
+import { Knex } from 'knex';
 import { S } from '../../../../../src/utils/sanctuary';
 import { beforeEach } from '@jest/globals';
-import { Knex } from 'knex';
 import { createGame } from '../../../../../src/gateways/game/postgres/index.js';
+import { expect } from 'chai';
+import { fork } from 'fluture';
 import { setupDatabase } from '../../../../setup.js';
-import { Game } from '../../../../../src/entities/game.js';
 
 let knex: Knex;
 

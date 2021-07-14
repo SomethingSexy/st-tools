@@ -1,9 +1,9 @@
-import { attemptP } from 'fluture';
-import { Knex } from 'knex';
+import { CREATED_AT, MODIFIED_AT, TABLE_ID } from '../../constants.js';
 import type { CreateGameEntity, Game } from '../../../entities/game';
 import { head, mapAll } from '../../../utils/array.js';
+import { Knex } from 'knex';
+import { attemptP } from 'fluture';
 import { compose } from '../../../utils/function';
-import { CREATED_AT, MODIFIED_AT, TABLE_ID } from '../../constants.js';
 import { create } from '../../crud.js';
 
 interface RetrievedGame {

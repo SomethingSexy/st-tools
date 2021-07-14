@@ -1,12 +1,10 @@
 import fastify from 'fastify';
 import fastifyCors from 'fastify-cors';
-import { characterGateway } from '../../gateways/character/postgres/index.js';
-import { chronicleGateway } from '../../gateways/chronicle/postgres/index.js';
 import { gateways } from '../../gateways/index.js';
 import { getConnection } from '../../services/databases/postgres.js';
 import { services } from './services/index.js';
 
-export const bootstrap = () => {
+export const bootstrap = (): void => {
   const app = fastify({
     logger: true
   });

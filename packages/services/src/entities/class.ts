@@ -1,5 +1,5 @@
-import Hapi from 'joi';
 import { makeEntity, makeUpdateEntity } from './validator.js';
+import Hapi from 'joi';
 
 export interface GameClass {
   id: string;

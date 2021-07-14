@@ -1,11 +1,11 @@
 import { DataType, newDb } from 'pg-mem';
-import { v4 } from 'uuid';
-import { up as upGame } from '../migrations/20210707003641_create_games_table';
 import { up as upCharacter } from '../migrations/20210628160543_create_characters_table.js';
 import { up as upChronicle } from '../migrations/20210628160534_create_chronicles_table.js';
-import { up as upRace } from '../migrations/20210707201548_create_games_races_table';
 import { up as upClass } from '../migrations/20210707201536_create_games_classes_table';
+import { up as upGame } from '../migrations/20210707003641_create_games_table';
+import { up as upRace } from '../migrations/20210707201548_create_games_races_table';
 import { up as upRaceClass } from '../migrations/20210707203629_create_games_races_classes_table';
+import { v4 } from 'uuid';
 
 export const setupDatabase = async () => {
   const database = newDb();

@@ -1,16 +1,16 @@
-import { ObjectSchema, Schema } from 'joi';
 import { Either, S } from '../utils/sanctuary.js';
+import { ObjectSchema, Schema } from 'joi';
 
-const validator = (schema: Schema) => (payload: any) => {
-  const { error } = schema.validate(payload);
-  if (error) {
-    const message = error.details.map((el) => el.message).join('\n');
-    return {
-      error: message
-    };
-  }
-  return true;
-};
+// const validator = (schema: Schema) => (payload: any) => {
+//   const { error } = schema.validate(payload);
+//   if (error) {
+//     const message = error.details.map((el) => el.message).join('\n');
+//     return {
+//       error: message
+//     };
+//   }
+//   return true;
+// };
 
 export const makeEntity =
   (schema: ObjectSchema) =>
