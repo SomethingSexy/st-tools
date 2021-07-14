@@ -26,5 +26,6 @@ COPY --chown=app ./.swcrc /opt/st/.swcrc
 # We need to install to this environment because swc installs based on os
 RUN npm ci
 RUN npm run build
+RUN npm prune --production
 
 CMD ["npm", "start"]
