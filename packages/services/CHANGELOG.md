@@ -1,3 +1,10 @@
+# [@st/services-service-v1.9.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.8.0...@st/services-service-v1.9.0) (2021-07-14)
+
+
+### Features
+
+* retrieving class ids and enabling linting during test ([46e807e](https://github.com/SomethingSexy/st-tools/commit/46e807eb8870c902c815f3a3f53c1dc4a1b29587))
+
 # [@st/services-service-v1.8.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.7.0...@st/services-service-v1.8.0) (2021-07-13)
 
 
