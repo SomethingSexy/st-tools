@@ -1,3 +1,10 @@
+# [@st/services-service-v1.9.1](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.9.0...@st/services-service-v1.9.1) (2021-07-14)
+
+
+### Bug Fixes
+
+* pruning npm modules in docker ([88ae3ff](https://github.com/SomethingSexy/st-tools/commit/88ae3ffe41224d71b0e84fc58d088618266d973c))
+
 # [@st/services-service-v1.9.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.8.0...@st/services-service-v1.9.0) (2021-07-14)
 
 
