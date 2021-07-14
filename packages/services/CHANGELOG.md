@@ -1,3 +1,10 @@
+# [@st/services-service-v1.10.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.9.1...@st/services-service-v1.10.0) (2021-07-14)
+
+
+### Features
+
+* adding gateway function to fetch class ([4a46c4d](https://github.com/SomethingSexy/st-tools/commit/4a46c4d4a71caef3a8e857e0fb481acbcb7d4530))
+
 # [@st/services-service-v1.9.1](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.9.0...@st/services-service-v1.9.1) (2021-07-14)
 
 
