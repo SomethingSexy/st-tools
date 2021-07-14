@@ -1,6 +1,6 @@
 import { CREATED_AT, MODIFIED_AT, TABLE_ID } from '../../constants.js';
 import { CreateClassEntity, GameClass, UpdateClassEntity } from '../../../entities/class.js';
-import { create, update } from '../../crud.js';
+import { create, get, update } from '../../crud.js';
 import { Knex } from 'knex';
 import { attemptP } from 'fluture';
 import { compose } from '../../../utils/function.js';
@@ -74,3 +74,10 @@ export const updateClass = update(updateAndReturnClass)(retrievedToEntity);
  */
 export const createClass =
   create<CreateClassEntity, RetrievedClass, GameClass>(insertAndReturnClass)(retrievedToEntity);
+
+const getClassBy = (db: Knex) => (by: { [index: string]: string }) =>
+  attemptP<string, RetrievedClass[]>(() => db.select(retrievedColumns).from(GAME_CLASS_TABLE).where(by));
+
+export const getClass = get<{ id: string }, RetrievedClass, GameClass>(getClassBy)(retrievedToEntity)([
+  ['id', `${GAME_CLASS_TABLE}.${GAME_CLASS_TABLE_ID}`]
+]);

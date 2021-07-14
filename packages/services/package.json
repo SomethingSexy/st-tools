@@ -17,7 +17,7 @@
     "pretty:check": "prettier --check './{src,test,tools,migrations}/**/*.{js,ts,tsx}'",
     "pretty:fix": "prettier --write './{src,test,tools,migrations}/**/*.{js,ts,tsx}'",
     "start": "node ./modules/index.js",
-    "test": "jest --coverage && npm run lint"
+    "test": "jest --coverage --maxWorkers=50% && npm run lint"
   },
   "author": "Tyler J Cvetan",
   "license": "MIT",
@@ -104,6 +104,9 @@
     },
     "transformIgnorePatterns": [
       "<rootDir>/node_modules/(?!lodash-es)"
+    ],
+    "collectCoverageFrom": [
+      "src/**/{!(migrations),}.ts"
     ]
   }
 }

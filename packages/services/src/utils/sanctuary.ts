@@ -4,6 +4,8 @@ import sanctuary from 'sanctuary';
 
 // sanctuary does not support mjs format yet
 const { create, env } = sanctuary;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export interface Either<A, B> {
   '@@type': 'sanctuary/Either';
 }

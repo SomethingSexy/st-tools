@@ -1,5 +1,6 @@
 import { CREATED_AT, MODIFIED_AT, TABLE_ID } from '../../constants.js';
 import { CreateRaceEntity, GameRace, UpdateRaceEntity } from '../../../entities/race.js';
+import { GAME_RACE_CLASS_TABLE, GAME_RACE_CLASS_TABLE_CLASS_ID, GAME_RACE_CLASS_TABLE_RACE_ID } from './constants.js';
 import { attemptP, map } from 'fluture';
 import { create, get, update } from '../../crud.js';
 import { Knex } from 'knex';
@@ -31,13 +32,16 @@ export const GAME_RACE_TABLE_GAME_ID = 'game_id';
 export const GAME_RACE_CLASS_TABLE_ID = TABLE_ID;
 
 const retrievedColumns = [
-  `race.${GAME_RACE_TABLE_ID}`,
-  `race.${GAME_RACE_TABLE_NAME}`,
-  `race.${GAME_RACE_TABLE_DESCRIPTION}`,
-  `race.${GAME_RACE_TABLE_GAME_ID}`,
-  `race.${CREATED_AT}`,
-  `race.${MODIFIED_AT}`
+  `${GAME_RACE_TABLE}.${GAME_RACE_TABLE_ID}`,
+  `${GAME_RACE_TABLE}.${GAME_RACE_TABLE_NAME}`,
+  `${GAME_RACE_TABLE}.${GAME_RACE_TABLE_DESCRIPTION}`,
+  `${GAME_RACE_TABLE}.${GAME_RACE_TABLE_GAME_ID}`,
+  `${GAME_RACE_TABLE}.${CREATED_AT}`,
+  `${GAME_RACE_TABLE}.${MODIFIED_AT}`
 ];
+
+const retrievedColumnsWithChildData = [...retrievedColumns, `${GAME_RACE_CLASS_TABLE_CLASS_ID} AS class_id`];
+
 const updateKeys = pick(['name', 'description']);
 
 const mapRetrievedToEntity = (race: RetrievedRace) => ({
@@ -57,12 +61,15 @@ const mapRetrievedLinkToEntity = (link: { id: string; class_id: string; race_id:
 
 const mapAllRetrieved = mapAll(mapRetrievedToEntity);
 const retrievedToEntity: (race: RetrievedRace[]) => GameRace = compose(mapRetrievedToEntity, head);
+
+const pickClassId = (data: RetrievedRace) => data.class_id;
+
 // This will be the new one going forward, in this case if we joined data we will have an array
 // of returned data that we need to merge,
 const retrievedChildDataToEntity = (race: RetrievedRace[]) => {
   // At this point we should always be guaranteed 1
   const root = retrievedToEntity(race);
-  const classes = race.map((c) => c.class_id);
+  const classes = race.map(pickClassId);
 
   return {
     ...root,
@@ -98,6 +105,15 @@ const updateAndReturnRace = (db: Knex) => (c: UpdateRaceEntity) =>
     return db(GAME_RACE_TABLE).where({ id: c.id }).update(updateKeys(c)).returning(retrievedColumns);
   });
 
+const getRaceBy = (db: Knex) => (by: { [index: string]: string }) =>
+  attemptP<string, RetrievedRace[]>(() =>
+    db
+      .select(retrievedColumnsWithChildData)
+      .from(GAME_RACE_TABLE)
+      .where(by)
+      .leftJoin(GAME_RACE_CLASS_TABLE, `${GAME_RACE_TABLE}.${GAME_RACE_TABLE_ID}`, GAME_RACE_CLASS_TABLE_RACE_ID)
+  );
+
 /**
  * Updates an existing race.
  *
@@ -111,17 +127,8 @@ export const updateRace = update(updateAndReturnRace)(retrievedToEntity);
  */
 export const createRace = create<CreateRaceEntity, RetrievedRace, GameRace>(insertAndReturnRace)(retrievedToEntity);
 
-const getRaceBy = (db: Knex) => (by: { [index: string]: string }) =>
-  attemptP<string, RetrievedRace[]>(() =>
-    db
-      .select([...retrievedColumns, 'game_race_class.class_id AS class_id'])
-      .from(GAME_RACE_TABLE)
-      .where(by)
-      .leftJoin('game_race_class', 'race.id', 'game_race_class.race_id')
-  );
-
 export const getRace = get<{ id: string }, RetrievedRace, GameRace>(getRaceBy)(retrievedChildDataToEntity)([
-  ['id', `race.${GAME_RACE_TABLE_ID}`]
+  ['id', `${GAME_RACE_TABLE}.${GAME_RACE_TABLE_ID}`]
 ]);
 
 /**
@@ -134,14 +141,14 @@ export const linkClassToRace =
   ({ raceId, classId }: { raceId: string; classId: string }) =>
     attemptP<string, Array<{ id: string; class_id: string; race_id: string }>>(() => {
       const now = db.fn.now();
-      return db('game_race_class')
+      return db(GAME_RACE_CLASS_TABLE)
         .insert({
           class_id: classId,
           race_id: raceId,
           [CREATED_AT]: now,
           [MODIFIED_AT]: now
         })
-        .returning([GAME_RACE_CLASS_TABLE_ID, 'class_id', 'race_id']);
+        .returning([GAME_RACE_CLASS_TABLE_ID, GAME_RACE_CLASS_TABLE_CLASS_ID, GAME_RACE_CLASS_TABLE_RACE_ID]);
     }).pipe(map(retrievedLinkToEntity));
 
 /**
@@ -153,10 +160,10 @@ export const unlinkClassFromRace =
   (db: Knex) =>
   ({ raceId, classId }: { raceId: string; classId: string }) =>
     attemptP<string, RetrievedRace[]>(() =>
-      db('game_race_class')
+      db(GAME_RACE_CLASS_TABLE)
         .where({
-          class_id: classId,
-          race_id: raceId
+          [GAME_RACE_CLASS_TABLE_CLASS_ID]: classId,
+          [GAME_RACE_CLASS_TABLE_RACE_ID]: raceId
         })
         .del()
     ).pipe(map(() => ({ classId, raceId })));
