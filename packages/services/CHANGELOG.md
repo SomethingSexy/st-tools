@@ -1,3 +1,10 @@
+# [@st/services-service-v1.11.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.10.0...@st/services-service-v1.11.0) (2021-07-16)
+
+
+### Features
+
+* adding gateway function to return game and related data ([3f3f7a3](https://github.com/SomethingSexy/st-tools/commit/3f3f7a3b51ed3a8e13449ada47e0e5102e179007))
+
 # [@st/services-service-v1.10.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.9.1...@st/services-service-v1.10.0) (2021-07-14)
 
 
