@@ -1,3 +1,10 @@
+# [@st/bot-service-v1.2.0](https://github.com/SomethingSexy/st-tools/compare/@st/bot-service-v1.1.0...@st/bot-service-v1.2.0) (2021-07-16)
+
+
+### Features
+
+* adding gateway function to return game and related data ([3f3f7a3](https://github.com/SomethingSexy/st-tools/commit/3f3f7a3b51ed3a8e13449ada47e0e5102e179007))
+
 # [@st/bot-service-v1.1.0](https://github.com/SomethingSexy/st-tools/compare/@st/bot-service-v1.0.1...@st/bot-service-v1.1.0) (2021-06-28)
 
 
