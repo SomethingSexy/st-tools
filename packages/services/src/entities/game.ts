@@ -1,3 +1,5 @@
+import type { GameClass } from './class.js';
+import type { GameRace } from './race.js';
 import Hapi from 'joi';
 import { makeEntity } from './validator.js';
 
@@ -7,10 +9,11 @@ export interface Game {
   version: string;
   created: string;
   modified: string;
-  // classes: Classes;
+  classes: GameClass[];
+  races: GameRace[];
   // skills: GameSkill[];
   // attributes: GameAttribute[];
-  // races: Races;
+
   // attributeCategories: Array<{
   //   name: string;
   //   description: string;

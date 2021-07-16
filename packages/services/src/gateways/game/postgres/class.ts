@@ -1,8 +1,8 @@
 import { CREATED_AT, MODIFIED_AT, TABLE_ID } from '../../constants.js';
 import { CreateClassEntity, GameClass, UpdateClassEntity } from '../../../entities/class.js';
+import { attemptP, map } from 'fluture';
 import { create, get, update } from '../../crud.js';
 import { Knex } from 'knex';
-import { attemptP } from 'fluture';
 import { compose } from '../../../utils/function.js';
 import { head } from 'lodash-es';
 import { mapAll } from '../../../utils/array.js';
@@ -12,6 +12,7 @@ interface RetrievedClass {
   name: string;
   id: string;
   description: string;
+  game_id: string;
   created_at: string;
   updated_at: string;
 }
@@ -35,6 +36,7 @@ const mapRetrievedToEntity = (c: RetrievedClass) => ({
   id: c.id,
   name: c.name,
   description: c.description,
+  gameId: c.game_id,
   created: c.created_at,
   modified: c.updated_at
 });
@@ -64,6 +66,19 @@ const updateAndReturnClass = (db: Knex) => (c: UpdateClassEntity) =>
     return db(GAME_CLASS_TABLE).where({ id: c.id }).update(updateKeys(c)).returning(retrievedColumns);
   });
 
+const getClassBy = (db: Knex) => (by: { [index: string]: string }) =>
+  attemptP<string, RetrievedClass[]>(() => db.select(retrievedColumns).from(GAME_CLASS_TABLE).where(by));
+
+const findAllClasses =
+  (db: Knex) =>
+  ({ gameId }: { gameId: string }) => {
+    return attemptP<string, RetrievedClass[]>(() => {
+      return db(GAME_CLASS_TABLE)
+        .where({ [GAME_CLASS_TABLE_GAME_ID]: gameId })
+        .returning(retrievedColumns);
+    });
+  };
+
 /**
  * Updates an existing class.
  */
@@ -75,9 +90,15 @@ export const updateClass = update(updateAndReturnClass)(retrievedToEntity);
 export const createClass =
   create<CreateClassEntity, RetrievedClass, GameClass>(insertAndReturnClass)(retrievedToEntity);
 
-const getClassBy = (db: Knex) => (by: { [index: string]: string }) =>
-  attemptP<string, RetrievedClass[]>(() => db.select(retrievedColumns).from(GAME_CLASS_TABLE).where(by));
-
 export const getClass = get<{ id: string }, RetrievedClass, GameClass>(getClassBy)(retrievedToEntity)([
   ['id', `${GAME_CLASS_TABLE}.${GAME_CLASS_TABLE_ID}`]
 ]);
+
+/**
+ * Retrieves all classes for a given game.  This can be updated in the future to
+ * support filtering, paging, and sorting.
+ * @param db
+ * @returns
+ */
+export const getClasses = (db: Knex) => (data: { gameId: string }) =>
+  findAllClasses(db)(data).pipe(map(mapAllRetrieved));
