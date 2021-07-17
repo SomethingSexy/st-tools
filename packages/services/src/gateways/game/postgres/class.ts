@@ -71,13 +71,12 @@ const getClassBy = (db: Knex) => (by: { [index: string]: string }) =>
 
 const findAllClasses =
   (db: Knex) =>
-  ({ gameId }: { gameId: string }) => {
-    return attemptP<string, RetrievedClass[]>(() => {
-      return db(GAME_CLASS_TABLE)
+  ({ gameId }: { gameId: string }) =>
+    attemptP<string, RetrievedClass[]>(() =>
+      db(GAME_CLASS_TABLE)
         .where({ [GAME_CLASS_TABLE_GAME_ID]: gameId })
-        .returning(retrievedColumns);
-    });
-  };
+        .returning(retrievedColumns)
+    );
 
 /**
  * Updates an existing class.
@@ -90,6 +89,9 @@ export const updateClass = update(updateAndReturnClass)(retrievedToEntity);
 export const createClass =
   create<CreateClassEntity, RetrievedClass, GameClass>(insertAndReturnClass)(retrievedToEntity);
 
+/**
+ * Returns a class by id
+ */
 export const getClass = get<{ id: string }, RetrievedClass, GameClass>(getClassBy)(retrievedToEntity)([
   ['id', `${GAME_CLASS_TABLE}.${GAME_CLASS_TABLE_ID}`]
 ]);

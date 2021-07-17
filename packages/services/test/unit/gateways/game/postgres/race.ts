@@ -1,7 +1,8 @@
-import { FutureInstance, chain, fork, map } from 'fluture';
+import { FutureInstance, chain, fork, map, race } from 'fluture';
 import {
   createRace,
   getRace,
+  getRaces,
   linkClassToRace,
   unlinkClassFromRace
 } from '../../../../../src/gateways/game/postgres/race';
@@ -167,6 +168,64 @@ test('should retrieve a race', (done) => {
     expect(raceResult.gameId).to.be.a('string');
     expect(raceResult.classes.length).to.equal(2);
 
+    done();
+  })(createAndGet);
+});
+
+test('it should retrieve a list of races that have linked classes', (done) => {
+  const createAndGet = createTestGame
+    .pipe(
+      chain((result) => {
+        return createRace(knex)(
+          S.Right({
+            description: 'Blood sucker',
+            name: 'Vampire',
+            gameId: result.id
+          })
+        ).pipe(
+          chain((result) => {
+            return createClass(knex)(
+              S.Right({
+                description: 'Rich assholes.',
+                name: 'Ventrue',
+                gameId: result.gameId
+              })
+            )
+              .pipe(chain((class1) => linkClassToRace(knex)({ raceId: result.id, classId: class1.id })))
+              .pipe(
+                chain(() =>
+                  createClass(knex)(
+                    S.Right({
+                      description: 'Snob',
+                      name: 'Toreador',
+                      gameId: result.gameId
+                    })
+                  )
+                )
+              )
+              .pipe(chain((class2) => linkClassToRace(knex)({ raceId: result.id, classId: class2.id })))
+              .pipe(map(() => result));
+          })
+        );
+      })
+    )
+    .pipe(
+      chain((result) => {
+        return createRace(knex)(
+          S.Right({
+            description: 'pathetic',
+            name: 'Human',
+            gameId: result.gameId
+          })
+        );
+      })
+    )
+    .pipe(chain((result) => getRaces(knex)({ gameId: result.gameId })));
+
+  fork(done)((raceResult: GameRace[]) => {
+    expect(raceResult.length).to.equal(2);
+    expect(raceResult[0].classes.length).to.equal(1);
+    expect(raceResult[1].classes.length).to.equal(0);
     done();
   })(createAndGet);
 });

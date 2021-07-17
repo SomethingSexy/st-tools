@@ -1,11 +1,14 @@
 import { CREATED_AT, MODIFIED_AT, TABLE_ID } from '../../constants.js';
 import type { CreateGameEntity, Game } from '../../../entities/game';
-import { attemptP, chain, map } from 'fluture';
+import { FutureInstance, attemptP, chain, map } from 'fluture';
 import { create, get } from '../../crud.js';
 import { head, mapAll } from '../../../utils/array.js';
+import type { GameClass } from '../../../entities/class.js';
+import type { GameRace } from '../../../entities/race.js';
 import { Knex } from 'knex';
 import { compose } from '../../../utils/function';
 import { getClasses } from './class.js';
+import { getRaces } from './race.js';
 
 interface RetrievedGame {
   name: string;
@@ -53,20 +56,33 @@ const getGameById = get<{ id: string }, RetrievedGame, Game>(getGameBy)(retrieve
   ['id', `${GAME_TABLE}.${GAME_TABLE_ID}`]
 ]);
 
+const mergeClasses = (g: Game) => (c: GameClass[]) => {
+  return {
+    ...g,
+    classes: c
+  };
+};
+
+const getAndMergeClasses = (db: Knex) => (g: Game) => getClasses(db)({ gameId: g.id }).pipe(map(mergeClasses(g)));
+
+const mergeRaces = (g: Game) => (r: GameRace[]) => {
+  return {
+    ...g,
+    races: r
+  };
+};
+
+const getAndMergeRaces = (db: Knex) => (g: Game) => getRaces(db)({ gameId: g.id }).pipe(map(mergeRaces(g)));
+
+/**
+ * Creates a new game type.
+ */
 export const createGame = create<CreateGameEntity, RetrievedGame, Game>(insertAndReturnGame)(retrievedToEntity);
 
-export const getGame = (db: Knex<any, unknown[]>) => (d: { id: string }) => {
-  return compose(
-    chain((x: Game) => {
-      return getClasses(db)({ gameId: x.id }).pipe(
-        map((y) => {
-          return {
-            ...x,
-            classes: y
-          };
-        })
-      );
-    }),
-    getGameById(db)
-  )(d);
-};
+/**
+ * Returns a game by id and all associated data.
+ * @param db
+ * @returns
+ */
+export const getGame = (db: Knex<any, unknown[]>): ((d: { id: string }) => FutureInstance<string, Game>) =>
+  compose(chain(getAndMergeRaces(db)), chain(getAndMergeClasses(db)), getGameById(db));
