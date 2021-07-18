@@ -1,3 +1,10 @@
+# [@st/services-service-v1.12.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.11.0...@st/services-service-v1.12.0) (2021-07-17)
+
+
+### Features
+
+* converting race list to imperative form to run faster ([0dc6dec](https://github.com/SomethingSexy/st-tools/commit/0dc6decf7c1065bf28ba301fc84d547b489606c5))
+
 # [@st/services-service-v1.11.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.10.0...@st/services-service-v1.11.0) (2021-07-16)
 
 
