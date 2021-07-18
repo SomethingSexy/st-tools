@@ -11,6 +11,7 @@ export interface Game {
   modified: string;
   classes: GameClass[];
   races: GameRace[];
+  // Are these tied to characters? or under a character prop?
   // skills: GameSkill[];
   // attributes: GameAttribute[];
 

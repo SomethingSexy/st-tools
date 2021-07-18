@@ -8,6 +8,7 @@ export default {
       max: 10
     },
     migrations: {
+      directory: "./migrations",
       tableName: "knex_migrations"
     }
   },

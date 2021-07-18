@@ -81,7 +81,7 @@ const mapAllRetrieved: (x: RetrievedRace[]) => GameRace[] = (races) => {
         ...mapRetrievedToEntity(race),
         classes: classIds
       });
-
+      // jump forward
       racePointer = classIdPointer;
     } else {
       normalizedRaces.push(mapRetrievedToEntity(race));

@@ -37,10 +37,10 @@ export interface GameClass {
 export type CreateClassEntity = Pick<GameClass, 'name' | 'description' | 'gameId'>;
 export type UpdateClassEntity = Partial<GameClass> & { id: string };
 
-// TODO: Might contain classes, powers, skills, and attributes upon creation
 const Validation = Hapi.object({
   name: Hapi.string().required(),
-  description: Hapi.string().required()
+  description: Hapi.string().required(),
+  gameId: Hapi.string().required()
 });
 
 const UpdateValidation = Hapi.object({
