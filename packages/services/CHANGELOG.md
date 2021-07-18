@@ -1,3 +1,10 @@
+# [@st/services-service-v1.13.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.12.0...@st/services-service-v1.13.0) (2021-07-18)
+
+
+### Features
+
+* working on skills and attributes ([04152b4](https://github.com/SomethingSexy/st-tools/commit/04152b4c06b13fdd547155e7db2917927c8c1c39))
+
 # [@st/services-service-v1.12.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.11.0...@st/services-service-v1.12.0) (2021-07-17)
 
 
