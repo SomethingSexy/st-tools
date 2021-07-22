@@ -1,5 +1,6 @@
 import { DataType, newDb } from 'pg-mem';
 import { up as upAttribute } from '../migrations/20210718214245_create_game_attributes_table';
+import { up as upAttributeCategory } from '../migrations/20210718220406_create_game_attribute_categories_table';
 import { up as upCharacter } from '../migrations/20210628160543_create_characters_table.js';
 import { up as upChronicle } from '../migrations/20210628160534_create_chronicles_table.js';
 import { up as upClass } from '../migrations/20210707201536_create_games_classes_table';
@@ -32,7 +33,8 @@ export const setupDatabase = async () => {
   await upClass(knex);
   await upRace(knex);
   await upRaceClass(knex);
-  // await upAttribute(knex);
+  await upAttributeCategory(knex);
+  await upAttribute(knex);
   // await upSkill(knex);
 
   return knex;
