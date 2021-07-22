@@ -2,7 +2,7 @@ import { S } from '../../../src/utils/sanctuary.js';
 import { createChronicleEntity } from '../../../src/entities/chronicle.js';
 import { expect } from 'chai';
 
-test('should create a valid task', () => {
+test('should create a valid entity', () => {
   expect(
     S.fromRight({})(
       createChronicleEntity({
@@ -22,10 +22,9 @@ test('should create a valid task', () => {
   });
 });
 
-test('should create an invalid task', () => {
+test('should create an invalid entity', () => {
   expect(
     S.fromRight('fail')(
-      // @ts-expect-error - testing error scenario
       createChronicleEntity({
         name: 'Foo',
         referenceId: 'foo',

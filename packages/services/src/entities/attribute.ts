@@ -22,6 +22,7 @@ export type UpdateAttributeEntity = Partial<GameAttribute> & { id: string };
 const Validation = Hapi.object({
   name: Hapi.string().required(),
   description: Hapi.string(),
+  categoryId: Hapi.string().required(),
   gameId: Hapi.string().required(),
   max: Hapi.number().required(),
   min: Hapi.number().required()

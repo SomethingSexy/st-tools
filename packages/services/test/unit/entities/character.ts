@@ -2,7 +2,7 @@ import { S } from '../../../src/utils/sanctuary.js';
 import { expect } from 'chai';
 import { updateCharacterEntity } from '../../../src/entities/character.js';
 
-test('should create a valid task', () => {
+test('should create a valid entity', () => {
   expect(
     S.fromRight({})(
       updateCharacterEntity({
@@ -26,7 +26,7 @@ test('should create a valid task', () => {
   });
 });
 
-test('should create an invalid task', () => {
+test('should create an invalid entity', () => {
   // if you include name and it is invalid fail
   expect(
     S.fromLeft('fail')(
