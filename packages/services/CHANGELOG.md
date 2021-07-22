@@ -1,3 +1,10 @@
+# [@st/services-service-v1.15.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.14.0...@st/services-service-v1.15.0) (2021-07-22)
+
+
+### Features
+
+* adding functions for creating categories ([a322951](https://github.com/SomethingSexy/st-tools/commit/a3229512a4308e6b99212d70e39934f86a3f64ca))
+
 # [@st/services-service-v1.14.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.13.0...@st/services-service-v1.14.0) (2021-07-22)
 
 
