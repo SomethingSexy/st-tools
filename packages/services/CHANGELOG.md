@@ -1,3 +1,10 @@
+# [@st/services-service-v1.14.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.13.0...@st/services-service-v1.14.0) (2021-07-22)
+
+
+### Features
+
+* adding entities for game skills and attributes ([bca2da0](https://github.com/SomethingSexy/st-tools/commit/bca2da0fd7ea3cbb35474c69656a1e19e21b4e02))
+
 # [@st/services-service-v1.13.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.12.0...@st/services-service-v1.13.0) (2021-07-18)
 
 
