@@ -108,7 +108,7 @@ export const createAttribute =
   create<CreateAttributeEntity, RetrievedAttribute, GameAttribute>(insertAndReturnAttribute)(retrievedToEntity);
 
 /**
- * Returns a class by id
+ * Returns an attribute by id
  */
 export const getAttribute = get<{ id: string }, RetrievedAttribute, GameAttribute>(getAttributeBy)(retrievedToEntity)([
   ['id', `${GAME_ATTRIBUTE_TABLE}.${GAME_ATTRIBUTE_TABLE_ID}`]
