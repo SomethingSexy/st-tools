@@ -8,6 +8,7 @@ export const up = (knex) =>
 
       table.string('name').notNullable();
       table.string('description');
+      table.integer('min');
       table.timestamps();
     })
   );

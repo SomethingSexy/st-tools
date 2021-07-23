@@ -14,7 +14,14 @@ const CATEGORY_TABLE_DESCRIPTION = 'description';
 const ATTRIBUTE_CATEGORY_TABLE = 'attribute_category';
 const SKILL_CATEGORY_TABLE = 'skill_category';
 
-const retrievedColumns = [CATEGORY_TABLE_ID, CATEGORY_TABLE_NAME, CATEGORY_TABLE_DESCRIPTION, CREATED_AT, MODIFIED_AT];
+const retrievedColumns = [
+  CATEGORY_TABLE_ID,
+  CATEGORY_TABLE_NAME,
+  CATEGORY_TABLE_DESCRIPTION,
+  GAME_TABLE_GAME_ID,
+  CREATED_AT,
+  MODIFIED_AT
+];
 
 interface RetrievedCategory {
   name: string;
