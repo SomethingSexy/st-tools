@@ -7,7 +7,7 @@ export const getGame =
     gameGateway.exists({ id }).pipe(
       chain((exists) => {
         if (!exists) {
-          return reject(`Chronicle with id ${id} does not exists.`);
+          return reject(`Game with id ${id} does not exist.`);
         }
         return gameGateway.getGame({ id });
       })
