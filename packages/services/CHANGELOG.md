@@ -1,3 +1,11 @@
+# [@st/services-service-v1.16.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.15.0...@st/services-service-v1.16.0) (2021-07-25)
+
+
+### Features
+
+* adding support for attributes ([0d7e5e4](https://github.com/SomethingSexy/st-tools/commit/0d7e5e4a71e72bd83acc8a47aa1053b1a1a3eb96))
+* adding support for skill at the gateway level ([d8bbdd4](https://github.com/SomethingSexy/st-tools/commit/d8bbdd4e4067762965d195845c4f9d398435a371))
+
 # [@st/services-service-v1.15.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.14.0...@st/services-service-v1.15.0) (2021-07-22)
 
 
