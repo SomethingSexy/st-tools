@@ -172,6 +172,15 @@ test('should retrieve a race', (done) => {
   })(createAndGet);
 });
 
+test('should return a fail state for race not being found', (done) => {
+  const createAndGet = getRace(knex)({ id: 'f2058b77-c9cd-46bf-b31d-6ed309e1cd73' });
+
+  fork((result) => {
+    expect(result).to.equal('Entity not found.');
+    done();
+  })(done)(createAndGet);
+});
+
 test('it should retrieve a list of races that have linked classes', (done) => {
   const createAndGet = createTestGame
     .pipe(
