@@ -1,3 +1,10 @@
+# [@st/services-service-v1.18.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.17.0...@st/services-service-v1.18.0) (2021-07-25)
+
+
+### Features
+
+* adding uses cases for getting game and race ([f4cff62](https://github.com/SomethingSexy/st-tools/commit/f4cff62a652cfff6dfdac9ec6f1bb413d6933866))
+
 # [@st/services-service-v1.17.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.16.0...@st/services-service-v1.17.0) (2021-07-25)
 
 
