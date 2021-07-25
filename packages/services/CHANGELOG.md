@@ -1,3 +1,10 @@
+# [@st/services-service-v1.17.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.16.0...@st/services-service-v1.17.0) (2021-07-25)
+
+
+### Features
+
+* adding get-game use case ([f7724c8](https://github.com/SomethingSexy/st-tools/commit/f7724c832b061c1f2a8c08b51e22d32846ecf00d))
+
 # [@st/services-service-v1.16.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.15.0...@st/services-service-v1.16.0) (2021-07-25)
 
 
