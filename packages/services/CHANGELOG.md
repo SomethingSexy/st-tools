@@ -1,3 +1,10 @@
+# [@st/services-service-v1.20.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.19.0...@st/services-service-v1.20.0) (2021-07-27)
+
+
+### Features
+
+* adding initial web services for game, race, class ([38cc775](https://github.com/SomethingSexy/st-tools/commit/38cc775814f300af68a5bc491ba67a7891e06b51))
+
 # [@st/services-service-v1.19.0](https://github.com/SomethingSexy/st-tools/compare/@st/services-service-v1.18.0...@st/services-service-v1.19.0) (2021-07-27)
 
 
