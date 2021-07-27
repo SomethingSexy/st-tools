@@ -1,4 +1,4 @@
-import { chain, done, fork, map } from 'fluture';
+import { chain, fork, map } from 'fluture';
 import { createGame, getGame, hasGame } from '../../../../../src/gateways/game/postgres/index.js';
 import { Game } from '../../../../../src/entities/game.js';
 import { Knex } from 'knex';

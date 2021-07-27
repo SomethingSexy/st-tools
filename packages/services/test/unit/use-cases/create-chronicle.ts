@@ -27,6 +27,7 @@ test('should create a new one', (done) => {
     done();
   })(
     createChronicle({
+      // @ts-expect-error - don't need all gateways
       chronicleGateway: {
         existsByReference: existsFake,
         existsById: fake(),
@@ -62,6 +63,7 @@ test('should return a failed state', (done) => {
     done();
   })(done)(
     createChronicle({
+      // @ts-expect-error - don't need all gateways
       chronicleGateway: {
         existsByReference: existsFake,
         existsById: fake(),
