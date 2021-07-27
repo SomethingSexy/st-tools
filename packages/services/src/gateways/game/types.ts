@@ -11,9 +11,12 @@ export type GameExists = (d: { id?: string }) => FutureInstance<string, boolean>
 
 export type GetGameRace = (d: { id: string }) => FutureInstance<string, GameRace>;
 
+export type GetGameClass = (d: { id: string }) => FutureInstance<string, GameClass>;
+
 export interface GameGateway {
   create: CreateGame;
   getGame: GetGame;
   exists: GameExists;
   getRace: GetGameRace;
+  getClass: GetGameClass;
 }

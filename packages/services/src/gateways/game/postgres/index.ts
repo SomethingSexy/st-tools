@@ -4,13 +4,13 @@ import { FutureInstance, attemptP, chain, map } from 'fluture';
 import type { GameExists, GameGateway } from '../types.js';
 import { atLeastOne, head, mapAll } from '../../../utils/array.js';
 import { create, get } from '../../crud.js';
+import { getClass, getClasses } from './class.js';
 import { getRace, getRaces } from './race.js';
 import type { GameClass } from '../../../entities/class.js';
 import type { GameRace } from '../../../entities/race.js';
 import { Knex } from 'knex';
 import { S } from '../../../utils/sanctuary.js';
 import { compose } from '../../../utils/function';
-import { getClasses } from './class.js';
 
 interface RetrievedGame {
   name: string;
@@ -125,6 +125,7 @@ export const gameGateway = (db: Knex): GameGateway => {
     create: createGame(db),
     getGame: getGame(db),
     exists: hasGame(db),
-    getRace: getRace(db)
+    getRace: getRace(db),
+    getClass: getClass(db)
   };
 };
