@@ -1,5 +1,7 @@
 # README #
 
+Note: The services in this project are being replaced by https://github.com/SomethingSexy/chronicle.  This will still be used for the Discord bot logic.
+
 Use this to maintain service versions
 https://github.com/pmowrer/semantic-release-monorepo
 
