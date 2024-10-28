@@ -2,27 +2,48 @@
   "name": "st-services",
   "version": "0.0.0",
   "private": true,
-  "dependencies": {
-    "dotenv": "^8.2.0",
-    "glob": "^7.1.6",
-    "ts-node": "^9.1.1",
-    "typescript": "^4.1.2"
+  "author": "Tyler J Cvetan",
+  "type": "module",
+  "workspaces": [
+    "packages/bot",
+    "packages/desktop"
+  ],
+  "scripts": {
+    "build": "npm run build -ws",
+    "lint": "npm run lint -ws",
+    "lint:fix": "npm run lint:fix -ws",
+    "prepare": "npx husky",
+    "pretty": "prettier . --ignore-unknown --list-different",
+    "pretty:fix": "npx prettier . --write --ignore-unknown",
+    "release": "npm run release -ws",
+    "test": "npm test -ws && npm run lint && npm run pretty"
+  },
+  "lint-staged": {
+    "package.json": "npx sort-package-json",
+    "packages/**/package.json": "npx sort-package-json",
+    "**/*": [
+      "npm run pretty:fix",
+      "npm run lint:fix"
+    ]
   },
   "devDependencies": {
-    "@types/glob": "^7.1.3",
-    "@types/jest": "^26.0.24",
-    "eslint": "^7.26.0",
-    "lerna": "^4.0.0"
+    "@eslint/js": "^9.13.0",
+    "@types/eslint__js": "^8.42.3",
+    "@vitejs/plugin-react": "^4.3.1",
+    "eslint": "^9.13.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.6",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.6",
+    "semantic-release": "^24.0.0",
+    "semantic-release-monorepo": "^8.0.2",
+    "sort-package-json": "^2.10.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^8.12.0"
   },
-  "scripts": {
-    "bootstrap": "lerna bootstrap",
-    "build": "lerna run build",
-    "docker:build": "docker-compose build",
-    "docker:up": "docker-compose up",
-    "lint:fix": "lerna run lint:fix",
-    "pretty:fix": "lerna run pretty:fix",
-    "release": "lerna exec --concurrency 1 -- npx -p @semantic-release/changelog -p @semantic-release/git -p semantic-release-monorepo -p @codedependant/semantic-release-docker -p semantic-release semantic-release -e semantic-release-monorepo",
-    "services:install": "lerna bootstrap",
-    "test": "lerna run test"
+  "engines": {
+    "node": "^22.0.0",
+    "npm": "^10.7.0"
   }
 }

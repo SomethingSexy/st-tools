@@ -1,6 +1,6 @@
-import { resolve } from 'fluture';
-import type { ICommand } from '../types';
-import { commandConfigurations } from '../configurations.js';
+import type { ICommand } from '../types'
+import { commandConfigurations } from '../configurations.js'
+import { resolve } from 'fluture'
 
 /**
  *  This command returns a list of all possible commands to the caller.
@@ -15,16 +15,16 @@ export default {
     const commandsForHelp = commandConfigurations.map((c) => ({
       name: c.title,
       value: `!${c.name}
-  ${c.description}`
-    }));
+  ${c.description}`,
+    }))
 
     return resolve({
       embed: {
         color: 3447003,
         title: 'Commands',
         fields: commandsForHelp,
-        timestamp: new Date()
-      }
-    });
-  }
-} as ICommand;
+        timestamp: new Date(),
+      },
+    })
+  },
+} as ICommand

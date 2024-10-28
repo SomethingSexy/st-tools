@@ -1,4 +1,4 @@
-FROM node:16 as base
+FROM node:22 as base
 
 # Add a new user to run the application in 
 RUN useradd --create-home --shell /bin/bash app

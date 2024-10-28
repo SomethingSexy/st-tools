@@ -1,12 +1,12 @@
-import { Schema } from 'joi';
+import { Schema } from 'joi'
 
-const validator = (schema: Schema) => (payload: any) => {
-  const { error } = schema.validate(payload);
+export const validator = (schema: Schema) => (payload: object) => {
+  const { error } = schema.validate(payload)
   if (error) {
-    const message = error.details.map((el) => el.message).join('\n');
+    const message = error.details.map((el) => el.message).join('\n')
     return {
-      error: message
-    };
+      error: message,
+    }
   }
-  return true;
-};
+  return true
+}

@@ -1,18 +1,18 @@
-import type { Message } from 'discord.js';
-import type { FutureInstance } from 'fluture';
+import type { FutureInstance } from 'fluture'
+import type { Message } from 'discord.js'
 
-export type Result = string | string[] | { embed: object };
+export type Result = string | string[] | { embed: object }
 
-export type CommandResult = FutureInstance<Result, Result>;
+export type CommandResult = FutureInstance<Result, Result>
 
 export interface ICommand {
-  aliases?: string[];
-  args?: boolean;
-  description: string;
+  aliases?: string[]
+  args?: boolean
+  description: string
   // TODO: Figure out types on gateway or how best to pass this is in
-  execute: (message: Message, args: string[], gateway: any) => CommandResult;
-  guildOnly?: boolean;
-  name: string;
-  title: string;
-  usage?: string;
+  execute: (message: Message, args: string[], gateway: unknown) => CommandResult
+  guildOnly?: boolean
+  name: string
+  title: string
+  usage?: string
 }

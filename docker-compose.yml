@@ -54,10 +54,10 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
     ports:
-      - '5432:5432'
+      - "5432:5432"
     # Add back when testing true persistence
     #volumes:
-      #- ./pgdata:/var/lib/postgresql/data
+    #- ./pgdata:/var/lib/postgresql/data
 
   pgadmin:
     container_name: pgadmin_container
@@ -65,11 +65,11 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_SERVER_MODE: "False"
     volumes:
       - pgadmin:/var/lib/.pgadmin
     ports:
-      - '${PGADMIN_PORT:-5050}:80'
+      - "${PGADMIN_PORT:-5050}:80"
     restart: unless-stopped
     logging:
       driver: none

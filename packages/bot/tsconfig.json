@@ -12,7 +12,11 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "target": "ES2019",
-    "typeRoots" : ["./node_modules/@types", "./src/types", "./node_modules/**/modules"]
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types",
+      "./node_modules/**/modules"
+    ]
   },
   "exclude": ["node_modules", "modules", "test"],
   "include": ["./src/**/*"]

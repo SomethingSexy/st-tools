@@ -1,4 +1,4 @@
-import type { Chronicle } from '../../../entities/chronicle';
+import type { Chronicle } from '../../../entities/chronicle'
 
 export const chronicleMessage = (chronicle: Chronicle) => {
   return {
@@ -8,15 +8,15 @@ export const chronicleMessage = (chronicle: Chronicle) => {
       fields: [
         {
           name: 'Game',
-          value: `${chronicle.game} - ${chronicle.version}`
+          value: `${chronicle.game} - ${chronicle.version}`,
         },
         {
           name: 'Created',
           // TODO: This should be formatted
-          value: `${chronicle.created}`
-        }
+          value: `${chronicle.created}`,
+        },
       ],
-      timestamp: new Date()
-    }
-  };
-};
+      timestamp: new Date(),
+    },
+  }
+}

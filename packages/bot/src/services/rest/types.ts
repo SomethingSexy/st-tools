@@ -1,8 +1,10 @@
-import { FutureInstance } from 'fluture';
+import { FutureInstance } from 'fluture'
 
-export type Post = (url: string) => <R, T extends object>(b: T) => FutureInstance<string, R>;
+export type Post = (
+  url: string
+) => <R, T extends object>(b: T) => FutureInstance<string, R>
 
 export interface Rest {
-  get: <T>(url: string) => () => Promise<T>;
-  post: Post;
+  get: <T>(url: string) => () => Promise<T>
+  post: Post
 }
