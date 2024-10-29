@@ -1,6 +1,5 @@
+import { type Result, err, ok } from 'neverthrow'
 import hapi, { ObjectSchema } from 'joi'
-import type { Either } from '../utils/sanctuary'
-import S from 'sanctuary'
 
 const { object, string } = hapi
 export interface IAttribute {
@@ -75,9 +74,9 @@ export type CreateCharacterEntity = Pick<Vampire | Human, 'name' | 'splat'>
 
 export const makeCreateCharacterEntity =
   (schema: ObjectSchema) =>
-  (c: CreateCharacterEntity): Either<string, CreateCharacterEntity> => {
+  (c: CreateCharacterEntity): Result<CreateCharacterEntity, string> => {
     const { error, value } = schema.validate(c)
-    return error ? S.Left(error.message) : S.Right(value)
+    return error ? err(error.message) : ok(value)
   }
 
 /**

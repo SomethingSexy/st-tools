@@ -40,11 +40,9 @@
     "cross-env": "^7.0.2",
     "discord.js": "^12.5.1",
     "dotenv": "^9.0.2",
-    "fluture": "^13.0.1",
-    "fluture-sanctuary-types": "^7.0.0",
     "fs-extra": "^10.0.0",
     "joi": "^17.4.0",
-    "sanctuary": "^3.1.0"
+    "neverthrow": "^8.1.1"
   },
   "devDependencies": {
     "@swc-node/jest": "^1.2.1",
@@ -54,7 +52,7 @@
     "@types/hapi__joi": "^17.1.4",
     "@types/node": "^14.0.27",
     "@types/sanctuary": "^3.0.3",
-    "nodemon": "^2.0.3",
+    "nodemon": "^3.1.7",
     "prettier": "^2.2.1",
     "pretty-quick": "^1.10.0",
     "typescript": "^5.6.3"

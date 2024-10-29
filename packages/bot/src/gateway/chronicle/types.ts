@@ -1,19 +1,21 @@
-import type { Chronicle, CreateChronicleEntity } from '../../entity/chronicle'
-import type { Either } from '../../utils/sanctuary'
-import type { FutureInstance } from 'fluture'
+import {
+  type Chronicle,
+  type CreateChronicleEntity,
+} from '../../entity/chronicle.js'
+import { type Result, type ResultAsync } from 'neverthrow'
 
 /**
  * Creates a chronicle in the database and returns the id of the newly created chronicle
  */
 export type CreateChronicle = (
-  c: Either<string, CreateChronicleEntity>
-) => FutureInstance<string, Chronicle>
+  c: Result<CreateChronicleEntity, string>
+) => ResultAsync<Chronicle, string>
 
 export type ChronicleExistsByReference = (
   t: 'discord'
-) => (id: string) => FutureInstance<string, boolean>
+) => (id: string) => ResultAsync<boolean, string>
 
-export type GetChronicle = (id: string) => FutureInstance<string, Chronicle>
+export type GetChronicle = (id: string) => ResultAsync<Chronicle, string>
 
 export interface ChronicleGateway {
   create: CreateChronicle

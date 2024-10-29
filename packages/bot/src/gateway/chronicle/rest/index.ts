@@ -1,11 +1,6 @@
-import type {
-  Chronicle,
-  CreateChronicleEntity,
-} from '../../../entity/chronicle'
-import type { ChronicleGateway, CreateChronicle } from '../types'
-import { Rest } from '../../../service/rest/types'
-import { chain } from 'fluture'
-import { eitherToFuture } from '../../../utils/sanctuary.js'
+import { type ChronicleGateway, type CreateChronicle } from '../types'
+import { type Chronicle } from '../../../entity/chronicle'
+import { type Rest } from '../../../service/rest/types'
 
 /**
  * This represents the raw format of the chronicle when selected from the table directly
@@ -26,21 +21,19 @@ import { eitherToFuture } from '../../../utils/sanctuary.js'
  * @param db
  */
 export const createChronicle =
-  (db: Rest): CreateChronicle =>
+  (options: Rest): CreateChronicle =>
   (c) =>
-    eitherToFuture(c).pipe(
-      chain<string, CreateChronicleEntity, Chronicle>(
-        db.post('http://services:5101/chronicles')
-      )
+    c.asyncAndThen<Chronicle, string>(
+      options.post('http://services:5101/chronicles')
     )
 
 /**
  * Complete gateway for accessing chronicle data from a postgres database
  * @param db
  */
-export const chronicleGateway = (db: Rest): ChronicleGateway => {
+export const chronicleGateway = (options: Rest): ChronicleGateway => {
   return {
-    create: createChronicle(db),
+    create: createChronicle(options),
     // @ts-expect-error - fix later, this type will change now
     getChronicle: () => {},
   }

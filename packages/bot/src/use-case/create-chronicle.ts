@@ -2,7 +2,7 @@ import {
   CreateChronicleEntity,
   createChronicleEntity,
 } from '../entity/chronicle.js'
-import type { ChronicleGateway } from '../gateway/chronicle/types.js'
+import { type ChronicleGateway } from '../gateway/chronicle/types.js'
 
 export const createChronicle =
   (gateway: ChronicleGateway) =>

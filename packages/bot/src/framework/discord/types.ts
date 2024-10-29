@@ -1,9 +1,9 @@
-import type { FutureInstance } from 'fluture'
-import type { Message } from 'discord.js'
+import { type Message } from 'discord.js'
+import { type ResultAsync } from 'neverthrow'
 
 export type Result = string | string[] | { embed: object }
 
-export type CommandResult = FutureInstance<Result, Result>
+export type CommandResult = ResultAsync<Result, Result>
 
 export interface ICommand {
   aliases?: string[]

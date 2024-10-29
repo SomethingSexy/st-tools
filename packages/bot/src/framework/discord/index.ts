@@ -1,8 +1,7 @@
-import type { CommandResult, Result } from './types'
+import { type CommandResult, type Result } from './types'
 import Discord from 'discord.js'
 import { chronicleGateway } from '../../gateway/chronicle/rest/index.js'
 import { commands } from './configurations.js'
-import { fork } from 'fluture'
 import { isString } from '../../utils/string.js'
 import { rest } from '../../service/rest/node.js'
 
@@ -18,7 +17,7 @@ const sendResult = (message: Discord.Message) => (result: Result) => {
 
 const handleResult = (message: Discord.Message) => (result: CommandResult) => {
   const sendMessageResult = sendResult(message)
-  fork(sendMessageResult)(sendMessageResult)(result)
+  result.map(sendMessageResult).mapErr(sendMessageResult)
 }
 
 // Initialize Discord Bot

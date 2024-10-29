@@ -1,11 +1,11 @@
-import type { ICommand } from '../types'
-import { resolve } from 'fluture'
+import { type ICommand } from '../types'
+import { okAsync } from 'neverthrow'
 
 export default {
   name: 'create-character',
   description: 'Creates a character',
   title: 'Create Character',
   execute: () => {
-    return resolve('foo')
+    return okAsync('foo')
   },
 } as ICommand

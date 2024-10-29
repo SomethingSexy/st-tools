@@ -1,6 +1,6 @@
 import type { ICommand } from '../types'
 import { commandConfigurations } from '../configurations.js'
-import { resolve } from 'fluture'
+import { okAsync } from 'neverthrow'
 
 /**
  *  This command returns a list of all possible commands to the caller.
@@ -18,7 +18,7 @@ export default {
   ${c.description}`,
     }))
 
-    return resolve({
+    return okAsync({
       embed: {
         color: 3447003,
         title: 'Commands',

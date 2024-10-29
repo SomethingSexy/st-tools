@@ -1,5 +1,5 @@
-import { Either, S } from '../utils/sanctuary.js'
 import Hapi, { ObjectSchema } from 'joi'
+import { type Result, err, ok } from 'neverthrow'
 
 // const { alternatives, object, string, number } = hapi;
 
@@ -32,9 +32,9 @@ export const Validation = Hapi.object({
 
 export const makeCreateChronicleEntity =
   (schema: ObjectSchema) =>
-  (c: CreateChronicleEntity): Either<string, CreateChronicleEntity> => {
+  (c: CreateChronicleEntity): Result<CreateChronicleEntity, string> => {
     const { error, value } = schema.validate(c)
-    return error ? S.Left(error.message) : S.Right(value)
+    return error ? err(error.message) : ok(value)
   }
 
 export const createChronicleEntity = makeCreateChronicleEntity(Validation)

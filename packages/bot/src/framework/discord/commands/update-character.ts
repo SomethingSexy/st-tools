@@ -1,5 +1,5 @@
-import type { ICommand } from '../types'
-import { resolve } from 'fluture'
+import { type ICommand } from '../types'
+import { okAsync } from 'neverthrow'
 
 export default {
   name: 'update-character',
@@ -12,6 +12,6 @@ export default {
     // 1) They could look up the character by name, so behind the scenes it would be
     // chronicle id, and name
     // 2) Or the user displays a list
-    return resolve('foo')
+    return okAsync('foo')
   },
 } as ICommand

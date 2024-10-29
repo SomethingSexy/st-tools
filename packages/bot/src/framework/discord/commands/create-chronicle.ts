@@ -1,8 +1,7 @@
-import type { ChronicleGateway } from '../../../gateway/chronicle/types'
-import type { ICommand } from '../types'
+import { type ChronicleGateway } from '../../../gateway/chronicle/types'
+import { type ICommand } from '../types'
 import { chronicleMessage } from '../messages/chronicle.js'
 import { createChronicle } from '../../../use-case/create-chronicle.js'
-import { map } from 'fluture'
 
 /**
  * Handles creating a chronicle (game).  This game is tied to the discord server id.
@@ -24,6 +23,6 @@ export default {
       referenceType: 'discord',
       game: args[1],
       version: args[2],
-    }).pipe(map(chronicleMessage))
+    }).map(chronicleMessage)
   },
 } as ICommand
