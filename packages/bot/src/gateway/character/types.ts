@@ -1,4 +1,4 @@
-import type { Character, CreateCharacterEntity } from '../../entities/character'
+import type { Character, CreateCharacterEntity } from '../../entity/character'
 import type { Either } from '../../utils/sanctuary'
 import type { FutureInstance } from 'fluture'
 

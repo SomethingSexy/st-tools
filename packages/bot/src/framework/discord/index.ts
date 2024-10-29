@@ -1,10 +1,10 @@
 import type { CommandResult, Result } from './types'
 import Discord from 'discord.js'
-import { chronicleGateway } from '../../gateways/chronicle/rest/index.js'
+import { chronicleGateway } from '../../gateway/chronicle/rest/index.js'
 import { commands } from './configurations.js'
 import { fork } from 'fluture'
 import { isString } from '../../utils/string.js'
-import { rest } from '../../services/rest/node.js'
+import { rest } from '../../service/rest/node.js'
 
 const prefix = '!'
 

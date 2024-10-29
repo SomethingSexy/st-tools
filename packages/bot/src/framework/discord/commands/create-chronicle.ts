@@ -1,7 +1,7 @@
-import type { ChronicleGateway } from '../../../gateways/chronicle/types'
+import type { ChronicleGateway } from '../../../gateway/chronicle/types'
 import type { ICommand } from '../types'
 import { chronicleMessage } from '../messages/chronicle.js'
-import { createChronicle } from '../../../use-cases/create-chronicle.js'
+import { createChronicle } from '../../../use-case/create-chronicle.js'
 import { map } from 'fluture'
 
 /**

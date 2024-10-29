@@ -1,9 +1,9 @@
 import type {
   Chronicle,
   CreateChronicleEntity,
-} from '../../../entities/chronicle'
+} from '../../../entity/chronicle'
 import type { ChronicleGateway, CreateChronicle } from '../types'
-import { Rest } from '../../../services/rest/types'
+import { Rest } from '../../../service/rest/types'
 import { chain } from 'fluture'
 import { eitherToFuture } from '../../../utils/sanctuary.js'
 

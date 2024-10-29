@@ -1,4 +1,4 @@
-import type { Chronicle, CreateChronicleEntity } from '../../entities/chronicle'
+import type { Chronicle, CreateChronicleEntity } from '../../entity/chronicle'
 import type { Either } from '../../utils/sanctuary'
 import type { FutureInstance } from 'fluture'
 

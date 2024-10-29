@@ -1,8 +1,8 @@
 import {
   CreateChronicleEntity,
   createChronicleEntity,
-} from '../entities/chronicle.js'
-import type { ChronicleGateway } from '../gateways/chronicle/types'
+} from '../entity/chronicle.js'
+import type { ChronicleGateway } from '../gateway/chronicle/types.js'
 
 export const createChronicle =
   (gateway: ChronicleGateway) =>
