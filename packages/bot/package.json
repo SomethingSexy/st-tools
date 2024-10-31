@@ -5,13 +5,13 @@
   "type": "module",
   "scripts": {
     "build": "npx swc src -d ./dist",
+    "deploy:commands": "node --env-file=.env ./dist/framework/discord/deploy-commands.js",
     "lint": "eslint ./src --report-unused-disable-directives --max-warnings 0 --no-warn-ignored",
     "lint:fix": "eslint  ./src --report-unused-disable-directives --max-warnings 0 --no-warn-ignored --fix",
     "pretty": "prettier . --ignore-unknown --list-different",
     "pretty:fix": "npx prettier . --write --ignore-unknown",
     "release": "npx semantic-release",
-    "start": "cross-env NODE_ENV=production npm run start:core",
-    "start:core": "node -r dotenv/config ./dist/index.js",
+    "start": "node --env-file=.env ./dist/index.js",
     "test": "exit 0"
   },
   "husky": {
@@ -21,7 +21,7 @@
     }
   },
   "nodemonConfig": {
-    "exec": "cross-env TS_NODE_PROJECT='./tsconfig.dev.json' node -r esm -r ts-node/register/transpile-only -r dotenv/config ./src/server/index.ts",
+    "exec": "cross-env TS_NODE_PROJECT='./tsconfig.dev.json' node -r esm -r ts-node/register/transpile-only --env-file=.env ./src/server/index.ts",
     "ext": "ts tsx",
     "ignore": [
       "test"
@@ -37,9 +37,7 @@
     "extends": "semantic-release-monorepo"
   },
   "dependencies": {
-    "cross-env": "^7.0.2",
-    "discord.js": "^12.5.1",
-    "dotenv": "^9.0.2",
+    "discord.js": "^14.16.3",
     "fs-extra": "^10.0.0",
     "joi": "^17.4.0",
     "neverthrow": "^8.1.1"
