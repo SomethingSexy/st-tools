@@ -17,13 +17,12 @@ const post = (url: string) => (b: object) =>
     if (r.ok) {
       return r.json()
     } else {
-      return Promise.reject(await r.text())
+      return Promise.reject(new Error(await r.text()))
     }
   })
 
 export const rest: Rest = {
-  get,
-  // TODO: This is probably a string or an error
+  get: (url: string) => fromAsyncThrowable(get(url), (e: Error) => e.message),
   post: (url: string): FetchPost =>
-    fromAsyncThrowable(post(url), (e: string) => e),
+    fromAsyncThrowable(post(url), (e: Error) => e.message),
 }

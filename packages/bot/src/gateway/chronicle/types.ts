@@ -19,6 +19,6 @@ export type GetChronicle = (id: string) => ResultAsync<Chronicle, string>
 
 export interface ChronicleGateway {
   create: CreateChronicle
-  existsByReference: ChronicleExistsByReference
+  // existsByReference: ChronicleExistsByReference
   getChronicle: GetChronicle
 }

@@ -1,25 +1,32 @@
-import { type ChronicleGateway } from '../../../gateway/chronicle/types'
-import { type ICommand } from '../types'
+import { type ChronicleGateway } from '../../../../gateway/chronicle/types'
+import { type ICommand } from '../../types'
 import { SlashCommandBuilder } from 'discord.js'
-import { chronicleMessage } from '../messages/chronicle.js'
-import { createChronicle } from '../../../use-case/create-chronicle.js'
+import { chronicleMessage } from '../../messages/chronicle.js'
+import { createChronicle } from '../../../../use-case/create-chronicle.js'
 
 /**
  * Handles creating a chronicle (game).  This game is tied to the discord server id.
  */
-export default {
+const command: ICommand = {
   command: new SlashCommandBuilder()
-    .setName('game')
+    .setName('create-game')
     .setDescription('Creates a new game tied to this Discord server.')
     .addStringOption((option) =>
       option.setName('name').setDescription('Name of game').setRequired(true)
     )
     .addStringOption((option) =>
       option
-        .setName('type')
+        .setName('game')
         .setDescription('Type of game')
         .setRequired(true)
-        .addChoices({ name: 'VtM - v5', value: 'vtm' })
+        .addChoices({ name: 'Vampire the Masquerade', value: 'vtm' })
+    )
+    .addStringOption((option) =>
+      option
+        .setName('version')
+        .setDescription('Version of game')
+        .setRequired(true)
+        .addChoices({ name: 'v5', value: 'v5' })
     ),
   execute(interaction, chronicleGateway: ChronicleGateway) {
     // Using a TypeGuard here but not sure it should ever get that far?>
@@ -27,14 +34,17 @@ export default {
     if (!interaction.isChatInputCommand()) {
       return
     }
-    // For each command, we will pass on the fluture but pipe here error results or success results
-    // then the caller can just return the result
+
+    // TODO: Instead we could pass reference and discord guild id and the use-case can create the id from there
     return createChronicle(chronicleGateway)({
       name: interaction.options.getString('name', true),
       referenceId: interaction.guild.id,
       referenceType: 'discord',
-      game: 'vtm',
-      version: 'v5',
+      game: interaction.options.getString('game', true),
+      version: interaction.options.getString('version', true),
+      userId: interaction.user.id,
     }).map(chronicleMessage)
   },
-} as ICommand
+}
+
+export default command

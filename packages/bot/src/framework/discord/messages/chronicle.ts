@@ -1,24 +1,22 @@
-import type { Chronicle } from '../../../entity/chronicle'
+import { type Chronicle } from '../../../entity/chronicle'
+import { EmbedBuilder } from 'discord.js'
 
 export const chronicleMessage = (chronicle: Chronicle) => {
   return {
     embeds: [
-      {
-        color: 3447003,
-        title: chronicle.name,
-        fields: [
-          {
-            name: 'Game',
-            value: `${chronicle.game} - ${chronicle.version}`,
-          },
-          {
-            name: 'Created',
-            // TODO: This should be formatted
-            value: `${chronicle.created}`,
-          },
-        ],
-        timestamp: new Date(),
-      },
+      new EmbedBuilder()
+        .setColor(3447003)
+        .setTitle(chronicle.name)
+        .addFields(
+          { name: 'Game', value: chronicle.game, inline: true },
+          { name: 'Version', value: chronicle.version, inline: true },
+          { name: '\u200B', value: '\u200B', inline: true }
+        )
+        .addFields({
+          name: 'Description',
+          value: chronicle.description,
+        })
+        .setTimestamp(),
     ],
   }
 }

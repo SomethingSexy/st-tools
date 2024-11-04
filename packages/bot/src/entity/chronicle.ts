@@ -1,40 +1,97 @@
-import Hapi, { ObjectSchema } from 'joi'
+import Ajv, { Schema } from 'ajv'
 import { type Result, err, ok } from 'neverthrow'
 
-// const { alternatives, object, string, number } = hapi;
+const ajv = new Ajv()
 
-// TODO: Location?
+const chronicleSchema: Schema = {
+  type: 'object',
+  properties: {
+    name: {
+      type: 'string',
+    },
+    referenceId: {
+      type: 'string',
+    },
+    referenceType: {
+      type: 'string',
+      enum: ['discord'],
+    },
+    game: {
+      type: 'string',
+      enum: ['vtm'],
+    },
+    version: {
+      type: 'string',
+      enum: ['v5'],
+    },
+  },
+  required: [
+    'name',
+    'referenceId',
+    'referenceType',
+    'game',
+    'version',
+    'userId',
+  ],
+}
+
+const validateChronicle = ajv.compile(chronicleSchema)
+
 export interface Chronicle {
-  name: string
+  description?: string
+  game: string
   id: string
+  name: string
   referenceId: string
   // We only support discord for now
   referenceType: 'discord'
   // We only support vtm and v5 for now
-  game: 'vtm'
-  version: 'v5'
+  version: string
+  userId: string
   created: string
   modified: string
 }
 
 export type CreateChronicleEntity = Pick<
   Chronicle,
-  'name' | 'referenceId' | 'game' | 'version' | 'referenceType'
+  | 'id'
+  | 'name'
+  | 'referenceId'
+  | 'game'
+  | 'version'
+  | 'referenceType'
+  | 'userId'
 >
 
-export const Validation = Hapi.object({
-  name: Hapi.string().required(),
-  referenceId: Hapi.alternatives(Hapi.string(), Hapi.number()).required(),
-  referenceType: Hapi.string().valid('discord').required(),
-  game: Hapi.string().valid('vtm').required(),
-  version: Hapi.string().valid('v5').required(),
-})
+export type CreateChronicleRequest = Pick<
+  CreateChronicleEntity,
+  'name' | 'referenceId' | 'game' | 'version' | 'referenceType' | 'userId'
+>
 
-export const makeCreateChronicleEntity =
-  (schema: ObjectSchema) =>
-  (c: CreateChronicleEntity): Result<CreateChronicleEntity, string> => {
-    const { error, value } = schema.validate(c)
-    return error ? err(error.message) : ok(value)
+export type GetChronicleRequest = Pick<
+  Chronicle,
+  'referenceId' | 'referenceType'
+>
+
+export const makeCreateChronicleEntity = (
+  c: CreateChronicleRequest
+): Result<CreateChronicleEntity, string> => {
+  const valid = validateChronicle(c)
+
+  const chronicleWithId = {
+    ...c,
+    id: buildChronicleId(c),
   }
 
-export const createChronicleEntity = makeCreateChronicleEntity(Validation)
+  return !valid
+    ? err(validateChronicle.errors.map((e) => e.message).join())
+    : ok(chronicleWithId)
+}
+
+export const createChronicleEntity = makeCreateChronicleEntity
+
+export const buildChronicleId = ({
+  referenceId,
+  referenceType,
+}: Pick<Chronicle, 'referenceId' | 'referenceType'>): string =>
+  `${referenceType}:${referenceId}`

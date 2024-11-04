@@ -36,8 +36,6 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.11.4",
-    "bot": "^0.0.3",
-    "neverthrow": "^8.1.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },

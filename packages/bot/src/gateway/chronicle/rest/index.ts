@@ -1,4 +1,8 @@
-import { type ChronicleGateway, type CreateChronicle } from '../types'
+import {
+  type ChronicleGateway,
+  type CreateChronicle,
+  type GetChronicle,
+} from '../types'
 import { type Chronicle } from '../../../entity/chronicle'
 import { type Rest } from '../../../service/rest/types'
 
@@ -27,6 +31,11 @@ export const createChronicle =
       options.post('http://services:5101/chronicles')
     )
 
+export const getChronicle =
+  (options: Rest): GetChronicle =>
+  (id) =>
+    options.get<Chronicle>(`http://services:5101/chronicles/${id}`)()
+
 /**
  * Complete gateway for accessing chronicle data from a postgres database
  * @param db
@@ -34,7 +43,6 @@ export const createChronicle =
 export const chronicleGateway = (options: Rest): ChronicleGateway => {
   return {
     create: createChronicle(options),
-    // @ts-expect-error - fix later, this type will change now
-    getChronicle: () => {},
+    getChronicle: getChronicle(options),
   }
 }
