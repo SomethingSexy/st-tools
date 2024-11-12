@@ -8,9 +8,9 @@ import {
 import { type Gateways } from '../../gateway/index.js'
 import { type ResultAsync } from 'neverthrow'
 
-export type Result = string | { embeds: EmbedBuilder[] }
+export type ExecuteResult = string | { embeds: EmbedBuilder[] }
 
-export type CommandResult = ResultAsync<Result, Result>
+export type CommandResult = ResultAsync<ExecuteResult, ExecuteResult>
 
 export interface ICommand {
   command:
@@ -21,5 +21,5 @@ export interface ICommand {
   autocomplete?: (
     message: Interaction,
     gateway: Gateways
-  ) => Array<{ name: string; value: string }>
+  ) => ResultAsync<Array<{ name: string; value: string }>, string>
 }

@@ -1,9 +1,9 @@
 import { Client, Events, GatewayIntentBits, type Interaction } from 'discord.js'
-import { type CommandResult, type Result } from './types'
+import { type CommandResult, type ExecuteResult } from './types'
 import { type Gateways } from '../../gateway'
 import { commands } from './configurations.js'
 
-const sendResult = (interaction: Interaction) => (result: Result) => {
+const sendResult = (interaction: Interaction) => (result: ExecuteResult) => {
   if (interaction.isChatInputCommand()) {
     // if (isString(result)) {
     interaction.reply(result)
@@ -60,7 +60,10 @@ export const bootstrap = (gateway: Gateways) => {
 
       try {
         const result = command.autocomplete(interaction, gateway)
-        await interaction.respond(result)
+        result.map((r) => {
+          interaction.respond(r)
+        })
+
         // handleResult(interaction)(result)
       } catch (error) {
         console.error(

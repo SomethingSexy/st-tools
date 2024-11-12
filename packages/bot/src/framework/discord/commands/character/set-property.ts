@@ -2,8 +2,8 @@
 // If a character is "locked", only an admin should be able to change the character or exp would need to be spent
 import { type ICommand } from '../../types'
 import { SlashCommandBuilder } from 'discord.js'
+import { listCharacters } from '../../../../use-case/list-characters.js'
 import { okAsync } from 'neverthrow'
-import { v4 } from 'uuid'
 
 const command: ICommand = {
   command: new SlashCommandBuilder()
@@ -52,17 +52,15 @@ const command: ICommand = {
       )}`
     )
   },
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  autocomplete(interaction, _) {
+  autocomplete(interaction, gateways) {
     if (!interaction.isAutocomplete()) {
       return
     }
     const focusedValue = interaction.options.getFocused()
     console.log('Search value', focusedValue)
-    return [
-      { name: 'Foo', value: v4() },
-      { name: 'Bar', value: v4() },
-    ]
+    return listCharacters(gateways)().map((results) =>
+      results.map((result) => ({ name: result.name, value: result.id }))
+    )
   },
 }
 
