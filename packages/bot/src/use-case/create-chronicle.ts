@@ -1,11 +1,11 @@
 import {
   type CreateChronicleRequest,
-  createChronicleEntity,
+  chronicleEntity,
 } from '../entity/chronicle.js'
-import { type ChronicleGateway } from '../gateway/chronicle/types.js'
+import { type Gateways } from '../gateway/index.js'
 
 export const createChronicle =
-  (gateway: ChronicleGateway) =>
+  (gateway: Gateways) =>
   ({
     name,
     referenceId,
@@ -25,8 +25,8 @@ export const createChronicle =
     // We might want to support id types like "uuid:", "discord:", instead of assuming it is straight up uuid
     // That could make things a bit easier when creating/fetching
 
-    return gateway.create(
-      createChronicleEntity({
+    return gateway.chronicle.create(
+      chronicleEntity({
         name,
         referenceId,
         referenceType,

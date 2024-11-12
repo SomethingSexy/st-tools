@@ -1,4 +1,4 @@
-import { type ChronicleGateway } from '../../../../gateway/chronicle/types'
+import { type Gateways } from '../../../../gateway/index.js'
 import { type ICommand } from '../../types'
 import { SlashCommandBuilder } from 'discord.js'
 import { chronicleMessage } from '../../messages/chronicle.js'
@@ -17,7 +17,7 @@ const command: ICommand = {
         .setDescription('Description of game')
         .setRequired(true)
     ),
-  execute(interaction, chronicleGateway: ChronicleGateway) {
+  execute(interaction, chronicleGateway: Gateways) {
     // Using a TypeGuard here but not sure it should ever get that far?>
     // Might be better to make ICommand a generic
     if (!interaction.isChatInputCommand()) {

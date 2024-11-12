@@ -1,5 +1,6 @@
 import Ajv, { Schema } from 'ajv'
-import { type Result, err, ok } from 'neverthrow'
+import { type Validate, validate } from './validator.js'
+import { type Result } from 'neverthrow'
 
 const ajv = new Ajv()
 
@@ -73,25 +74,22 @@ export type GetChronicleRequest = Pick<
   'referenceId' | 'referenceType'
 >
 
-export const makeCreateChronicleEntity = (
-  c: CreateChronicleRequest
-): Result<CreateChronicleEntity, string> => {
-  const valid = validateChronicle(c)
+const validateChronicleEntity = validate(validateChronicle)
 
-  const chronicleWithId = {
-    ...c,
-    id: buildChronicleId(c),
-  }
+export const makeChronicleEntity =
+  (validator: Validate) =>
+  (c: CreateChronicleRequest): Result<CreateChronicleEntity, string> =>
+    validator(c).map(addId)
 
-  return !valid
-    ? err(validateChronicle.errors.map((e) => e.message).join())
-    : ok(chronicleWithId)
-}
-
-export const createChronicleEntity = makeCreateChronicleEntity
+export const chronicleEntity = makeChronicleEntity(validateChronicleEntity)
 
 export const buildChronicleId = ({
   referenceId,
   referenceType,
 }: Pick<Chronicle, 'referenceId' | 'referenceType'>): string =>
   `${referenceType}:${referenceId}`
+
+const addId = (chronicle: CreateChronicleRequest): CreateChronicleEntity => ({
+  ...chronicle,
+  id: buildChronicleId(chronicle),
+})

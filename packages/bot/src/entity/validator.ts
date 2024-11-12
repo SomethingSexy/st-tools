@@ -1,12 +1,14 @@
-import { Schema } from 'joi'
+import { type Result, err, ok } from 'neverthrow'
+import { type ValidateFunction } from 'ajv'
 
-export const validator = (schema: Schema) => (payload: object) => {
-  const { error } = schema.validate(payload)
-  if (error) {
-    const message = error.details.map((el) => el.message).join('\n')
-    return {
-      error: message,
-    }
+export type Validate = <T>(payload: T) => Result<T, string>
+
+export const validate =
+  (validatior: ValidateFunction): Validate =>
+  (payload) => {
+    const valid = validatior(payload)
+
+    return !valid
+      ? err(validatior.errors.map((e) => e.message).join())
+      : ok(payload)
   }
-  return true
-}

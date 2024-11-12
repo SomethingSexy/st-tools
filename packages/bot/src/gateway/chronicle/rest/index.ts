@@ -31,18 +31,14 @@ export const createChronicle =
       options.post('http://services:5101/chronicles')
     )
 
-export const getChronicle =
-  (options: Rest): GetChronicle =>
-  (id) =>
-    options.get<Chronicle>(`http://services:5101/chronicles/${id}`)()
+export const getChronicle = (options: Rest): GetChronicle =>
+  options.get<Chronicle>(`http://services:5101/chronicles`)
 
 /**
- * Complete gateway for accessing chronicle data from a postgres database
+ * Complete gateway for accessing chronicle data
  * @param db
  */
-export const chronicleGateway = (options: Rest): ChronicleGateway => {
-  return {
-    create: createChronicle(options),
-    getChronicle: getChronicle(options),
-  }
-}
+export const chronicleGateway = (options: Rest): ChronicleGateway => ({
+  create: createChronicle(options),
+  getChronicle: getChronicle(options),
+})

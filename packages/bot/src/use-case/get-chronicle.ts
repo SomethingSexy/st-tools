@@ -2,9 +2,9 @@ import {
   type GetChronicleRequest,
   buildChronicleId,
 } from '../entity/chronicle.js'
-import { type ChronicleGateway } from '../gateway/chronicle/types.js'
+import { type Gateways } from '../gateway/index.js'
 
 export const getChronicle =
-  (gateway: ChronicleGateway) => (chronicle: GetChronicleRequest) => {
-    return gateway.getChronicle(buildChronicleId(chronicle))
+  (gateway: Gateways) => (chronicle: GetChronicleRequest) => {
+    return gateway.chronicle.getChronicle(buildChronicleId(chronicle))
   }

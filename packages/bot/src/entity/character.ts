@@ -1,85 +1,57 @@
-import { type Result, err, ok } from 'neverthrow'
-import hapi, { ObjectSchema } from 'joi'
+import Ajv, { type Schema } from 'ajv'
+import { type Validate, validate } from './validator.js'
+import { type Result } from 'neverthrow'
+import { v4 } from 'uuid'
 
-const { object, string } = hapi
-export interface IAttribute {
-  name: string
-  value: 0 | 1 | 2 | 3 | 4 | 5
+const ajv = new Ajv()
+
+const characterSchema: Schema = {
+  type: 'object',
+  properties: {
+    name: {
+      type: 'string',
+    },
+    referenceId: {
+      type: 'string',
+    },
+    referenceType: {
+      type: 'string',
+      enum: ['discord'],
+    },
+  },
+  required: ['name'],
 }
 
-export interface ISkill {
-  name: string
-  value: 0 | 1 | 2 | 3 | 4 | 5
-}
+const validateCharacter = ajv.compile(characterSchema)
+const validateCharacterEntity = validate(validateCharacter)
 
-export interface IStats {
-  health: number
-}
-
-export interface IVampireStats extends IStats {
-  willpower: number
-  hunger: number
-  humanity: number
-}
-
-export type IHumanStats = IStats
-
-export interface IVampireCharacteristics {
-  sire: string
-  predator: string
-  clan: string
-  generation: string
-}
-
-export type Splat = 'vampire' | 'human'
-
-export interface ICharacter<Stats extends IStats> {
+export interface Character {
   id: string
-  chronicleId: string
   name: string
-  concept: string
-  ambition: string
-  desire: string
-  splat: Splat
-  // TODO: Do we want these explicit?
-  attributes: {
-    [name: string]: IAttribute
-  }
-  // TODO: Do we want these explicit?
-  skills: {
-    [name: string]: ISkill
-  }
-  stats: Stats
-  created: string
-  modified: string
+  referenceId: string
+  referenceType: string
 }
+export type CreateCharacterEntity = Pick<
+  Character,
+  'id' | 'name' | 'referenceId' | 'referenceType'
+>
 
-export type Vampire = ICharacter<IVampireStats>
+export type CreateCharacterRequest = Pick<
+  CreateCharacterEntity,
+  'name' | 'referenceId' | 'referenceType'
+>
 
-export type Human = ICharacter<IHumanStats>
-
-export type Character = Vampire | Human
-
-// This is only what is required to create, we will probably want another validation
-// for locking a character in?
-export const Validation = object({
-  name: string().required(),
-  concept: string(),
-  ambition: string(),
-  desire: string(),
-  splat: string().valid('vampire', 'human').required(),
+const addId = (character: CreateCharacterRequest): CreateCharacterEntity => ({
+  ...character,
+  id: character.referenceId
+    ? `${character.referenceType}:${character.referenceId}`
+    : // TODO: WE need to remove this from here and pass it in
+      `uuid:${v4()}`,
 })
 
-export type CreateCharacterEntity = Pick<Vampire | Human, 'name' | 'splat'>
+const makeCharacterEntity =
+  (validate: Validate) =>
+  (character: CreateCharacterRequest): Result<CreateCharacterEntity, string> =>
+    validate(character).map(addId)
 
-export const makeCreateCharacterEntity =
-  (schema: ObjectSchema) =>
-  (c: CreateCharacterEntity): Result<CreateCharacterEntity, string> => {
-    const { error, value } = schema.validate(c)
-    return error ? err(error.message) : ok(value)
-  }
-
-/**
- * Creates a Character entity.  A character is any player or non-player character in the game.
- */
-export const createCharacterEntity = makeCreateCharacterEntity(Validation)
+export const characterEntity = makeCharacterEntity(validateCharacterEntity)

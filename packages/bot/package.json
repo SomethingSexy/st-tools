@@ -12,7 +12,7 @@
     "pretty:fix": "npx prettier . --write --ignore-unknown",
     "release": "npx semantic-release",
     "start": "node --env-file=.env ./dist/index.js",
-    "test": "exit 0"
+    "test": "npx vitest run"
   },
   "husky": {
     "hooks": {
@@ -41,7 +41,8 @@
     "discord.js": "^14.16.3",
     "fs-extra": "^10.0.0",
     "joi": "^17.4.0",
-    "neverthrow": "^8.1.1"
+    "neverthrow": "^8.1.1",
+    "uuid": "^11.0.3"
   },
   "devDependencies": {
     "@swc-node/jest": "^1.2.1",
@@ -54,6 +55,7 @@
     "nodemon": "^3.1.7",
     "prettier": "^2.2.1",
     "pretty-quick": "^1.10.0",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.4"
   }
 }

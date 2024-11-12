@@ -1,6 +1,6 @@
 import { Client, Events, GatewayIntentBits, type Interaction } from 'discord.js'
 import { type CommandResult, type Result } from './types'
-import { type ChronicleGateway } from '../../gateway/chronicle/types'
+import { type Gateways } from '../../gateway'
 import { commands } from './configurations.js'
 
 const sendResult = (interaction: Interaction) => (result: Result) => {
@@ -18,8 +18,7 @@ const handleResult = (interaction: Interaction) => (result: CommandResult) => {
   result.map(sendMessageResult).mapErr(sendMessageResult)
 }
 
-// TODO: As we add more gateways we will want to figure out a better way to pass these in
-export const bootstrap = (gateway: ChronicleGateway) => {
+export const bootstrap = (gateway: Gateways) => {
   // Initialize Discord Bot
   const client = new Client({ intents: [GatewayIntentBits.Guilds] })
 
@@ -27,27 +26,49 @@ export const bootstrap = (gateway: ChronicleGateway) => {
     console.log(`Logged in as ${client.user.tag}!`)
   })
 
-  client.on(Events.InteractionCreate, (interaction) => {
-    if (!interaction.isChatInputCommand()) {
-      return
-    }
-
-    console.log(
-      `Accepting command ${interaction.commandName} from user ${interaction.member.user.username}:${interaction.member.user.id} from server ${interaction.guild.name}:${interaction.guild.id}`
-    )
-    const command = commands.get(interaction.commandName)
-
-    if (!command) {
-      return
-    }
-
-    try {
-      const result = command.execute(interaction, gateway)
-      handleResult(interaction)(result)
-    } catch (error) {
-      interaction.reply(
-        `There was an error trying to execute that command! - ${error}`
+  client.on(Events.InteractionCreate, async (interaction) => {
+    if (interaction.isChatInputCommand()) {
+      console.log(
+        `Accepting command ${interaction.commandName} from user ${interaction.member.user.username}:${interaction.member.user.id} from server ${interaction.guild.name}:${interaction.guild.id}`
       )
+      const command = commands.get(interaction.commandName)
+
+      if (!command) {
+        return
+      }
+
+      try {
+        const result = command.execute(interaction, gateway)
+        handleResult(interaction)(result)
+      } catch (error) {
+        console.error(
+          `There was an error trying to issue chat input command ${interaction.commandName} - ${error}`
+        )
+        interaction.reply(
+          `There was an error trying to execute that command! - ${error}`
+        )
+      }
+    } else if (interaction.isAutocomplete()) {
+      console.log(
+        `Accepting autocomplete command ${interaction.commandName} from user ${interaction.member.user.username}:${interaction.member.user.id} from server ${interaction.guild.name}:${interaction.guild.id}`
+      )
+      const command = commands.get(interaction.commandName)
+
+      if (!command || !command.autocomplete) {
+        return
+      }
+
+      try {
+        const result = command.autocomplete(interaction, gateway)
+        await interaction.respond(result)
+        // handleResult(interaction)(result)
+      } catch (error) {
+        console.error(
+          `There was an error trying to issue autocomplete command ${interaction.commandName} - ${error}`
+        )
+        // TODO: Can we return an error from autocomplete?
+        interaction.respond([])
+      }
     }
   })
 
