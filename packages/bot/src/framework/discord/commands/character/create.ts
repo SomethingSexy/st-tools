@@ -5,27 +5,27 @@
 // Can we use subcommands to handle setting a skill, attriute,or power?
 // If a character is "locked", only an admin should be able to change the character or exp would need to be spent
 import { type Gateways } from '../../../../gateway/index.js'
-import { type ICommand } from '../../types.js'
-import { SlashCommandBuilder } from 'discord.js'
+import { type SubCommand } from '../../types.js'
 import { characterMessage } from '../../messages/character.js'
 import { createCharacter } from '../../../../use-case/create-character.js'
 
-const command: ICommand = {
-  command: new SlashCommandBuilder()
-    .setName('add-character')
-    .setDescription('Add a Player Character or Non-Player Character')
-    .addStringOption((option) =>
-      option
-        .setName('name')
-        .setDescription('Name of character')
-        .setRequired(true)
-    )
-    .addUserOption((option) =>
-      option
-        .setName('target')
-        .setDescription('Add user target if a Player Character.')
-        .setRequired(false)
-    ),
+export const createCharacterCommand: SubCommand = {
+  command: (command) =>
+    command
+      .setName('add')
+      .setDescription('Add a Player Character or Non-Player Character')
+      .addStringOption((option) =>
+        option
+          .setName('name')
+          .setDescription('Name of character')
+          .setRequired(true)
+      )
+      .addUserOption((option) =>
+        option
+          .setName('target')
+          .setDescription('Add user target if a Player Character.')
+          .setRequired(false)
+      ),
   execute(interaction, gateway: Gateways) {
     // Using a TypeGuard here but not sure it should ever get that far?>
     // Might be better to make ICommand a generic
@@ -41,5 +41,3 @@ const command: ICommand = {
     }).map(characterMessage)
   },
 }
-
-export default command
