@@ -6,7 +6,8 @@
   "type": "module",
   "workspaces": [
     "packages/bot",
-    "packages/browser-vite"
+    "packages/browser-vite",
+    "packages/browser-nextjs"
   ],
   "scripts": {
     "build": "npm run build -ws",

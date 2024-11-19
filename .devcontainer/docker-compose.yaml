@@ -4,3 +4,24 @@ services:
     volumes:
       - ../..:/workspaces:cached
     command: sleep infinity
+
+  chronicle:
+    image: "ghcr.io/somethingsexy/chronicle:latest"
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/chronicle?sslmode=disable
+    ports:
+      - 5001:3000
+
+  db:
+    image: postgres
+    restart: always
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_DB=${POSTGRES_DB:-chronicle}
+      - POSTGRES_HOST=${POSTGRES_HOST:-db}
+    ports:
+      - 5432:5432

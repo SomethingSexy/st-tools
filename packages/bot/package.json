@@ -14,12 +14,6 @@
     "start": "node --env-file=.env ./dist/index.js",
     "test": "npx vitest run"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged --pattern '{src,test,tools}/**/*.{ts,tsx}'",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
   "nodemonConfig": {
     "exec": "cross-env TS_NODE_PROJECT='./tsconfig.dev.json' node -r esm -r ts-node/register/transpile-only --env-file=.env ./src/server/index.ts",
     "ext": "ts tsx",
@@ -54,7 +48,6 @@
     "@types/sanctuary": "^3.0.3",
     "nodemon": "^3.1.7",
     "prettier": "^2.2.1",
-    "pretty-quick": "^1.10.0",
     "typescript": "^5.6.3",
     "vitest": "^2.1.4"
   }
