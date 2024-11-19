@@ -10,6 +10,12 @@
     "release": "npx semantic-release",
     "test": "exit 0"
   },
+  "release": {
+    "branches": [
+      "master"
+    ],
+    "extends": "semantic-release-monorepo"
+  },
   "dependencies": {
     "next": "^15.0.3",
     "react": "^18.3.1",
